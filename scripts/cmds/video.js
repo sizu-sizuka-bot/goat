@@ -20,7 +20,7 @@ module.exports = {
 
   onStart: async function ({ api, event, args }) {
     const { threadID, messageID, body } = event;
-    const creatorName = "Milon Islam";
+    const creatorName = "Farhan Khan";
 
     let query = args.join(" ");
     
