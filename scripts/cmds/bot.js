@@ -92,7 +92,7 @@ module.exports = {
 
         // চেক করবে মেসেজটি "bot" দিয়ে শুরু হয়েছে কি না
         if (triggerWords.some(word => lowerBody.startsWith(word))) {
-            const text = body.replace(/^bot\s*/i, "বট").trim();
+            const text = body.replace(/^bot\s*/i, "").trim();
 
             if (!text) {
                 const name = await usersData.getName(senderID);
