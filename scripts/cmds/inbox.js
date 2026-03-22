@@ -34,4 +34,4 @@ module.exports = {
                                                                                                                                             console.error("Error bro: " + error);
                                                                                                                                                 }
                                                                                                                                                   }
-                                                                                                                                                  }
+  }
