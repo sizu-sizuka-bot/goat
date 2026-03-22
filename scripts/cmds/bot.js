@@ -11,12 +11,12 @@ const getBaseApiUrl = async () => {
 };
 
 // শুধু "bot" ট্রিগার হিসেবে থাকবে
-const triggerWords = ["bot","বট"];
+const triggerWords = ["বট","bot"];
 
 module.exports = {
     config: {
-        name: "বট",
-        aliases: ["Bot", "বট"],
+        name: "bot",
+        aliases: ["Bot""বট"],
         version: "11.1.0",
         author: "Milon",
         countDown: 0,
@@ -37,7 +37,7 @@ module.exports = {
 
             if (!args[0]) {
                 return api.sendMessage({
-                    body: `𓆩𝆠꯭፝֟ ${name} 𝆠꯭፝֟𓆪\nবলুন আমি "বট" আপনাকে কিভাবে সাহায্য করতে পারি? 😘`,
+                    body: `𓆩⸨ ${name} ⸩𓆪\nবলুন আমি "বট" আপনাকে কিভাবে সাহায্য করতে পারি? 😘`,
                     mentions: [{ tag: name, id: senderID }]
                 }, threadID, (err, info) => {
                     if (!err) global.GoatBot?.onReply?.set(info.messageID, { commandName, author: senderID });
@@ -92,7 +92,7 @@ module.exports = {
 
         // চেক করবে মেসেজটি "bot" দিয়ে শুরু হয়েছে কি না
         if (triggerWords.some(word => lowerBody.startsWith(word))) {
-            const text = body.replace(/^bot\s*/i, "").trim();
+            const text = body.replace(/^bot\s*/i, "বট").trim();
 
             if (!text) {
                 const name = await usersData.getName(senderID);
@@ -102,7 +102,7 @@ module.exports = {
                 const rand = randomReplies[Math.floor(Math.random() * randomReplies.length)];
 
                 return api.sendMessage({
-                    body: `𓆩𝆠꯭፝֟ ${name} 𝆠꯭፝֟𓆪\n\n${rand}`,
+                    body: `𓆩⸨ ${name} ⸩𓆪\n\n${rand}`,
                     mentions: [{ tag: name, id: senderID }]
                 }, threadID, (err, info) => {
                     if (!err) global.GoatBot?.onReply?.set(info.messageID, { commandName, author: senderID });
