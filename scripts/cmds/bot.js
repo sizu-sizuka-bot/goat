@@ -11,12 +11,12 @@ const getBaseApiUrl = async () => {
 };
 
 // শুধু "bot" ট্রিগার হিসেবে থাকবে
-const triggerWords = ["bot""বট"];
+const triggerWords = ["bot"];
 
 module.exports = {
     config: {
         name: "বট",
-        aliases: ["Bot""বট"],
+        aliases: ["Bot","বট"],
         version: "11.1.0",
         author: "Milon",
         countDown: 0,
