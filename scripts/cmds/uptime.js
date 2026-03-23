@@ -53,7 +53,7 @@ module.exports = {
       const host = os.hostname();
       const ping = Math.floor(Math.random() * 30) + 10; // approximate ping )
       const memory = `${ramUsed} / ${ramTotal}`;
-      const developer = "S1FU • Team Heartless";
+      const developer = "Farhan>Team>Heartless";
 
       // Build API URL
       const apiUrl = `https://maybexenos.vercel.app/tools/botstat?` +
@@ -75,7 +75,7 @@ module.exports = {
 
       message.reply({
         body: `◢◤━━━━━━━━━━━━━━━━◥◣
-       𝗚𝗢𝗔𝗧 𝗕𝗢𝗧 𝗩𝟮 𝗨𝗣𝗧𝗜𝗠𝗘
+       𝗚𝗢𝗔𝗧 𝗕𝗢𝗧 𝗩𝟭 𝗨𝗣𝗧𝗜𝗠𝗘
            𝗢𝗪𝗡𝗘𝗥:-𝗙𝗔𝗥𝗛𝗔𝗡
 ◥◣━━━━━━━━━━━━━━━━◢◤`,
         attachment: res.data
