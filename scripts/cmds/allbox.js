@@ -1,122 +1,100 @@
-const axios = require("axios");
-
 module.exports = {
   config: {
     name: "allgroup",
-    aliases: ["allgc", "listgc"],
-    version: "6.5.0",
-    role: 2, 
-    author: "Milon Hasan",
-    description: "View Group Name and Member Count with custom wait message.",
+    aliases: ["allgc"],
+    version: "1.4.1",
+    role: 2, // Bot Admin Only
+    author: "Milon",
+    description: "Manage all groups: List, Leave, or Add yourself to any group.",
     category: "admin",
-    usePrefix: false,
+    guide: {
+        en: "{pn}",
+        bn: "{pn}"
+    },
     countDown: 5
   },
 
-/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- * 🔐 [ FILE CREATOR INFORMATION - MILON BOT ]
- * 👤 OWNER    : MILON HASAN (MILON BOSS)
- * 🆔 UID      : 100088210336214
- * 🔗 FACEBOOK : https://www.facebook.com/share/17uGq8qVZ9/
- * 📞 WHATSAPP : +880 1912603270
- * 📍 LOCATION : NARAYANGANJ, BANGLADESH
- * 🛠️ PROJECT  : MILON BOT PROJECT (2026)
- * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* --- [ 🔐 ADMIN MODULE ] ---
+ * ACCESS: BOT ADMIN ONLY
+ * FUNCTIONS: LIST, OUT, ADD, BAN
+ * ---------------------------- */
 
-  onChat: async function ({ api, event, message, commandName }) {
-    if (!event.body) return;
-    const body = event.body.toLowerCase().trim();
-    if (body === "allgroups" || body === "allgc") {
-      return this.onStart({ api, event, message, commandName });
-    }
-  },
-
-  onStart: async function ({ api, event, message, threadsData }) {
-    // --- [ 🛰️ INITIAL WAIT MESSAGE ] ---
-    const waitMsg = await message.reply("🔄 SIZUKA BOT: Fetching group list... 🛰️");
-
+  onStart: async function ({ api, event, message, commandName }) {
     try {
-      let threadList = [];
-      try {
-        // Attempting live fetch from Facebook
-        threadList = await api.getThreadList(75, null, ["INBOX"]);
-      } catch (e) {
-        // Fallback to Database if API is restricted
-        const allThreads = await threadsData.getAll();
-        threadList = allThreads.filter(t => t.threadID && t.threadID.length > 10);
-      }
+      await api.getThreadList(25, null, ["INBOX"], (err, list) => {
+        if (err) return message.reply("Error: Could not fetch group list.");
 
-      let list = threadList.filter(group => (group.isSubscribed && group.isGroup) || group.threadID);
-      
-      if (list.length === 0) {
-        return api.editMessage("⚠️ No active groups found.", waitMsg.messageID);
-      }
+        const groups = list.filter(g => g.isGroup && g.isSubscribed);
+        if (groups.length === 0) return message.reply("The bot is not in any groups.");
 
-      let msg = `📊 [ SIZUKA BOT - GROUPS: ${list.length} ]\n${"━".repeat(15)}\n`;
-      let groupid = [];
-      let i = 1;
+        let msg = "📊 [ ALL GROUPS MANAGEMENT ]\n\n";
+        let groupIDs = [];
 
-      for (const group of list) {
-        const name = group.name || group.threadName || "Unnamed Group";
-        const members = group.participantIDs ? group.participantIDs.length : "N/A";
-        
-        // Showing only Name and Member count as requested
-        msg += `${i++}. 🏢 ${name}\n👥 Members: ${members}\n${"━".repeat(10)}\n`;
-        groupid.push(group.threadID);
-      }
+        groups.forEach((group, index) => {
+          const name = group.name || "Unnamed Group";
+          const members = group.participantIDs ? group.participantIDs.length : "0";
+          msg += `${index + 1}. ${name}\n🆔 ID: ${group.threadID}\n👥 Members: ${members}\n\n`;
+          groupIDs.push(group.threadID);
+        });
 
-      msg += '🎮 Admin Actions:\n👉 Reply "out <num>" to Leave\n👉 Reply "add <num>" to Join\n👉 Reply "ban <num>" to Ban';
+        msg += '🎮 Actions:\n1. Reply "out <num>" to leave.\n2. Reply "add <num>" to join group.\n3. Reply "ban <num>" to block group.';
 
-      // Remove wait message and send the actual list
-      await api.unsendMessage(waitMsg.messageID);
-      return message.reply(msg, (err, info) => {
-        if (err) return;
-        global.GoatBot.onReply.set(info.messageID, {
-          commandName: this.config.name,
-          messageID: info.messageID,
-          author: event.senderID,
-          groupid
+        return message.reply(msg, (err, info) => {
+          global.GoatBot.onReply.set(info.messageID, {
+            commandName,
+            messageID: info.messageID,
+            author: event.senderID,
+            groupIDs
+          });
         });
       });
-
-    } catch (error) {
-      console.error(error);
-      return api.editMessage("❌ System Error: Could not load group list.", waitMsg.messageID);
+    } catch (e) {
+      return message.reply("An unexpected error occurred.");
     }
   },
 
   onReply: async function ({ api, event, Reply, message, threadsData }) {
-    const { author, groupid } = Reply;
+    const { author, groupIDs } = Reply;
     if (event.senderID != author) return;
 
-    const args = event.body.split(/\s+/);
-    const action = args[0].toLowerCase();
-    const index = parseInt(args[1]) - 1;
-    const targetID = groupid[index];
+    const input = event.body.split(" ");
+    const action = input[0].toLowerCase();
+    const index = parseInt(input[1]) - 1;
+    const targetID = groupIDs[index];
 
-    if (!targetID || isNaN(index)) return message.reply("❌ Invalid serial number!");
+    if (!targetID || isNaN(index)) return message.reply("Invalid selection. Use: <action> <number>");
 
     if (action === "out") {
       try {
         await api.removeUserFromGroup(api.getCurrentUserID(), targetID);
-        return message.reply(`✅ Success: Bot left the group successfully.`);
-      } catch (e) { return message.reply("❌ Error: Facebook restriction detected."); }
+        return message.reply(`✅ Bot has left the group: ${targetID}`);
+      } catch (e) {
+        return message.reply("❌ Error: Could not leave the group.");
+      }
     }
 
     if (action === "add") {
       try {
         await api.addUserToGroup(author, targetID);
-        return message.reply(`✅ Success: Added you to the group.`);
-      } catch (e) { return message.reply("❌ Error: Bot needs admin permission to add."); }
+        return message.reply(`✅ Success! I've added you to the group: ${targetID}`);
+      } catch (e) {
+        return message.reply("❌ Error: I cannot add you. I might not be an admin in that group.");
+      }
     }
 
     if (action === "ban") {
       try {
-        await threadsData.set(targetID, true, "data.banned");
-        await api.sendMessage("🚫 Group Banned by farhan Hasan.", targetID).catch(() => {});
+        const data = await threadsData.get(targetID);
+        if (!data.data) data.data = {};
+        data.data.banned = true;
+        await threadsData.set(targetID, data.data, "data");
+        
+        await api.sendMessage("🚫 This group is banned by Administrator.", targetID);
         await api.removeUserFromGroup(api.getCurrentUserID(), targetID);
-        return message.reply(`✅ Success: Group banned and bot left.`);
-      } catch (e) { return message.reply("❌ Database error."); }
+        return message.reply(`✅ Group ${targetID} has been banned.`);
+      } catch (e) {
+        return message.reply("❌ Failed to ban group.");
+      }
     }
   }
 };
