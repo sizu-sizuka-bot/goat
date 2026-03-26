@@ -16,48 +16,46 @@ module.exports = {
   },
 
   onStart: async function ({ message, api }) {
+
     try {
-      // Bot Uptime
-      const botUptimeSec = process.uptime();
-      const d = Math.floor(botUptimeSec / 86400);
-      const h = Math.floor((botUptimeSec % 86400) / 3600);
-      const m = Math.floor((botUptimeSec % 3600) / 60);
-      const s = Math.floor(botUptimeSec % 60);
-      const botUptime = `${d}d ${h}h ${m}m ${s}s`;
+      // --- Helper: Format seconds into d/h/m/s ---
+      const formatUptime = (seconds) => {
+        const d = Math.floor(seconds / 86400);
+        const h = Math.floor((seconds % 86400) / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        const s = Math.floor(seconds % 60);
+        return `${d}d ${h}h ${m}m ${s}s`;
+      };
 
-      // System Uptime
-      const sysUptimeSec = os.uptime();
-      const sd = Math.floor(sysUptimeSec / 86400);
-      const sh = Math.floor((sysUptimeSec % 86400) / 3600);
-      const sm = Math.floor((sysUptimeSec % 3600) / 60);
-      const ss = Math.floor(sysUptimeSec % 60);
-      const sysUptime = `${sd}d ${sh}h ${sm}m ${ss}s`;
+      // --- Bot & System Uptime ---
+      const botUptime = formatUptime(process.uptime());
+      const sysUptime = formatUptime(os.uptime());
 
-      // RAM
+      // --- RAM ---
       const totalMem = os.totalmem();
       const usedMem = totalMem - os.freemem();
       const ramUsed = (usedMem / 1024 / 1024 / 1024).toFixed(2) + " GB";
       const ramTotal = (totalMem / 1024 / 1024 / 1024).toFixed(2) + " GB";
       const ramPercent = ((usedMem / totalMem) * 100).toFixed(1);
+      const memory = `${ramUsed} / ${ramTotal} (${ramPercent}%)`;
 
-      // CPU
+      // --- CPU ---
       const cpus = os.cpus();
-      const cpuModel = cpus[0].model.split(" ").slice(0, 4).join(" "); // short model
+      const cpuModel = cpus[0].model;
       const cpuCount = cpus.length;
       const loadAvg = os.loadavg()[0];
       const cpuPercent = Math.min((loadAvg / cpuCount) * 100, 100).toFixed(1);
 
-      // Other info
+      // --- Other Info ---
       const platform = `${os.platform()} ${os.arch()}`;
       const nodejs = process.version;
       const host = os.hostname();
-      const ping = Math.floor(Math.random() * 30) + 10; // approximate ping )
-      const memory = `${ramUsed} / ${ramTotal}`;
+      const ping = Math.floor(Math.random() * 30) + 10; // approximate ping
       const developer = "Farhan>Team>Heartless";
 
-      // Build API URL
+      // --- Build API URL ---
       const apiUrl = `https://maybexenos.vercel.app/tools/botstat?` +
-        `name=EW'R%20SIZUKA%20BOT` +
+        `name=${encodeURIComponent("EW'R SIZUKA BOT")}` +
         `&botUptime=${encodeURIComponent(botUptime)}` +
         `&sysUptime=${encodeURIComponent(sysUptime)}` +
         `&cpu=${encodeURIComponent(`${cpuModel} (${cpuCount} cores) • ${cpuPercent}%`)}` +
@@ -70,9 +68,10 @@ module.exports = {
         `&memory=${encodeURIComponent(memory)}` +
         `&developer=${encodeURIComponent(developer)}`;
 
-      // Fetch beautiful card
+      // --- Fetch card ---
       const res = await axios.get(apiUrl, { responseType: "stream" });
 
+      // --- Send response ---
       message.reply({
         body: `◢◤━━━━━━━━━━━━━━━━◥◣
        𝗚𝗢𝗔𝗧 𝗕𝗢𝗧 𝗩𝟭 𝗨𝗣𝗧𝗜𝗠𝗘
@@ -82,8 +81,9 @@ module.exports = {
       });
 
     } catch (err) {
-      console.error(err);
+      console.error("Uptime command error:", err.message, err.stack);
       message.reply("❌ Error generating uptime card. Please try again.");
     }
+
   }
 };
