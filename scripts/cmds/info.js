@@ -22,10 +22,10 @@ module.exports = {
   onStart: async function ({ message }) {
 
     // OWNER INFO
-    const ownerName = "ARIFUL";
-    const ownerAge = "18+";
-    const ownerFB = "https://m.me/aesthetich.ariful";
-    const ownerNumber = "+𝟗𝟔𝟓𝟗𝟗𝟖𝟗𝟒𝟎𝟑𝟗";
+    const ownerName = "FARHAN-KHAN";
+    const ownerAge = "20+";
+    const ownerFB = "https://m.me/DEVIL.FARHAN.420";
+    const ownerNumber = "01934640061";
     const status = "Active";
 
     // BOT INFO
@@ -35,7 +35,7 @@ module.exports = {
 
     // GIF / VIDEO URL
     const images = [
-      "https://i.ibb.co/YBJ3Tzd5/image0.gif"
+      "https://files.catbox.moe/rtgdvs.mp4"
     ];
     const image = images[Math.floor(Math.random() * images.length)];
 
