@@ -1,87 +1,60 @@
-const axios = require('axios');
-const fs = require('fs');
-const path = require('path');
+const moment = require("moment-timezone");
 
 module.exports = {
   config: {
     name: "info",
-    author: "Farhan",
+    version: "2.5.3",
+    author: "ST",
     role: 0,
-    shortDescription: "Shows bot and owner info",
-    longDescription: "Sends bot stats along with a random image",
-    category: "admin",
-    guide: "{pn}"
+    countDown: 20,
+    shortDescription: {
+      en: "Owner & bot information"
+    },
+    longDescription: {
+      en: "Show detailed information about the bot, owner, uptime and socials"
+    },
+    category: "owner",
+    guide: {
+      en: "{pn}"
+    }
   },
 
-  onStart: async function ({ api, event, prefix, commands }) {
-    try {
-      prefix = prefix || "/";
-      commands = commands || new Map();
+  onStart: async function ({ message }) {
 
-      // --- Step 1: Send initial loading message ---
-      const loadingMsgText = `
-🌸━━━━━━━━━━━━━━🌸
-   ⏳>ʟᴏᴀᴅɪɴɢ ʙᴏᴛ ꜱᴛᴀᴛꜱ...
-          ᴘʟᴇᴀꜱᴇ ᴡᴀɪᴛ...
-🌸━━━━━━━━━━━━━━🌸
-`;
-      const loadingMsg = await api.sendMessage(loadingMsgText, event.threadID, event.messageID);
+    // OWNER INFO
+    const ownerName = "ARIFUL";
+    const ownerAge = "18+";
+    const ownerFB = "https://m.me/aesthetich.ariful";
+    const ownerNumber = "+𝟗𝟔𝟓𝟗𝟗𝟖𝟗𝟒𝟎𝟑𝟗";
+    const status = "Active";
 
-      // --- Step 2: Gather stats asynchronously ---
-      let totalUsers = 0, totalThreads = 0;
-      try {
-        const threads = await api.getThreadList(100, null, []);
-        totalThreads = threads.length;
-        totalUsers = threads.reduce((sum, t) => sum + (t.participantIDs?.length || 0), 0);
-      } catch (err) {
-        console.log("Could not fetch threads/users:", err.message);
-      }
+    // BOT INFO
+    const botName = global.GoatBot?.config?.nickNameBot || "GoatBot";
+    const prefix = global.GoatBot?.config?.prefix || ".";
+    const totalCommands = global.GoatBot?.commands?.size || 0;
 
-      // --- Uptime calculation ---
-      const uptimeSec = process.uptime();
-      const hoursUp = Math.floor(uptimeSec / 3600);
-      const minutesUp = Math.floor((uptimeSec % 3600) / 60);
-      const secondsUp = Math.floor(uptimeSec % 60);
+    // GIF / VIDEO URL
+    const images = [
+      "https://i.ibb.co/YBJ3Tzd5/image0.gif"
+    ];
+    const image = images[Math.floor(Math.random() * images.length)];
 
-      // --- Bangladesh time ---
-      const nowUTC = new Date();
-      const nowBangladesh = new Date(nowUTC.getTime() + 6 * 60 * 60 * 1000);
-      let hours = nowBangladesh.getHours();
-      const minutes = nowBangladesh.getMinutes();
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-      hours = hours % 12 || 12;
-      const minutesStr = minutes.toString().padStart(2, '0');
-      const time = `${hours}:${minutesStr} ${ampm}`;
+    // DATE & TIME
+    const now = moment().tz("Asia/Dhaka");
+    const date = now.format("MMMM Do YYYY");
+    const time = now.format("h:mm:ss A");
 
-      // --- Random image selection ---
-      const imgLinks = [
-        "https://files.catbox.moe/7fy6p9.jpg",
-        "https://files.catbox.moe/p1tlz2.jpg",
-        "https://files.catbox.moe/as641j.jpg"
-      ];
-      const randomImage = imgLinks[Math.floor(Math.random() * imgLinks.length)];
-      const tmpPath = path.join(__dirname, `temp_image_${Date.now()}.jpg`);
+    // UPTIME
+    const uptime = process.uptime();
+    const days = Math.floor(uptime / 86400);
+    const hours = Math.floor((uptime % 86400) / 3600);
+    const minutes = Math.floor((uptime % 3600) / 60);
+    const seconds = Math.floor(uptime % 60);
+    const uptimeString = `${days}d ${hours}h ${minutes}m ${seconds}s`;
 
-      // --- Step 3: Download image using streaming ---
-      try {
-        const writer = fs.createWriteStream(tmpPath);
-        const response = await axios({
-          url: randomImage,
-          method: 'GET',
-          responseType: 'stream'
-        });
-        response.data.pipe(writer);
-
-        await new Promise((resolve, reject) => {
-          writer.on('finish', resolve);
-          writer.on('error', reject);
-        });
-      } catch (err) {
-        console.log("Failed to download image:", err.message);
-      }
-
-      // --- Step 4: Prepare full message ---
-      const fullMessage = `‎⋆✦⋆⎯⎯⎯⎯⎯⎯⎯⎯⎯⋆✦⋆
+    // SEND MESSAGE
+    return message.reply({
+      body: `⋆✦⋆⎯⎯⎯⎯⎯⎯⎯⎯⎯⋆✦⋆
 ‎    ╭•┄┅══❁🌺❁══┅┄•╮
 ‎•—»✨𝗢𝗪𝗡𝗘𝗥 𝗜𝗡𝗙𝗢✨«—•
 ‎    ╰•┄┅══❁🌺❁══┅┄•╯
@@ -109,17 +82,19 @@ module.exports = {
 ‎╠══════════════════╣
 ‎║🤖>𝗕𝗢𝗧-𝗡𝗔𝗠𝗘:-𝗦𝗜𝗭𝗨𝗞𝗔-𝗕𝗢𝗧
 ‎║
-‎║⚡>𝗣𝗿𝗲𝗳𝗶𝘅:- ${prefix}
+‎║⚡>𝗣𝗿𝗲𝗳𝗶𝘅:-『 ${prefix} 』
 ‎║
-‎║📦>𝗖𝗼𝗺𝗺𝗮𝗻𝗱𝘀:- ${commands.size}
+‎║📦>𝗖𝗼𝗺𝗺𝗮𝗻𝗱𝘀:-『 224 』
 ‎║
 ‎║🚀>𝗣𝗶𝗻𝗴:- N/A
 ‎╠══════════════════╣
 ‎║
-‎║⏳>𝗨𝗽𝘁𝗶𝗺𝗲:- ${hoursUp}h ${minutesUp}m ${secondsUp}s
+‎║⏳>𝗨𝗽𝘁𝗶𝗺𝗲:-『 ${uptimeString} 』
 ‎║
-‎║🕒>𝗕𝗱→𝗧𝗶𝗺𝗲:- ${time}
+‎║🕒>𝗕𝗱→𝗧𝗶𝗺𝗲:-『 ${time} 』
 ‎║
+║🗓>𝗗𝗮𝘁𝗲:-『 ${date} 』
+║
 ‎╠══════════════════╣
 ‎║🏠>𝐀𝐃𝐃𝐑𝐄𝐒𝐒:-[𝐂𝐇𝐔𝐀𝐃𝐀𝐍𝐆𝐀]
 ‎║             [𝐁𝐀𝐍𝐆𝐋𝐀𝐃𝐄𝐒𝐇]
@@ -139,27 +114,8 @@ module.exports = {
 ‎╠══════════════════╣
   ‎♡𝗧𝗛𝗔𝗡𝗞𝗦 𝗙𝗢𝗥 𝗨𝗦𝗜𝗡𝗚 𝗠𝗬♡
              ♡𝗦𝗜𝗭𝗨𝗞𝗔>𝗕𝗢𝗧♡
-‎╚══════════════════╝`;
-
-      // --- Step 5: Send full message with image ---
-      if (fs.existsSync(tmpPath)) {
-        await api.sendMessage(
-          { body: fullMessage, attachment: fs.createReadStream(tmpPath) },
-          event.threadID
-        );
-        await fs.promises.unlink(tmpPath);
-      } else {
-        await api.sendMessage(fullMessage, event.threadID);
-      }
-
-      // --- Step 6: Delete loading message ---
-      if (loadingMsg?.messageID) {
-        await api.deleteMessage(loadingMsg.threadID, loadingMsg.messageID);
-      }
-
-    } catch (err) {
-      console.error(err);
-      await api.sendMessage('An error occurred while sending info.', event.threadID);
-    }
+‎╚══════════════════╝`,
+      attachment: await global.utils.getStreamFromURL(image)
+    });
   }
 };
