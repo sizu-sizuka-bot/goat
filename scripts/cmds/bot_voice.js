@@ -5,8 +5,8 @@ const path = require("path");
 module.exports = {
   config: {
     name: "bot_voice",
-    version: "2.0.0",
-    author: "Farhan-Khan", // DO NOT CHANGE
+    version: "2.0.1",
+    author: "Farhan-Khan",
     countDown: 1,
     role: 0,
     shortDescription: "Ultra Smart Voice Reply",
@@ -18,8 +18,9 @@ module.exports = {
   onChat: async function ({ event, message }) {
     if (!event.body) return;
 
-    const input = event.body.toLowerCase();
+    const input = event.body.toLowerCase().trim();
 
+    // Bot trigger words
     const botVoices = [
       "https://files.catbox.moe/b5l6nz.mp3",
       "https://files.catbox.moe/gzq54t.mp3",
@@ -36,16 +37,16 @@ module.exports = {
       "বেবি": botVoices
     };
 
-    // Create cache folder if not exists
+    // প্রথম শব্দ পরীক্ষা করা
+    const firstWord = input.split(" ")[0]; // শুধু প্রথম শব্দ
+    if (!voiceMap[firstWord]) return; // যদি প্রথম শব্দ bot/baby না হয়, রিপ্লাই না দেয়
+
+    // Cache folder
     const cacheDir = path.join(__dirname, "cache", "voices");
     fs.ensureDirSync(cacheDir);
 
-    // Find the first keyword that matches
-    const matchedKey = Object.keys(voiceMap).find(key => input.includes(key));
-    if (!matchedKey) return;
-
     try {
-      let audioUrl = voiceMap[matchedKey];
+      let audioUrl = voiceMap[firstWord];
       if (Array.isArray(audioUrl)) {
         audioUrl = audioUrl[Math.floor(Math.random() * audioUrl.length)];
       }
