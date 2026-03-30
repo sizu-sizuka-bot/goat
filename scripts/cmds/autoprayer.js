@@ -131,9 +131,9 @@ ${prayer.name}
 
 ${prayer.msg}
 
-🕒 𝙏𝙞𝙢𝙚: ${prayerTimes[key]}
-📅 𝘿𝙖𝙩𝙚: ${today}
-🤖 𝘽𝙊𝙏 𝙊𝙒𝙉𝙀𝙍:-𝙁𝙖𝙧𝙝𝙖𝙣-𝙠𝙝𝙖𝙣
+🕒 𝐓𝐢𝐦𝐞: ${prayerTimes[key]}
+📅 𝐃𝐚𝐭𝐞: ${today}
+🤖 𝐁𝐨𝐭 𝐎𝐰𝐧𝐞𝐫:-𝐅𝐚𝐫𝐡𝐚𝐧-𝐤𝐡𝐚𝐧
 ━━━━━━━━━━━━━━━━━━━`;
 
           try {
