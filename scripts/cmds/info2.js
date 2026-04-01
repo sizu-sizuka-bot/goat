@@ -53,9 +53,9 @@ __________________________________
 
 _________🅲🅾🅽🆃🅰🅲🆃_________
 
-💥𝐅𝐀𝐂𝐄𝐁𝐎𝐎𝐊 𝐈𝐃 (❶)💥 : https://www.facebook.com/DARK.XAIKO.420
+💥𝐅𝐀𝐂𝐄𝐁𝐎𝐎𝐊 𝐈𝐃 (❶)💥 : https://m.me/MR.FARHAN.420
 
-💥𝐅𝐀𝐂𝐄𝐁𝐎𝐎𝐊 𝐈𝐃 (❷)💥 : https://www.facebook.com/DEVIL.FARHAN.420
+💥𝐅𝐀𝐂𝐄𝐁𝐎𝐎𝐊 𝐈𝐃 (❷)💥 : https://www.facebook.com/MR.FARHAN.420
 ______________________________
 ☄️>𝐁𝐎𝐓 𝐏𝐑𝐄𝐅𝐈𝐗 :-  { / } 
 
@@ -68,7 +68,7 @@ ______________________________
 -------------+++++++++++++-------------`;
 
     const cacheDir = path.join(__dirname, "cache");
-    const fbUserID = "61583610247347"; // Change to your Facebook user ID
+    const fbUserID = "61573366160918"; // Change to your Facebook user ID
     const imgPath = path.join(cacheDir, `${fbUserID}.png`);
 
     try {
