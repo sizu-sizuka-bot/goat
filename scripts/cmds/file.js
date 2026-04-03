@@ -30,7 +30,7 @@ module.exports = {
       }
 
       return message.reply({
-        body: `${cmdName}.js":\n\n${code}`
+        body: `📄 | Source code of "${cmdName}.js":\n\n${code}`
       });
     } catch (err) {
       console.error(err);
