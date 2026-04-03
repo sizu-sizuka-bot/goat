@@ -1,34 +1,40 @@
-const fs = necessary ('fs');
-Const path = required ("path");
-Module.Export = {  
-Configuration: {    
-Name: "FilekMD",    
-Alternate name: ["File"],    
-Version: "1.0",    
-Author: "nexo_here",    
-Countdown: 5,    
-Role: 2    
-shortDescription: "Look at the code of a command",    
-longDescription: "Look at the raw source code of any command in the Command folder",    
-Category: "Owner",    
-গাইড: "{pn} <commandName>।  
-},  
-ONSTART: Async function ({args, message})    
-const cmdName = args[0];    
-If (!cmdName) returns the message. Answer ("❌ | Please provide the command name. Example: filecmd fluxsnell')    
-Const cmdPath = path.join (__dirname, Zee${CMDName}.js》)    
-If (!fs.existsSync) returns the message. Answer (—❌ | The command "${cmdName}" is not available in this folder.‖)    
-Try {      
-কনস্ট কোড = fs.readFileSync (cmdPath, "utf8")      
-If (code.length >19000) {        
-Return the message. Answer ("⚠️ | This file is too big to display.')      
-}      
-Return the message. Answer ({        
-Body: ${cmdName}.js": \n\n${code}‖      
-});    
-} Suppose that (err)      
-Console. Error (s)      
-Return the message. Answer ("❌ | Error reading the file".)    
-}  
-}
+const fs = require("fs");
+const path = require("path");
+
+module.exports = {
+  config: {
+    name: "filecmd",
+    aliases: ["file"],
+    version: "1.0",
+    author: "nexo_here",
+    countDown: 5,
+    role: 2,
+    shortDescription: "View code of a command",
+    longDescription: "View the raw source code of any command in the commands folder",
+    category: "owner",
+    guide: "{pn} <commandName>"
+  },
+
+  onStart: async function ({ args, message }) {
+    const cmdName = args[0];
+    if (!cmdName) return message.reply("❌ | Please provide the command name.\nExample: filecmd fluxsnell");
+
+    const cmdPath = path.join(__dirname, `${cmdName}.js`);
+    if (!fs.existsSync(cmdPath)) return message.reply(`❌ | Command "${cmdName}" not found in this folder.`);
+
+    try {
+      const code = fs.readFileSync(cmdPath, "utf8");
+
+      if (code.length > 19000) {
+        return message.reply("⚠️ | This file is too large to display.");
+      }
+
+      return message.reply({
+        body: `${cmdName}.js":\n\n${code}`
+      });
+    } catch (err) {
+      console.error(err);
+      return message.reply("❌ | Error reading the file.");
+    }
+  }
 };
