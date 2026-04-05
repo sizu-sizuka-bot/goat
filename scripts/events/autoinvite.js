@@ -4,7 +4,7 @@ module.exports = {
   config: {
     name: "autoinvite",
     version: "2.5",
-    author: "Mohammad Akash",
+    author: "Farhan-Khan",
     category: "events"
   },
 
@@ -31,16 +31,11 @@ module.exports = {
       const boldName = userName.split("").map(c => boldMap[c] || c).join("");
 
       const form = {
-        body: `🛑 এই বলদ....!! 😹  
-${boldName}  
-💬 গ্রুপ থেকে লিভ নেওয়া কি মুখের কথা নাকি? 😏  
-👑 যে গ্রুপে আমি থাকি..?? 🐸  
-⚠️ সেই গ্রুপ থেকে লিভ নেওয়া অসম্ভব! 😂  
-🌀 আবার অ্যাড করে দিলাম 😇  
-
-━━━━━━━━━━━━━━━
-👑 𝗕𝗼𝘁 𝗢𝘄𝗻𝗲𝗿 : 𝗙𝗮𝗿𝗵𝗮𝗻✓
-━━━━━━━━━━━━━━━`
+        body: `『 ${boldName} 』
+        -এই বলদ কোথায় পালাস.!😹 
+        -তোর এতো বড়ো সাহস-😈
+        -আমি বস『 𝐅𝐀𝐑𝐇𝐀𝐍 』এর বট থাকতে লিভ নেস.!
+        -পালাতে পারবি না-😂😹👈`
       };
 
       try {
