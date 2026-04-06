@@ -1,0 +1,147 @@
+module.exports = {
+  config: {
+    name: "autoreply",
+    version: "3.0",
+    author: "Farhan-Khan",
+    countDown: 0,
+    role: 0,
+    shortDescription: "Full Auto Reply System",
+    longDescription: "All custom replies added",
+    category: "chat",
+  },
+
+  onStart: async function () {},
+
+  onChat: async function ({ event, api }) {
+    const text = event.body?.toLowerCase();
+    if (!text) return;
+
+    const replies = [
+
+      { words: ["love you bot","love u bot","bot love you","bot love u"], reply: "বস 𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍 মেয়েদে'র সাথে কথা বলতে মানা করছে-🙂🤗🐸" },
+
+      { words: ["bot jamay dau","বট জামাই দাও"], reply: "আমার বস ফারহান কে চোখে দেখো না নাকি__😒🥱" },
+
+      { words: ["i love you bot","bot i love you"], reply: "আমাকে না আমার বস 𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍 কে ভালোবাসো-😻🤗🌺" },
+
+      { words: ["baler bot","fuck bot"], reply: "কিরে আমাকে গালি দেস কেনো তোকে কিন্তু বেন করে দিমু😠" },
+
+      { words: ["kiss bot","bot kiss me"], reply: "আমি ভালো তুমি পঁচা😌" },
+
+      { words: ["bot koi"], reply: "এই তো আমি এখানে🙋‍♂️" },
+
+      { words: ["/sex","/fuck"], reply: "চিহ্ ভালো হয়ে যাও তোমাকে আমি অনেক সময় দিয়েছি 🤖 ~ now sex time fuck" },
+
+      { words: ["opoman korli","biyadobi koros"], reply: "-সরি বস আমার ভূল হইছে-😔-মাফ করে দেন আমাকে ,আর এমন হবে না-🥺🙏" },
+
+      { words: ["single","সিঙ্গেল"], reply: "আমি সিঙ্গেল আছি প্রেম করলে নক দে বলদ!😾" },
+
+      { words: ["love you","i love you"], reply: "I love you too 🥺! মনে লাগে ঢেউ ভালোবাসে না কেউ hihihi....💦💔" },
+
+      { words: ["👍"], reply: "-👍-হাত-মেরে কিবোর্ড দুর্বল করো না-🤣👈-ধন্যবাদ-🤗🤝" },
+
+      { words: ["kmon acho","কেমন আছো","kmn aso","kamon aso","কেমন আছো সবাই","kmon aso sobai","kmn aso sobai"], reply: "-আলহামদুলিল্লাহ-🌺-আমি ভালো আছি তুমি কেমন আছো-💝🌻" },
+
+      { words: ["বট চুপ","bot tham","স্টপ","stop","চুপ","chup thak"], reply: "-না আমি চুপ থাকবো না-😼-বস 𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍 আমারে কথা বলতে বলছে-🥱🥷" },
+
+      { words: ["চুম্মাহ দাও","kiss me"], reply: "️-আমি দিবো না-😏-বস 𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍 কে বলো চু'মু দিতে-🫣🐸" },
+
+      { words: ["bot ar bacca","বট এর বাচ্ছা","bot er bacca"], reply: "উফফ-🥵-ঝাং-🤤-আমার বস 𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍 এর বাচ্ছা তো তোমার পেটে-🥱💦" },
+
+      { words: ["leave","bot left ne","chole ja","লিফট নে","চলে যা","left ne","tui left ne"], reply: "-আমি কেন চলে যাবো তোমার ভালো না লাগলে তুমি চলে যাও-🙄😒 -আমি যাব না..!😏😏" },
+
+      { words: ["😘","💋"], reply: "-আগে brush করে আই তারপর কিস দিস-😼😾🔪" },
+
+      { words: ["biye","বিয়ে মানে কি","বিয়ে কি","বিয়ে","biye mane ki","biye ki"], reply: "-বিয়ে মানে একটা ছেলের হাসিখুশি জীবন টারে সারা জীবন জেলখানার মতো বন্দি করে অত্যাচার করা-🤧🥺" },
+
+      { words: ["বউ কি","বউ","bow","bou"], reply: "-বিয়ে মানে শ্বশুরের মেয়েকে সারা জীবন হাতির মতো কলা গাছ দিয়ে পালা খাইবো..." },
+
+      { words: ["তোর বানাইছে কে","এটা কার বট","tor banayse ke","ata kar bot"], reply: "️আমার বস 𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍 আমাকে শুধুমাত্র আপনাদের কে বিনোদনের জন্য তৈরি করেছেন__😊😌" },
+
+      { words: ["miss you"], reply: "<আমি তোমাকে রাইতে মিস খাই🥹🤖👅/👅-✘ 𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍 🎀 🍒:))" },
+
+      { words: ["😽"], reply: "কিস দিস না তোর মুখে দূর গন্ধ কয়দিন ধরে দাঁত ব্রাশ করিস নাই🤬" },
+
+      { words: ["👍🏼"], reply: "সর এখান থেকে লাইকার আবাল..!🐸🤣👍⛏️" },
+
+      { words: ["priya","প্রিয়া"], reply: "বাড়িতে খাই ঝাটার বাড়ি, ফেসবুকে সে অ্যাটিটিউড নারী,😒🤣" },
+
+      { words: ["hi","hello","hlw","helo"], reply: "এত হাই-হ্যালো না করে সালাম দিতে কি হয়..!😒🔪" },
+
+      { words: ["bc","mc"], reply: "SAME TO YOU😊 " },
+
+      { words: ["pro","lol"], reply: "Khud k0o KYa LeGend SmJhTi Hai 😂" },
+
+      { words: ["morning","good morning"], reply: "GOOD MORNING দাত ব্রাশ করে খেয়ে নেও😚" },
+
+      { words: ["tor bal","bal"], reply: "~ তোমার বাল উঠে নাই নাকি তোমার?? 🤖" },
+
+      { words: ["farhan"], reply: "👉আমার বস 𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍 এখন বিজি আছে..." },
+
+      { words: ["/owner"], reply: "OWNER: MR. BOSS RJ FARHAN" },
+
+      { words: ["admin ke","tor boss ke"], reply: "My Creator: RJ FARHAN ❤️" },
+
+      { words: ["admin","boter admin"], reply: "He is MR.BOSS RJ FARHAN ❤️" },
+
+      { words: ["bhabi","vabi"], reply: "এ তো হাছিনা হে মেরে দিলকি দারকান 😍" },
+
+      { words: ["chup","চুপ কর","chup kor"], reply: "তুই চুপ তোর ১৪ গুষ্টি চুপ😼" },
+
+      { words: ["assalamualaikum","assalamu alaikum","সালাম"], reply: "️- ওয়ালাইকুমুস-সালাম-!!🖤" },
+
+      { words: ["hop😤","oi😒"], reply: "সরি বস মাফ করে দেন আর এমন ভুল হবে না🥺🙏" },
+
+      { words: ["neha","নেহা"], reply: "খবরদার কেউ এই নাম দরে ডাক দিবানা এটা আমার বসের বউ!" },
+
+      { words: ["nahid"], reply: "নাহিদ আমার বসের কলিজার বন্ধু 😍" },
+
+      { words: ["thanks","thank you","tnx","দন্যবাদ"], reply: "️এতো ধন্যবাদ না দিয়ে gf দে..!🌚" },
+
+      { words: ["😡","😤","😠","🤬","😾"], reply: "️রাগ করে না সোনা পাখি 🥰" },
+
+      { words: ["hm","hmm"], reply: "️হুম হুম করিস না 🤬" },
+
+      { words: ["name ki","tor nam ki"], reply: "️MY NAME IS RJ FARHAN 🎀" },
+
+      { words: ["pic de","ss dau"], reply: "️এন থেকে সর দুরে গিয়া মর😒" },
+
+      { words: ["nusrat","arohi","nila"], reply: "️বাড়িতে খাই ঝাটার বাড়ি 😒🤣" },
+
+      { words: ["😂","😁","😆","🤣","😸","😹"], reply: "ভাই তুই এত হাসিস না 😂" },
+
+      { words: ["🥰","😍","😻","❤️"], reply: "ভালোবাসা বসকে দাও 😒" },
+
+      { words: ["how are you","kemon acho"], reply: "আমি তখনই ভালো থাকি যখন আপনাকে হাসতে দেখি 🤎" },
+
+      { words: ["mon kharap"], reply: "আমার সাদা মনে কোনো কাদা নাই...!🌝" },
+
+      { words: ["bye","by","বাই","যাই গা"], reply: "কিরে তুই কই যাস..!🌚" },
+
+      { words: ["tumi khaiso","khaicho"], reply: "না ঝাং 🥹 তুমি রান্না করে রাখো" },
+
+      { words: ["tumi ki amake bhalobaso"], reply: "হুম ঝাং আমি তোমাকে ভালোবাসি 🥵" },
+
+      { words: ["ami tor boss"], reply: "হ্যা স্যার কেমন আছেন 😎" },
+
+      { words: ["bow daw","bow dau","bow de","বউ দে","বউ দাউ"], reply: "যেখানে বস সিংগেল 😼" },
+
+      { words: ["jannat"], reply: "জান্নাত ম্যাডাম কে bf খুঁজে দে 😼" },
+
+      { words: ["🙂","🙃"], reply: "কি গো কলিজা মন খারাপ? 🥺" },
+
+      { words: ["😒","🙄"], reply: "এইদিকে তাকাও জানু 😘" },
+
+      { words: ["gf daw bot","bf daw bot"], reply: "বসের জন্য gf দে 😒" },
+
+      { words: ["basar sobai kmon ache"], reply: "সবাই ভালো আছে আলহামদুলিল্লাহ 💝" }
+
+    ];
+
+    for (const item of replies) {
+      if (item.words.some(word => text.includes(word))) {
+        return api.sendMessage(item.reply, event.threadID, event.messageID);
+      }
+    }
+  }
+};
