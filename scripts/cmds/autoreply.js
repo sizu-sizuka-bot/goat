@@ -1,22 +1,24 @@
 module.exports = {  
   config: {  
     name: "autoreply",  
-    version: "3.1",  
+    version: "5.0",  
     author: "Farhan-Khan",  
     countDown: 0,  
     role: 0,  
-    shortDescription: "Exact Auto Reply System",  
-    longDescription: "Reply only on exact match",  
+    shortDescription: "Exact + Contains Auto Reply",  
     category: "chat",  
   },  
   
   onStart: async function () {},  
   
   onChat: async function ({ event, api }) {  
-    const text = event.body?.toLowerCase().trim();  
+    let text = event.body?.toLowerCase();  
     if (!text) return;  
-  
-    const replies = [  
+
+    const cleanText = text.trim();
+
+    // ✅ EXACT MATCH
+    const exactReplies = [
       { words: ["love you bot","love u bot","bot love you","bot love u"], reply: "বস 𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍 মেয়েদে'র সাথে কথা বলতে মানা করছে-🙂🤗🐸" },
       { words: ["bot jamay dau","বট জামাই দাও"], reply: "আমার বস ফারহান কে চোখে দেখো না নাকি__😒🥱" },
       { words: ["i love you bot","bot i love you"], reply: "আমাকে না আমার বস 𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍 কে ভালোবাসো-😻🤗🌺" },
@@ -52,7 +54,8 @@ module.exports = {
       { words: ["admin","boter admin"], reply: "HE IS MR.BOSS RJ FARHAN ❤️" },
       { words: ["bhabi","vabi"], reply: "এ তো হাছিনা হে মেরে দিলকি দারকান 😍" },
       { words: ["chup","চুপ কর","chup kor"], reply: "তুই চুপ তোর ১৪ গুষ্টি চুপ😼" },
-      { words: ["assalamualaikum","assalamu alaikum","আসসালামু আলাইকুম"], reply: "️- ওয়ালাইকুমুস-সালাম-!!🖤" },
+      { words: ["😂😂","😁😁","😆😆","🤣🤣","😸😸","😹😹"], reply: "ভাই তুই এত হাসিস না হাসলে তোর চোরের মত লাগে, 😏😂" },
+      { words: ["😂😂😂","😁😁😁","😆😆😆","🤣🤣🤣","😸😸😸","😹😹😹"], reply: "ভাই তুই এত হাসিস না হাসলে তোর চোরের মত লাগে, 😏😂" },
       { words: ["hop😤","oi😒"], reply: "সরি বস মাফ করে দেন আর এমন ভুল হবে না🥺🙏" },
       { words: ["neha","নেহা"], reply: "খবরদার কেউ এই নাম দরে ডাক দিবানা এটা আমার বসের বউ!" },
       { words: ["nahid","নাহিদ"], reply: "নাহিদ আমার বসের কলিজার বন্ধু 😍" },
@@ -73,18 +76,33 @@ module.exports = {
       { words: ["bow daw","bow dau","bow de","বউ দে","বউ দাউ"], reply: "যেখানে আমার BOSS ফারহান সিংগেল,😼সেখানে তোগু বউ দিয়া তো বিলাসিতা,😤সর সাইডে চাপ, 😼🔪😤" },
       { words: ["jannat"], reply: "জান্নাত ম্যাডাম কে bf খুঁজে দে 😼" },
       { words: ["good night","গুড নাইট"], reply: "-ওকে সোনা গুড নাইট মুতে এসে গুতে যাও!🥱😴" },
-      { words: ["🙂","🙃"], reply: "কি গো কলিজা মন খারাপ? 🥺" },
+      { words: ["🙂","🙃","😔"], reply: "কি গো কলিজা মন খারাপ? 🥺" },
+      { words: ["🙂🙂","🙃🙃","😔😔"], reply: "কি গো কলিজা মন খারাপ? 🥺" },
+      { words: ["🙂🙂🙂","🙃🙃🙃","😔😔😔"], reply: "কি গো কলিজা মন খারাপ? 🥺" },
       { words: ["😒","🙄"], reply: "এইদিকে ওইদিকে কি দেখো জানু আমি তোমার সামনে দেখো😘" },
+      { words: ["😒😒","🙄🙄"], reply: "এইদিকে ওইদিকে কি দেখো জানু আমি তোমার সামনে দেখো😘" },
+      { words: ["😒😒😒","🙄🙄🙄"], reply: "এইদিকে ওইদিকে কি দেখো জানু আমি তোমার সামনে দেখো😘" },
       { words: ["gf daw bot","bf daw bot"], reply: "খালি কি তোরাই পেম করবি আমার বস ফারহান কেউ একটা gf দে<🔪😒" },
       { words: ["basar sobai kmon ache","বাসার সবাই কেমন আছে"], reply: "সবাই ভালো আছে আলহামদুলিল্লাহ 💝" }
-    ];  
-  
-    for (const item of replies) {  
-      for (const word of item.words) {  
-        if (text === word.toLowerCase()) {  
-          return api.sendMessage(item.reply, event.threadID, event.messageID);  
-        }  
-      }  
-    }  
-  }  
+    ];
+
+    // ✅ CONTAINS MATCH (only salam)
+    const containsReplies = [
+      { words: ["assalamualaikum","assalamu alaikum","আসসালামু আলাইকুম"], reply: "️- ওয়ালাইকুমুস-সালাম-!!🖤 ওয়া রাহমাতুল্লাহি ওয়া বারাকাতুহু, 🩶🩷" }
+    ];
+
+    // 🔥 Exact Match
+    for (const item of exactReplies) {
+      if (item.words.some(word => cleanText === word.toLowerCase())) {
+        return api.sendMessage(item.reply, event.threadID, event.messageID);
+      }
+    }
+
+    // 🔥 Contains Match
+    for (const item of containsReplies) {
+      if (item.words.some(word => cleanText.includes(word))) {
+        return api.sendMessage(item.reply, event.threadID, event.messageID);
+      }
+    }
+  }
 };
