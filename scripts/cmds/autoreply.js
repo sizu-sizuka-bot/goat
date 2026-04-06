@@ -61,7 +61,7 @@ module.exports = {
       { words: ["nahid","নাহিদ"], reply: "নাহিদ আমার বসের কলিজার বন্ধু 😍" },
       { words: ["thanks","thank you","tnx","দন্যবাদ"], reply: "️এতো ধন্যবাদ না দিয়ে বস ফারহান কে gf দে..!🌚" },
       { words: ["😡","😤","😠","🤬","😾"], reply: "️রাগ করে না সোনা পাখি 🥰" },
-      { words: ["hm","hmm"], reply: "️হুম হুম করিস না 🤬" },
+      { words: ["hm","hmm","হুম"], reply: "️হুম হুম করিস না 🤬" },
       { words: ["name ki","tor nam ki"], reply: "️MY NAME IS SIZUKA 🎀" },
       { words: ["pic de","ss dau"], reply: "️এন থেকে সর দুরে গিয়া মর😒" },
       { words: ["nusrat","arohi","nila"], reply: "️বাড়িতে খাই ঝাটার বাড়ি, ফেসবুকে সে অ্যাটিটিউড নারী,😒🤣" },
