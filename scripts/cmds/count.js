@@ -149,4 +149,18 @@ module.exports = {
 		const { senderID, threadID } = event;
 		const members = await threadsData.get(threadID, "members");
 		const findMember = members.find(user => user.userID == senderID);
-	
+		if (!findMember) {
+			members.push({
+				userID: senderID,
+				name: await usersData.getName(senderID),
+				nickname: null,
+				inGroup: true,
+				count: 1
+			});
+		}
+		else
+			findMember.count += 1;
+		await threadsData.set(threadID, members, "members");
+	}
+
+};
