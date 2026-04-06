@@ -72,7 +72,7 @@ module.exports = {
 
       { words: ["pro","lol"], reply: "Khud k0o KYa LeGend SmJhTi Hai 😂" },
 
-      { words: ["morning","good morning"], reply: "GOOD MORNING দাত ব্রাশ করে খেয়ে নেও😚" },
+      { words: ["morning","good morning","Good morning","গুড মর্নিং"], reply: "GOOD MORNING TOO দাত ব্রাশ করে খেয়ে নেও;😚" },
 
       { words: ["tor bal","bal"], reply: "~ তোমার বাল উঠে নাই নাকি তোমার?? 🤖" },
 
@@ -116,9 +116,9 @@ module.exports = {
 
       { words: ["mon kharap"], reply: "আমার সাদা মনে কোনো কাদা নাই...!🌝" },
 
-      { words: ["bye","by","বাই","যাই গা","বায়","Bye","By"], reply: "কিরে তুই কই যাস..!🌚" },
+      { words: ["bye","by","বাই","যাই গা","বায়","Bye","By"], reply: "প্রতিবার বাই শুনে মনে হয় এবার সত্যিই গেল… কিন্তু না! 😹" },
 
-      { words: ["tumi khaiso","khaicho"], reply: "না ঝাং 🥹 তুমি রান্না করে রাখো" },
+      { words: ["tumi khaiso","khaicho","তুমি খাইছো","খাইছো তুমি","khaiso tumi","Tumi khaiso"], reply: "না ঝাং 🥹 তুমি রান্না করে রাখো আমি আর আমার বস যাইয়া খামুনে! 😋🤤" },
 
       { words: ["tumi ki amake bhalobaso"], reply: "হুম ঝাং আমি তোমাকে ভালোবাসি 🥵" },
 
@@ -127,6 +127,8 @@ module.exports = {
       { words: ["bow daw","bow dau","bow de","বউ দে","বউ দাউ"], reply: "যেখানে আমার BOSS ফারহান সিংগেল,😼সেখানে তোগু বউ দিয়া তো বিলাসিতা,😤সর সাইডে চাপ, 😼🔪😤" },
 
       { words: ["jannat"], reply: "জান্নাত ম্যাডাম কে bf খুঁজে দে 😼" },
+     
+      { words: ["good night","Good night","গুড নাইট"], reply: "-ওকে সোনা গুড নাইট মুতে এসে গুতে যাও!🥱😴" },
 
       { words: ["🙂","🙃"], reply: "কি গো কলিজা মন খারাপ? 🥺" },
 
