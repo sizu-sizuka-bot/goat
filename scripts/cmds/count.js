@@ -1,7 +1,6 @@
 module.exports = {
 	config: {
 		name: "count",
-		aliases: ["c"],
 		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
@@ -51,7 +50,7 @@ module.exports = {
 		for (const user of members) {
 			if (!usersInGroup.includes(user.userID))
 				continue;
-			const charac = ""; // This character is banned from facebook chat (it is not an empty string)
+			const charac = "️️️️️️️️️️️️️️️️️"; // This character is banned from facebook chat (it is not an empty string)
 			arraySort.push({
 				name: user.name.includes(charac) ? `Uid: ${user.userID}` : user.name,
 				count: user.count,
