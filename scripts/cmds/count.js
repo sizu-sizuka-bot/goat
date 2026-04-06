@@ -1,6 +1,7 @@
 module.exports = {
 	config: {
 		name: "count",
+		aliases: ["c"],
 		version: "1.3",
 		author: "NTKhang",
 		countDown: 5,
@@ -50,7 +51,7 @@ module.exports = {
 		for (const user of members) {
 			if (!usersInGroup.includes(user.userID))
 				continue;
-			const charac = "️️️️️️️️️️️️️️️️️"; // This character is banned from facebook chat (it is not an empty string)
+			const charac = ""; // This character is banned from facebook chat (it is not an empty string)
 			arraySort.push({
 				name: user.name.includes(charac) ? `Uid: ${user.userID}` : user.name,
 				count: user.count,
@@ -148,18 +149,4 @@ module.exports = {
 		const { senderID, threadID } = event;
 		const members = await threadsData.get(threadID, "members");
 		const findMember = members.find(user => user.userID == senderID);
-		if (!findMember) {
-			members.push({
-				userID: senderID,
-				name: await usersData.getName(senderID),
-				nickname: null,
-				inGroup: true,
-				count: 1
-			});
-		}
-		else
-			findMember.count += 1;
-		await threadsData.set(threadID, members, "members");
-	}
-
-};
+	
