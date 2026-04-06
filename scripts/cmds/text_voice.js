@@ -48,6 +48,14 @@ const voiceMap = {
 "love you": "https://files.catbox.moe/y3fk8i.mp3",
 "Love you": "https://files.catbox.moe/y3fk8i.mp3",
 "@everyone": "https://files.catbox.moe/3u6shs.mp3",
+"bye": "https://files.catbox.moe/fdqh2m.mp3",
+"Bye": "https://files.catbox.moe/fdqh2m.mp3",
+"by": "https://files.catbox.moe/fdqh2m.mp3",
+"By": "https://files.catbox.moe/fdqh2m.mp3",
+"বাই": "https://files.catbox.moe/fdqh2m.mp3",
+"বায়": "https://files.catbox.moe/fdqh2m.mp3",
+  
+
 };
 
 if (voiceMap[input]) {
