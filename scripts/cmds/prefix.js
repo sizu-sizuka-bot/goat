@@ -117,7 +117,8 @@ module.exports = {
 		return message.reply({
 			body:
 `╭━━━〔《𓆩𝐏𝐑𝐄𝐅𝐈𝐗𓆪》〕━━━╮
-┃ 🏷️ 𓆩𝐆𝐑𝐎𝐔𝐏𓆪: 《𓆩${groupName}𓆪》
+┃🏷️『𝐆𝐑𝐎𝐔𝐏』:↓
+《 ${groupName} 》
 ◥◣━━━━━━━━━━━━━━━━◢◤
 ┃🔰『𝐒𝐘𝐒𝐓𝐄𝐌』: 《 ${systemPrefix} 》
 ┃
