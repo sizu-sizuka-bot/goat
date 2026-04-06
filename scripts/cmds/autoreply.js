@@ -88,7 +88,7 @@ module.exports = {
 
     // ✅ CONTAINS MATCH (only salam)
     const containsReplies = [
-      { words: ["assalamualaikum","assalamu alaikum","আসসালামু আলাইকুম"], reply: "️- ওয়ালাইকুমুস-সালাম-!!🖤 ওয়া রাহমাতুল্লাহি ওয়া বারাকাতুহু, 🩶🩷" }
+      { words: ["assalamualaikum","assalamu alaikum","আসসালামু আলাইকুম"], reply: "️🖤-ওয়ালাইকুমুস-সালাম-!!🖤\nওয়া রাহমাতুল্লাহি ওয়া বারাকাতুহু, 🩶🩷" }
     ];
 
     // 🔥 Exact Match
