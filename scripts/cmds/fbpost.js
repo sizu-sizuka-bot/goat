@@ -6,7 +6,7 @@ module.exports = {
   config: {
     name: "fbpost",
     version: "1.0",
-    author: "jfhigtfdv",
+    author: "Farhan-Khan",
     countDown: 5,
     role: 2,
     shortDescription: {
