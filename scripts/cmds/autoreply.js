@@ -41,7 +41,7 @@ module.exports = {
       { words: ["😽"], reply: "কিস দিস না তোর মুখে দূর গন্ধ কয়দিন ধরে দাঁত ব্রাশ করিস নাই🤬" },
       { words: ["👍🏼","👎"], reply: "সর এখান থেকে লাইকার আবাল..!🐸🤣👍⛏️" },
       { words: ["priya","প্রিয়া"], reply: "বাড়িতে খাই ঝাটার বাড়ি, ফেসবুকে সে অ্যাটিটিউড নারী,😒🤣" },
-      { words: ["hi","hello","hlw","helo"], reply: "এত হাই-হ্যালো না করে সালাম দিতে কি হয়..!😒🔪" },
+      { words: ["hi","hello","hlw","helo","হাই","হ্যালো"], reply: "এত হাই-হ্যালো না করে সালাম দিতে কি হয়..!😒🔪" },
       { words: ["আজ কেও নাই বলে","aj kew nsy bole","aj kew nay bole"], reply: "চিন্তা করো কেন আমি তো আছি🫶 তোমাকে রাইকে ভালোবাসবো" },
       { words: ["pro","lol"], reply: "Khud k0o KYa LeGend SmJhTi Hai 😂" },
       { words: ["morning","good morning","গুড মর্নিং"], reply: "GOOD MORNING TOO দাত ব্রাশ করে খেয়ে নেও;😚" },
