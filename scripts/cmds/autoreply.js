@@ -30,7 +30,7 @@ module.exports = {
 
       { words: ["bot koi"], reply: "এই তো আমি এখানে🙋‍♂️" },
 
-      { words: ["/sex","/fuck"], reply: "চিহ্ ভালো হয়ে যাও তোমাকে আমি অনেক সময় দিয়েছি 🤖 ~ now sex time fuck" },
+      { words: ["/sex","/fuck"], reply: "-জানু ভালো হয়ে যাও তোমাকে আমি অনেক সময় দিয়েছি 🤖 ~ now sex time fuck" },
 
       { words: ["opoman korli","biyadobi koros"], reply: "-সরি বস আমার ভূল হইছে-😔-মাফ করে দেন আমাকে ,আর এমন হবে না-🥺🙏" },
 
@@ -40,7 +40,7 @@ module.exports = {
 
       { words: ["👍"], reply: "-👍-হাত-মেরে কিবোর্ড দুর্বল করো না-🤣👈-ধন্যবাদ-🤗🤝" },
 
-      { words: ["kmon acho","কেমন আছো","kmn aso","kamon aso","কেমন আছো সবাই","kmon aso sobai","kmn aso sobai"], reply: "-আলহামদুলিল্লাহ-🌺-আমি ভালো আছি তুমি কেমন আছো-💝🌻" },
+      { words: ["kmon acho","kemon aso","Kemon aso","কেমন আছো","kmn aso","kamon aso","কেমন আছো সবাই","kmon aso sobai","kmn aso sobai"], reply: "-আলহামদুলিল্লাহ-🌺-আমি ভালো আছি তুমি কেমন আছো-💝🌻" },
 
       { words: ["বট চুপ","bot tham","স্টপ","stop","চুপ","chup thak"], reply: "-না আমি চুপ থাকবো না-😼-বস 𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍 আমারে কথা বলতে বলছে-🥱🥷" },
 
@@ -62,13 +62,13 @@ module.exports = {
 
       { words: ["😽"], reply: "কিস দিস না তোর মুখে দূর গন্ধ কয়দিন ধরে দাঁত ব্রাশ করিস নাই🤬" },
 
-      { words: ["👍🏼"], reply: "সর এখান থেকে লাইকার আবাল..!🐸🤣👍⛏️" },
+      { words: ["👍🏼","👎"], reply: "সর এখান থেকে লাইকার আবাল..!🐸🤣👍⛏️" },
 
       { words: ["priya","প্রিয়া"], reply: "বাড়িতে খাই ঝাটার বাড়ি, ফেসবুকে সে অ্যাটিটিউড নারী,😒🤣" },
 
       { words: ["hi","hello","hlw","helo"], reply: "এত হাই-হ্যালো না করে সালাম দিতে কি হয়..!😒🔪" },
 
-      { words: ["bc","mc"], reply: "SAME TO YOU😊 " },
+      { words: ["আজ কেও নাই বলে","aj kew nsy bole","Aj kew nay bole"], reply: "চিন্তা করো কেন আমি তো আছি🫶 তোমাকে রাইকে ভালোবাসবো" },
 
       { words: ["pro","lol"], reply: "Khud k0o KYa LeGend SmJhTi Hai 😂" },
 
@@ -76,25 +76,25 @@ module.exports = {
 
       { words: ["tor bal","bal"], reply: "~ তোমার বাল উঠে নাই নাকি তোমার?? 🤖" },
 
-      { words: ["farhan"], reply: "👉আমার বস 𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍 এখন বিজি আছে..." },
+      { words: ["সিমা","সীমা","sima","Sima"], reply: "বাড়িতে খাই ঝাটার বাড়ি, ফেসবুকে সে অ্যাটিটিউড নারী,😒🤣" },
 
       { words: ["/owner"], reply: "OWNER: MR. BOSS RJ FARHAN" },
 
-      { words: ["admin ke","tor boss ke"], reply: "My Creator: RJ FARHAN ❤️" },
+      { words: ["admin ke","tor boss ke"], reply: "❤️ হাই আমি মেছেন্জার ROBOT  আামার বস 𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍 আমাকে বানিয়েছেন আপনাদের কে হাসানোর জন্য আমি চাই আপনারা সব সময় হাসি খুশি থাকেন" },
 
-      { words: ["admin","boter admin"], reply: "He is MR.BOSS RJ FARHAN ❤️" },
+      { words: ["admin","boter admin"], reply: "HE IS MR.BOSS RJ FARHAN ❤️" },
 
       { words: ["bhabi","vabi"], reply: "এ তো হাছিনা হে মেরে দিলকি দারকান 😍" },
 
       { words: ["chup","চুপ কর","chup kor"], reply: "তুই চুপ তোর ১৪ গুষ্টি চুপ😼" },
 
-      { words: ["assalamualaikum","assalamu alaikum","সালাম"], reply: "️- ওয়ালাইকুমুস-সালাম-!!🖤" },
+      { words: ["assalamualaikum","assalamu alaikum","আসসালামু আলাইকুম"], reply: "️- ওয়ালাইকুমুস-সালাম-!!🖤" },
 
       { words: ["hop😤","oi😒"], reply: "সরি বস মাফ করে দেন আর এমন ভুল হবে না🥺🙏" },
 
       { words: ["neha","নেহা"], reply: "খবরদার কেউ এই নাম দরে ডাক দিবানা এটা আমার বসের বউ!" },
 
-      { words: ["nahid"], reply: "নাহিদ আমার বসের কলিজার বন্ধু 😍" },
+      { words: ["nahid","নাহিদ"], reply: "নাহিদ আমার বসের কলিজার বন্ধু 😍" },
 
       { words: ["thanks","thank you","tnx","দন্যবাদ"], reply: "️এতো ধন্যবাদ না দিয়ে gf দে..!🌚" },
 
@@ -102,13 +102,13 @@ module.exports = {
 
       { words: ["hm","hmm"], reply: "️হুম হুম করিস না 🤬" },
 
-      { words: ["name ki","tor nam ki"], reply: "️MY NAME IS RJ FARHAN 🎀" },
+      { words: ["name ki","tor nam ki"], reply: "️MY NAME IS SIZUKA 🎀" },
 
       { words: ["pic de","ss dau"], reply: "️এন থেকে সর দুরে গিয়া মর😒" },
 
-      { words: ["nusrat","arohi","nila"], reply: "️বাড়িতে খাই ঝাটার বাড়ি 😒🤣" },
+      { words: ["nusrat","arohi","nila"], reply: "️বাড়িতে খাই ঝাটার বাড়ি, ফেসবুকে সে অ্যাটিটিউড নারী,😒🤣" },
 
-      { words: ["😂","😁","😆","🤣","😸","😹"], reply: "ভাই তুই এত হাসিস না 😂" },
+      { words: ["😂","😁","😆","🤣","😸","😹"], reply: "ভাই তুই এত হাসিস না হাসলে তোর চোরের মত লাগে, 😏😂" },
 
       { words: ["🥰","😍","😻","❤️"], reply: "ভালোবাসা বসকে দাও 😒" },
 
@@ -116,7 +116,7 @@ module.exports = {
 
       { words: ["mon kharap"], reply: "আমার সাদা মনে কোনো কাদা নাই...!🌝" },
 
-      { words: ["bye","by","বাই","যাই গা"], reply: "কিরে তুই কই যাস..!🌚" },
+      { words: ["bye","by","বাই","যাই গা","বায়","Bye","By"], reply: "কিরে তুই কই যাস..!🌚" },
 
       { words: ["tumi khaiso","khaicho"], reply: "না ঝাং 🥹 তুমি রান্না করে রাখো" },
 
@@ -124,17 +124,17 @@ module.exports = {
 
       { words: ["ami tor boss"], reply: "হ্যা স্যার কেমন আছেন 😎" },
 
-      { words: ["bow daw","bow dau","bow de","বউ দে","বউ দাউ"], reply: "যেখানে বস সিংগেল 😼" },
+      { words: ["bow daw","bow dau","bow de","বউ দে","বউ দাউ"], reply: "যেখানে আমার BOSS ফারহান সিংগেল,😼সেখানে তোগু বউ দিয়া তো বিলাসিতা,😤সর সাইডে চাপ, 😼🔪😤" },
 
       { words: ["jannat"], reply: "জান্নাত ম্যাডাম কে bf খুঁজে দে 😼" },
 
       { words: ["🙂","🙃"], reply: "কি গো কলিজা মন খারাপ? 🥺" },
 
-      { words: ["😒","🙄"], reply: "এইদিকে তাকাও জানু 😘" },
+      { words: ["😒","🙄"], reply: "এইদিকে ওইদিকে কি দেখো জানু আমি তোমার সামনে দেখো😘" },
 
-      { words: ["gf daw bot","bf daw bot"], reply: "বসের জন্য gf দে 😒" },
+      { words: ["gf daw bot","bf daw bot"], reply: "খালি কি তোরাই পেম করবি আমার বস ফারহান কেউ একটা gf দে<🔪😒" },
 
-      { words: ["basar sobai kmon ache"], reply: "সবাই ভালো আছে আলহামদুলিল্লাহ 💝" }
+      { words: ["basar sobai kmon ache","বাসার সবাই কেমন আছে"], reply: "সবাই ভালো আছে আলহামদুলিল্লাহ 💝" }
 
     ];
 
