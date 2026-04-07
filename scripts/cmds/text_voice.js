@@ -2,86 +2,109 @@ const axios = require("axios");
 const fs = require("fs-extra");
 const path = require("path");
 
+// 🔒 Author Lock
+const LOCKED_AUTHOR = "Farhan-Khan (🔒 Do Not Change)";
+
 module.exports = {
-config: {
-name: "text_voice",
-version: "1.0.5",
-author: "Farhan-Khan",
-countDown: 1, // সময় কমিয়ে ১ সেকেন্ড করা হলো
-role: 0,
-shortDescription: "Ultra Fast Voice Reply",
-longDescription: "Sends specific voice messages instantly using local cache",
-category: "system"
-},
+  config: {
+    name: "text_voice",
+    version: "4.0.0",
+    author: "Farhan-Khan (🔒 Do Not Change)",
+    countDown: 1,
+    role: 0,
+    shortDescription: "Voice + React + Seen + Filter",
+    longDescription: "Auto voice + react + seen + ignore commands",
+    category: "system"
+  },
 
-onStart: async function () {},
+  onStart: async function () {
+    if (module.exports.config.author !== LOCKED_AUTHOR) {
+      console.error("❌ Author changed! Script stopped.");
+      process.exit(1);
+    }
+  },
 
-onChat: async function ({ event, message }) {
-if (!event.body) return;
+  onChat: async function ({ event, api, message }) {
+    if (!event.body || !event.messageID) return;
 
-const input = event.body.toLowerCase().trim();
+    // ❌ Command Ignore System
+    const prefixes = ["/", "!", "#"];
+    if (prefixes.some(p => event.body.startsWith(p))) return;
 
-// --- কি-ওয়ার্ড এবং লিংক ---
-const voiceMap = {
-"magi": "https://files.catbox.moe/ecgpak.mp4",
-"Magi": "https://files.catbox.moe/ecgpak.mp4",
-"মাগি": "https://files.catbox.moe/ecgpak.mp4",
-"খানকি": "https://files.catbox.moe/ecgpak.mp4",
-"khanki": "https://files.catbox.moe/ecgpak.mp4",
-"Khanki": "https://files.catbox.moe/ecgpak.mp4",
-"FARHAN": "https://files.catbox.moe/tvpfee.mp3",
-"farhan": "https://files.catbox.moe/tvpfee.mp3",
-"Farhan": "https://files.catbox.moe/tvpfee.mp3",
-"ফারহান": "https://files.catbox.moe/tvpfee.mp3",
-"sizuka": "https://files.catbox.moe/3u6shs.mp3",
-"Sizuka": "https://files.catbox.moe/3u6shs.mp3",
-"sizu": "https://files.catbox.moe/3u6shs.mp3",
-"সিজুকা": "https://files.catbox.moe/3u6shs.mp3",
-"good night": "https://files.catbox.moe/i29m4q.mp3",
-"Good night": "https://files.catbox.moe/i29m4q.mp3", 
-"গুড নাইট": "https://files.catbox.moe/i29m4q.mp3", 
-"Good morning": "https://files.catbox.moe/8gzqx5.mp3",
-"good morning": "https://files.catbox.moe/8gzqx5.mp3", 
-"গুড মর্নিং": "https://files.catbox.moe/8gzqx5.mp3", 
-"i love you": "https://files.catbox.moe/y3fk8i.mp3",
-"I love you": "https://files.catbox.moe/y3fk8i.mp3",
-"love you": "https://files.catbox.moe/y3fk8i.mp3",
-"Love you": "https://files.catbox.moe/y3fk8i.mp3",
-"@everyone": "https://files.catbox.moe/3u6shs.mp3",
-"bye": "https://files.catbox.moe/fdqh2m.mp3",
-"Bye": "https://files.catbox.moe/fdqh2m.mp3",
-"by": "https://files.catbox.moe/fdqh2m.mp3",
-"By": "https://files.catbox.moe/fdqh2m.mp3",
-"বাই": "https://files.catbox.moe/fdqh2m.mp3",
-"বায়": "https://files.catbox.moe/fdqh2m.mp3",
-  
+    const input = event.body.toLowerCase();
 
-};
+    // 👀 Auto Seen
+    try {
+      api.markAsRead(event.threadID);
+    } catch (e) {}
 
-if (voiceMap[input]) {
-const audioUrl = voiceMap[input];
-const cacheDir = path.join(__dirname, "cache", "voices");
-fs.ensureDirSync(cacheDir);
+    // 😆 Auto React (Goat)
+    try {
+      const reactions = ["👍", "😆", "🔥", "❤️", "😎"];
+      const randomReact = reactions[Math.floor(Math.random() * reactions.length)];
 
-// ফাইলের নাম কি-ওয়ার্ড অনুযায়ী সেভ হবে যাতে বারবার ডাউনলোড না লাগে
-const fileName = `${Buffer.from(input).toString('hex')}.mp3`;
-const filePath = path.join(cacheDir, fileName);
+      api.setMessageReaction(randomReact, event.messageID, () => {}, true);
+    } catch (e) {}
 
-try {
-// যদি ফাইলটি আগে থেকেই ডাউনলোড করা থাকে, তবে সরাসরি পাঠিয়ে দিবে
-if (fs.existsSync(filePath)) {
-return await message.reply({ attachment: fs.createReadStream(filePath) });
-}
+    // 🎵 Voice Map
+    const voiceMap = {
+      "চুদি": "https://files.catbox.moe/ecgpak.mp4",
+      "cudi": "https://files.catbox.moe/ecgpak.mp4",
+      "chudi": "https://files.catbox.moe/ecgpak.mp4",
+      "magi": "https://files.catbox.moe/ecgpak.mp4",
+      "মাগি": "https://files.catbox.moe/ecgpak.mp4",
+      "খানকি": "https://files.catbox.moe/ecgpak.mp4",
+      "khanki": "https://files.catbox.moe/ecgpak.mp4",
+      "farhan": "https://files.catbox.moe/tvpfee.mp3",
+      "ফারহান": "https://files.catbox.moe/tvpfee.mp3",
+      "sizuka": "https://files.catbox.moe/3u6shs.mp3",
+      "sizu": "https://files.catbox.moe/3u6shs.mp3",
+      "সিজুকা": "https://files.catbox.moe/3u6shs.mp3",
+      "good night": "https://files.catbox.moe/i29m4q.mp3",
+      "গুড নাইট": "https://files.catbox.moe/i29m4q.mp3",
+      "good morning": "https://files.catbox.moe/8gzqx5.mp3",
+      "গুড মর্নিং": "https://files.catbox.moe/8gzqx5.mp3",
+      "i love you": "https://files.catbox.moe/y3fk8i.mp3",
+      "love you": "https://files.catbox.moe/y3fk8i.mp3",
+      "@everyone": "https://files.catbox.moe/3u6shs.mp3",
+      "bye": "https://files.catbox.moe/fdqh2m.mp3",
+      "by": "https://files.catbox.moe/fdqh2m.mp3",
+      "বাই": "https://files.catbox.moe/fdqh2m.mp3",
+      "বায়": "https://files.catbox.moe/fdqh2m.mp3"
+    };
 
-// ফাইল না থাকলে ডাউনলোড করবে (শুধু প্রথমবার)
-const response = await axios.get(audioUrl, { responseType: "arraybuffer" });
-fs.writeFileSync(filePath, Buffer.from(response.data));
+    // 🔍 Keyword Match
+    for (const key in voiceMap) {
+      if (input.includes(key)) {
+        const audioUrl = voiceMap[key];
 
-await message.reply({ attachment: fs.createReadStream(filePath) });
+        const cacheDir = path.join(__dirname, "cache", "voices");
+        fs.ensureDirSync(cacheDir);
 
-} catch (error) {
-console.error("Error sending voice:", error);
-}
-}
-}
+        const fileName = `${Buffer.from(key).toString("hex")}.mp3`;
+        const filePath = path.join(cacheDir, fileName);
+
+        try {
+          if (fs.existsSync(filePath)) {
+            return await message.reply({
+              attachment: fs.createReadStream(filePath)
+            });
+          }
+
+          const response = await axios.get(audioUrl, {
+            responseType: "arraybuffer"
+          });
+
+          fs.writeFileSync(filePath, Buffer.from(response.data));
+
+          return await message.reply({
+            attachment: fs.createReadStream(filePath)
+          });
+
+        } catch (error) {
+          console.error("Voice error:", error);
+        }
+      }
+    }
+  }
 };
