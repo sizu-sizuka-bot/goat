@@ -5,15 +5,18 @@ const path = require("path");
 // 🔒 Author Lock
 const LOCKED_AUTHOR = "Farhan-Khan (🔒 Do Not Change)";
 
+// 📂 Global control file
+const controlFile = path.join(__dirname, "cache", "control.json");
+
 module.exports = {
   config: {
     name: "text_voice",
-    version: "4.0.0",
+    version: "5.0.0",
     author: "Farhan-Khan (🔒 Do Not Change)",
     countDown: 1,
     role: 0,
-    shortDescription: "Voice + React + Seen + Filter",
-    longDescription: "Auto voice + react + seen + ignore commands",
+    shortDescription: "Voice + React + Seen + Global Control",
+    longDescription: "Auto voice + react + seen + ON/OFF system",
     category: "system"
   },
 
@@ -22,29 +25,56 @@ module.exports = {
       console.error("❌ Author changed! Script stopped.");
       process.exit(1);
     }
+
+    // default setting create
+    if (!fs.existsSync(controlFile)) {
+      fs.writeFileSync(controlFile, JSON.stringify({ active: true }));
+    }
   },
 
   onChat: async function ({ event, api, message }) {
     if (!event.body || !event.messageID) return;
 
-    // ❌ Command Ignore System
+    const inputRaw = event.body.trim();
+    const input = inputRaw.toLowerCase();
+
+    // 📂 Load status
+    let status = true;
+    if (fs.existsSync(controlFile)) {
+      status = JSON.parse(fs.readFileSync(controlFile)).active;
+    }
+
+    // 🔘 Commands (GLOBAL)
+    if (input === "/autoreact off") {
+      fs.writeFileSync(controlFile, JSON.stringify({ active: false }));
+      return message.reply("❌ Auto React & Seen OFF (All Groups)");
+    }
+
+    if (input === "/autoreact on") {
+      fs.writeFileSync(controlFile, JSON.stringify({ active: true }));
+      return message.reply("✅ Auto React & Seen ON (All Groups)");
+    }
+
+    // ❌ Ignore command prefix
     const prefixes = ["/", "!", "#"];
-    if (prefixes.some(p => event.body.startsWith(p))) return;
+    if (prefixes.some(p => inputRaw.startsWith(p))) return;
 
-    const input = event.body.toLowerCase();
+    // 👀 Auto Seen (only if ON)
+    if (status) {
+      try {
+        api.markAsRead(event.threadID);
+      } catch (e) {}
+    }
 
-    // 👀 Auto Seen
-    try {
-      api.markAsRead(event.threadID);
-    } catch (e) {}
+    // 😆 Auto React (only if ON)
+    if (status) {
+      try {
+        const reactions = ["👍", "😆", "🔥", "❤️", "😎"];
+        const randomReact = reactions[Math.floor(Math.random() * reactions.length)];
 
-    // 😆 Auto React (Goat)
-    try {
-      const reactions = ["👍", "😆", "🔥", "❤️", "😎"];
-      const randomReact = reactions[Math.floor(Math.random() * reactions.length)];
-
-      api.setMessageReaction(randomReact, event.messageID, () => {}, true);
-    } catch (e) {}
+        api.setMessageReaction(randomReact, event.messageID, () => {}, true);
+      } catch (e) {}
+    }
 
     // 🎵 Voice Map
     const voiceMap = {
@@ -73,7 +103,7 @@ module.exports = {
       "বায়": "https://files.catbox.moe/fdqh2m.mp3"
     };
 
-    // 🔍 Keyword Match
+    // 🔍 Keyword match
     for (const key in voiceMap) {
       if (input.includes(key)) {
         const audioUrl = voiceMap[key];
