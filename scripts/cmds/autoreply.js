@@ -24,7 +24,7 @@ module.exports = {
       { words: ["i love you bot","bot i love you"], reply: "আমাকে না আমার বস 𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍 কে ভালোবাসো-😻🤗🌺" },
       { words: ["baler bot","fuck bot"], reply: "কিরে আমাকে গালি দেস কেনো তোকে কিন্তু বেন করে দিমু😠" },
       { words: ["kiss bot","bot kiss me"], reply: "আমি ভালো তুমি পঁচা😌" },
-      { words: ["bot koi"], reply: "এই তো আমি এখানে🙋‍♂️" },
+      { words: ["bot koi","বট কই"], reply: "এই তো আমি এখানে🙋‍♂️" },
       { words: ["/sex","/fuck"], reply: "-জানু ভালো হয়ে যাও তোমাকে আমি অনেক সময় দিয়েছি 🤖 ~ now sex time fuck" },
       { words: ["opoman korli","biyadobi koros"], reply: "-সরি বস আমার ভূল হইছে-😔-মাফ করে দেন আমাকে ,আর এমন হবে না-🥺🙏" },
       { words: ["single","সিঙ্গেল"], reply: "আমি সিঙ্গেল আছি প্রেম করলে নক দে বলদ!😾" },
@@ -40,31 +40,31 @@ module.exports = {
       { words: ["বউ কি","বউ","bow","bou"], reply: "-বিয়ে মানে শ্বশুরের মেয়েকে সারা জীবন হাতির মতো কলা গাছ দিয়ে পালা খাইবো..." },
       { words: ["তোর বানাইছে কে","এটা কার বট","tor banayse ke","ata kar bot"], reply: "️আমার বস 𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐑 আমাকে শুধুমাত্র আপনাদের কে বিনোদনের জন্য তৈরি করেছেন__😊😌" },
       { words: ["miss you"], reply: "<আমি তোমাকে রাইতে মিস খাই🥹🤖👅/👅-✘ 𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍 🎀 🍒:))" },
-      { words: ["😽"], reply: "কিস দিস না তোর মুখে দূর গন্ধ কয়দিন ধরে দাঁত ব্রাশ করিস নাই🤬" },
+      { words: ["😽","😚","😙","😗"], reply: "কিস দিস না তোর মুখে দূর গন্ধ কয়দিন ধরে দাঁত ব্রাশ করিস নাই🤬" },
       { words: ["👍🏼","👎"], reply: "সর এখান থেকে লাইকার আবাল..!🐸🤣👍⛏️" },
-      { words: ["priya","প্রিয়া"], reply: "বাড়িতে খাই ঝাটার বাড়ি, ফেসবুকে সে অ্যাটিটিউড নারী,😒🤣" },
+      { words: ["priya","mahi","মাহি","প্রিয়া"], reply: "বাড়িতে খাই ঝাটার বাড়ি, ফেসবুকে সে অ্যাটিটিউড নারী,😒🤣" },
       { words: ["hi","hello","hlw","helo","হাই","হ্যালো"], reply: "এত হাই-হ্যালো না করে সালাম দিতে কি হয়..!😒🔪" },
-      { words: ["আজ কেও নাই বলে","aj kew nsy bole","aj kew nay bole"], reply: "চিন্তা করো কেন আমি তো আছি🫶 তোমাকে রাইকে ভালোবাসবো" },
+      { words: ["আজ কেও নাই বলে","aj kew ney bole","aj kew nay bole"], reply: "চিন্তা করো কেন আমি তো আছি🫶 তোমাকে রাইকে ভালোবাসবো" },
       { words: ["pro","lol"], reply: "Khud k0o KYa LeGend SmJhTi Hai 😂" },
       { words: ["morning","good morning","গুড মর্নিং"], reply: "GOOD MORNING TOO দাত ব্রাশ করে খেয়ে নেও;😚" },
-      { words: ["tor bal","bal"], reply: "~ তোমার বাল উঠে নাই নাকি তোমার?? 🤖" },
+      { words: ["tor bal","bal","বাল"], reply: "~ তোমার বাল উঠে নাই নাকি তোমার?? 🤖" },
       { words: ["সিমা","সীমা","sima"], reply: "বাড়িতে খাই ঝাটার বাড়ি, ফেসবুকে সে অ্যাটিটিউড নারী,😒🤣" },
       { words: ["/owner"], reply: "OWNER: MR. BOSS RJ FARHAN" },
       { words: ["admin ke","tor boss ke"], reply: "❤️ হাই আমি মেছেন্জার ROBOT  আামার বস 𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍 আমাকে বানিয়েছেন আপনাদের কে হাসানোর জন্য আমি চাই আপনারা সব সময় হাসি খুশি থাকেন" },
       { words: ["admin","boter admin"], reply: "HE IS MR.BOSS RJ FARHAN ❤️" },
-      { words: ["bhabi","vabi"], reply: "এ তো হাছিনা হে মেরে দিলকি দারকান 😍" },
+      { words: ["bhabi","vabi","ভাবি"], reply: "এ তো হাছিনা হে মেরে দিলকি দারকান 😍" },
       { words: ["chup","চুপ কর","chup kor"], reply: "তুই চুপ তোর ১৪ গুষ্টি চুপ😼" },
       { words: ["😂😂","😁😁","😆😆","🤣🤣","😸😸","😹😹"], reply: "ভাই তুই এত হাসিস না হাসলে তোর চোরের মত লাগে, 😏😂" },
       { words: ["😂😂😂","😁😁😁","😆😆😆","🤣🤣🤣","😸😸😸","😹😹😹"], reply: "ভাই তুই এত হাসিস না হাসলে তোর চোরের মত লাগে, 😏😂" },
       { words: ["hop😤","oi😒"], reply: "সরি বস মাফ করে দেন আর এমন ভুল হবে না🥺🙏" },
-      { words: ["neha","নেহা"], reply: "খবরদার কেউ এই নাম দরে ডাক দিবানা এটা আমার বসের বউ!" },
+      { words: ["neha","নেহা"], reply: "বাড়িতে খাই ঝাটার বাড়ি, ফেসবুকে সে অ্যাটিটিউড নারী,😒🤣" },
       { words: ["nahid","নাহিদ"], reply: "নাহিদ আমার বসের কলিজার বন্ধু 😍" },
       { words: ["thanks","thank you","tnx","দন্যবাদ"], reply: "️এতো ধন্যবাদ না দিয়ে বস ফারহান কে gf দে..!🌚" },
       { words: ["😡","😤","😠","🤬","😾"], reply: "️রাগ করে না সোনা পাখি 🥰" },
       { words: ["hm","hmm","হুম"], reply: "️হুম হুম করিস না 🤬" },
       { words: ["name ki","tor nam ki"], reply: "️MY NAME IS SIZUKA 🎀" },
       { words: ["pic de","ss dau"], reply: "️এন থেকে সর দুরে গিয়া মর😒" },
-      { words: ["nusrat","arohi","nila"], reply: "️বাড়িতে খাই ঝাটার বাড়ি, ফেসবুকে সে অ্যাটিটিউড নারী,😒🤣" },
+      { words: ["nusrat","নুসরাত","arohi","আরোহী","nila","নীলা","নিলা"], reply: "️বাড়িতে খাই ঝাটার বাড়ি, ফেসবুকে সে অ্যাটিটিউড নারী,😒🤣" },
       { words: ["😂","😁","😆","🤣","😸","😹"], reply: "ভাই তুই এত হাসিস না হাসলে তোর চোরের মত লাগে, 😏😂" },
       { words: ["🥰","😍","😻","❤️"], reply: "ভালোবাসা বসকে দাও 😒" },
       { words: ["how are you","kemon acho"], reply: "আমি তখনই ভালো থাকি যখন আপনাকে হাসতে দেখি 🤎" },
@@ -74,7 +74,7 @@ module.exports = {
       { words: ["tumi ki amake bhalobaso"], reply: "হুম ঝাং আমি তোমাকে ভালোবাসি 🥵" },
       { words: ["ami tor boss"], reply: "হ্যা স্যার কেমন আছেন 😎" },
       { words: ["bow daw","bow dau","bow de","বউ দে","বউ দাউ"], reply: "যেখানে আমার BOSS ফারহান সিংগেল,😼সেখানে তোগু বউ দিয়া তো বিলাসিতা,😤সর সাইডে চাপ, 😼🔪😤" },
-      { words: ["jannat"], reply: "জান্নাত ম্যাডাম কে bf খুঁজে দে 😼" },
+      { words: ["mim","মিম"], reply: "বাড়িতে খাই ঝাটার বাড়ি, ফেসবুকে সে অ্যাটিটিউড নারী,😒🤣" },
       { words: ["good night","গুড নাইট"], reply: "-ওকে সোনা গুড নাইট মুতে এসে গুতে যাও!🥱😴" },
       { words: ["🙂","🙃","😔"], reply: "কি গো কলিজা মন খারাপ? 🥺" },
       { words: ["🙂🙂","🙃🙃","😔😔"], reply: "কি গো কলিজা মন খারাপ? 🥺" },
@@ -88,7 +88,73 @@ module.exports = {
 
     // ✅ CONTAINS MATCH (only salam)
     const containsReplies = [
-      { words: ["assalamualaikum","assalamu alaikum","আসসালামু আলাইকুম"], reply: "️🖤-ওয়ালাইকুমুস-সালাম-!!🖤\n🩷-ওয়া রাহমাতুল্লাহি ওয়া বারাকাতুহু-🩷" }
+      { words: ["assalamualaikum","assalamu alaikum","আসসালামু আলাইকুম"], 
+        reply: async (userID) => {
+          const userName = await api.getUserInfo(userID)
+            .then(info => info[userID].name)
+            .catch(() => "User");
+
+          // Stylish salam captions
+          const salamReplies = [
+`┏━━━━━❀ 🌿 ❀━━━━━┓  
+🕌 ওয়ালাইকুম আসসালাম 🕌  
+ ┗━━━━━❀ 🌿 ❀━━━━━┛  
+
+𓆩» ${userName} «𓆪  
+
+🌸 আল্লাহর রহমত বর্ষিত হোক আপনার উপর 🌸  
+🤍 ইমান ও তাকওয়া বৃদ্ধি পাক 🤍`,
+
+`╔═══❖•ೋ°🌙°ೋ•❖═══╗
+    🕌 𝙒𝙖𝙡𝙖𝙞𝙠𝙪𝙢 𝘼𝙨𝙨𝙖𝙡𝙖𝙢 🕌
+╚═══❖•ೋ°🌙°ೋ•❖═══╝  
+
+𓆩» ${userName} «𓆪  
+
+💫 আজকের দিনটি আনন্দময় হোক 🌟  
+🕊️ শান্তি ও সুখ আপনার সাথে থাকুক 🩵`,
+
+`┏━━━━━❀ 🌸 ❀━━━━━┓  
+🕌 ওয়ালাইকুম আসসালাম 🕌  
+ ┗━━━━━❀ 🌸 ❀━━━━━┛  
+
+𓆩» ${userName} «𓆪  
+
+🌹 সুস্থ থাকুন এবং হাসিখুশি থাকুন 😇  
+✨ আল্লাহর রহমত সর্বদা আপনার উপর বর্ষিত হোক ✨`,
+
+`╔═══❖•ೋ°🌙°ೋ•❖═══╗
+    🕌 𝙒𝙖𝙡𝙖𝙞𝙠𝙪𝙢 𝘼𝙨𝙨𝙖𝙡𝙖𝙢 🕌
+╚═══❖•ೋ°🌙°ೋ•❖═══╝  
+
+𓆩» ${userName} «𓆪  
+
+🌸 আজকের দিনটি সুন্দর হোক 🌞  
+💖 সুখ ও শান্তি আপনার জীবনে বর্ষিত হোক 💐`,
+
+`┏━━━━━❀ 🌿 ❀━━━━━┓  
+🕌 ওয়ালাইকুম আসসালাম 🕌  
+ ┗━━━━━❀ 🌿 ❀━━━━━┛  
+
+𓆩» ${userName} «𓆪  
+
+🌼 আল্লাহ আপনার দিন আনন্দময় করুন 🌸  
+🤍 ইমান ও তাকওয়া বৃদ্ধি পাক 🤍`,
+
+`╔═══❖•ೋ°🌙°ೋ•❖═══╗
+    🕌 𝙒𝙖𝙡𝙖𝙞𝙠𝙪𝙢 𝘼𝙨𝙨𝙖𝙡𝙖𝙢 🕌
+╚═══❖•ೋ°🌙°ೋ•❖═══╝
+
+𓆩» ${userName} «𓆪
+
+✨ আল্লাহর নূর আপনার জীবন আলোকিত করুক ✨
+🤲 দোয়া রইলো সবসময় 🤲`           
+          ];
+
+          const randomIndex = Math.floor(Math.random() * salamReplies.length);
+          return salamReplies[randomIndex];
+        }
+      }
     ];
 
     // 🔥 Exact Match
@@ -101,7 +167,8 @@ module.exports = {
     // 🔥 Contains Match
     for (const item of containsReplies) {
       if (item.words.some(word => cleanText.includes(word))) {
-        return api.sendMessage(item.reply, event.threadID, event.messageID);
+        const replyText = typeof item.reply === "function" ? await item.reply(event.senderID) : item.reply;
+        return api.sendMessage(replyText, event.threadID, event.messageID);
       }
     }
   }
