@@ -14,24 +14,24 @@ module.exports = {
     // cooldown
     if (!global.slotCooldown) global.slotCooldown = {};
     if (global.slotCooldown[senderID] && Date.now() - global.slotCooldown[senderID] < 3000)
-      return message.reply("⏳ | 𝐏𝐥𝐞𝐚𝐬𝐞 𝐖𝐚𝐢𝐭 𝟑 𝐒𝐞𝐜𝐨𝐧𝐝𝐬!");
+      return message.reply("⏳ | 𝐏𝐥𝐞𝐚𝐬𝐞 𝐖𝐚𝐢𝐭 𝟑 𝐒𝐞𝐜𝐨𝐧𝐝𝐬..!");
     global.slotCooldown[senderID] = Date.now();
 
     // bet input
     let input = args[0];
-    if (!input) return message.reply("❌ | 𝐄𝐧𝐭𝐞𝐫 𝐛𝐞𝐭 𝐚𝐦𝐨𝐮𝐧𝐭!$");
+    if (!input) return message.reply("❌ | 𝐄𝐧𝐭𝐞𝐫 𝐛𝐞𝐭 𝐚𝐦𝐨𝐮𝐧𝐭..! $");
 
     let bet = input.toLowerCase().endsWith("k") ? parseFloat(input)*1000 :
               input.toLowerCase().endsWith("m") ? parseFloat(input)*1e6 :
               parseFloat(input);
 
-    if (isNaN(bet) || bet < 300) return message.reply("❌ | 𝐌𝐢𝐧𝐢𝐦𝐮𝐦 𝐛𝐞𝐭 𝐢𝐬 𝟑𝟎𝟎!💰");
-    if (bet > 300000000) return message.reply("❌ | 𝐌𝐚𝐱 𝟑𝟎𝟎𝐌!💰");
+    if (isNaN(bet) || bet < 300) return message.reply("❌ | 𝐌𝐢𝐧𝐢𝐦𝐮𝐦 𝐛𝐞𝐭 𝐢𝐬 𝟑𝟎𝟎..!💰");
+    if (bet > 300000000) return message.reply("❌ | 𝐌𝐚𝐱 𝟑𝟎𝟎𝐌..!💰");
 
     // user data
     let user = await usersData.get(senderID);
     if (!user || bet > user.money)
-      return message.reply("❌ | 𝐍𝐨𝐭 𝐞𝐧𝐨𝐮𝐠𝐡 𝐦𝐨𝐧𝐞𝐲!💰");
+      return message.reply("❌ | 𝐍𝐨𝐭 𝐞𝐧𝐨𝐮𝐠𝐡 𝐦𝐨𝐧𝐞𝐲..!💰");
 
     // spins system
     let data = await threadsData.get(threadID, "data.slotData") || {};
@@ -42,7 +42,7 @@ module.exports = {
       data[senderID] = { spins: 40, lastReset: Date.now() };
 
     if (data[senderID].spins <= 0)
-      return message.reply("⏳ | 𝐍𝐨 𝐬𝐩𝐢𝐧𝐬 𝐥𝐞𝐟𝐭!");
+      return message.reply("⏳ | 𝐍𝐨 𝐬𝐩𝐢𝐧𝐬 𝐥𝐞𝐟𝐭..!");
 
     data[senderID].spins--;
 
