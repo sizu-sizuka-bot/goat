@@ -10,7 +10,7 @@ module.exports = {
                 name: "anipic",
                 aliases: ["animepic"],
                 version: "1.7",
-                author: "FARHAN-KHAN",
+                author: "MahMUD",
                 countDown: 5,
                 role: 0,
                 description: {
