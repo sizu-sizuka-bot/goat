@@ -118,7 +118,7 @@ ${spinLine}
     }
     else if (resultType === "good") {
       win = bet * (2 + Math.random());
-      text = "⚡ 𝐆𝐎𝐎𝐃 𝐖𝐈𝐍 ⚡";
+      text = "🎊 𝐆𝐎𝐎𝐃 𝐖𝐈𝐍 🎊";
       bonus = "𝐍𝐢𝐜𝐞!";
     }
     else if (resultType === "small") {
@@ -160,14 +160,15 @@ ${spinLine}
 ❰ ${s1} ┃ ${s2} ┃ ${s3} ┃ ${s4} ┃ ${s5} ❱
 
 ━━━━━━━━━━━━━━━━━━
-🎯 𝐑𝐄𝐒𝐔𝐋𝐓 ➤ ${text}
+🎯 𝐑𝐄𝐒𝐔𝐋𝐓: ➤ 『 ${text} 』
 
-${win>0?`🟢 𝐖𝐈𝐍 ➤ $${format(win)}`:`🔴 𝐋𝐎𝐒𝐒 ➤ $${format(-win)}`}
+${win>0?`🟢 𝐖𝐈𝐍: ➤ 『 $${format(win)} 』`:`🔴 𝐋𝐎𝐒𝐒: ➤ 『 $${format(-win)} 』`}
 
-💰 𝐁𝐀𝐋𝐀𝐍𝐂𝐄 ➤ $${format(newBal)}
-🎲 𝐒𝐏𝐈𝐍𝐒 ➤ ${data[senderID].spins}/40
+💰 𝐁𝐀𝐋𝐀𝐍𝐂𝐄: ➤ 『 $${format(newBal)} 』
 
-💡 ${bonus}
+🎲 𝐒𝐏𝐈𝐍𝐒: ➤ 『 ${data[senderID].spins}/40 』
+
+💡『 ${bonus} 』
 ━━━━━━━━━━━━━━━━━━`;
 
     // 💥 jackpot flash
