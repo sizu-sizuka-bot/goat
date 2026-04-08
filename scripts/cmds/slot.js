@@ -1,136 +1,184 @@
 module.exports = {
   config: {
     name: "slot",
-    version: "6.2",
+    version: "9.0",
     author: "FARHAN-KHAN",
     role: 0,
     category: "game",
-    shortDescription: "🎰 Professional Slot Machine"
+    shortDescription: "🎰 Animated Slot (Final Stable)"
   },
 
-  onStart: async function ({ message, event, args, usersData, threadsData }) {
+  onStart: async function ({ message, event, args, usersData, threadsData, api }) {
     const { senderID, threadID } = event;
 
+    // cooldown
     if (!global.slotCooldown) global.slotCooldown = {};
-    if (global.slotCooldown[senderID] && Date.now() - global.slotCooldown[senderID] < 3000) {
-      return message.reply("⏳ | Please wait 3 seconds before spinning again!");
-    }
+    if (global.slotCooldown[senderID] && Date.now() - global.slotCooldown[senderID] < 3000)
+      return message.reply("⏳ | 𝐏𝐥𝐞𝐚𝐬𝐞 𝐖𝐚𝐢𝐭 𝟑 𝐒𝐞𝐜𝐨𝐧𝐝𝐬!");
     global.slotCooldown[senderID] = Date.now();
 
+    // bet input
     let input = args[0];
-    if (!input) return message.reply("❌ | Enter bet amount!");
+    if (!input) return message.reply("❌ | 𝐄𝐧𝐭𝐞𝐫 𝐛𝐞𝐭 𝐚𝐦𝐨𝐮𝐧𝐭!$");
 
-    let bet = 0;
-    input = input.toLowerCase();
+    let bet = input.toLowerCase().endsWith("k") ? parseFloat(input)*1000 :
+              input.toLowerCase().endsWith("m") ? parseFloat(input)*1e6 :
+              parseFloat(input);
 
-    if (input.endsWith("k")) bet = parseFloat(input) * 1000;
-    else if (input.endsWith("m")) bet = parseFloat(input) * 1000000;
-    else bet = parseFloat(input);
+    if (isNaN(bet) || bet < 300) return message.reply("❌ | 𝐌𝐢𝐧𝐢𝐦𝐮𝐦 𝐛𝐞𝐭 𝐢𝐬 𝟑𝟎𝟎!💰");
+    if (bet > 300000000) return message.reply("❌ | 𝐌𝐚𝐱 𝟑𝟎𝟎𝐌!💰");
 
-    if (isNaN(bet) || bet < 300)
-      return message.reply("❌ | Minimum bet is 300!");
+    // user data
+    let user = await usersData.get(senderID);
+    if (!user || bet > user.money)
+      return message.reply("❌ | 𝐍𝐨𝐭 𝐞𝐧𝐨𝐮𝐠𝐡 𝐦𝐨𝐧𝐞𝐲!💰");
 
-    if (bet > 300000000)
-      return message.reply("❌ | Maximum bet is 300M!");
+    // spins system
+    let data = await threadsData.get(threadID, "data.slotData") || {};
 
-    let userData = await usersData.get(senderID);
-    if (!userData || bet > userData.money)
-      return message.reply("❌ | Not enough balance!");
+    if (!data[senderID]) data[senderID] = { spins: 40, lastReset: Date.now() };
 
-    let slotData = await threadsData.get(threadID, "data.slotData") || {};
+    if (Date.now() - data[senderID].lastReset > 3600000)
+      data[senderID] = { spins: 40, lastReset: Date.now() };
 
-    if (!slotData[senderID]) {
-      slotData[senderID] = { spins: 40, lastReset: Date.now() };
-    }
+    if (data[senderID].spins <= 0)
+      return message.reply("⏳ | 𝐍𝐨 𝐬𝐩𝐢𝐧𝐬 𝐥𝐞𝐟𝐭!");
 
-    if (Date.now() - slotData[senderID].lastReset > 3600000) {
-      slotData[senderID] = { spins: 40, lastReset: Date.now() };
-    }
+    data[senderID].spins--;
 
-    if (slotData[senderID].spins <= 0)
-      return message.reply("⏳ | No spins left! Try again later.");
-
-    slotData[senderID].spins--;
-
+    // icons
     const icons = ["🍊","🍉","💚","💛","💜","❤️","💎","🍇","🍒"];
     const roll = () => icons[Math.floor(Math.random() * icons.length)];
 
-    const s1 = roll();
-    const s2 = roll();
-    const s3 = roll();
-    const s4 = roll();
-    const s5 = roll();
+    // 🎰 start UI
+    let info = await message.reply(`
+╔════════════════════╗
+    🔰♻️ 𝐒𝐋𝐎𝐓 𝐌𝐀𝐂𝐇𝐈𝐍𝐄 ♻️🔰
+╚════════════════════╝
 
-    const chance = Math.random();
+❰ ⏳ ┃ ⏳ ┃ ⏳ ┃ ⏳ ┃ ⏳ ❱
 
-    let win = 0;
-    let resultText = "";
-    let bonusText = "";
+🎰 𝐒𝐩𝐢𝐧𝐧𝐢𝐧𝐠...
+━━━━━━━━━━━━━━━━━━
+`);
 
-    if (chance < 0.10) {
-      win = bet * (10 + Math.random() * 5);
-      resultText = "💎 JACKPOT 💎";
-      bonusText = "Ultimate 5 match!";
-    } 
-    else if (chance < 0.30) {
-      win = bet * (5 + Math.random() * 2);
-      resultText = "🎉 BIG WIN 🎉";
-      bonusText = "4 icons matched!";
-    } 
-    else if (chance < 0.55) {
+    let msgID = info.messageID;
+
+    // 🔥 SAFE animation (4 edits only)
+    for (let i = 0; i < 4; i++) {
+
+      let spinLine = `❰ ${roll()} ┃ ${roll()} ┃ ${roll()} ┃ ${roll()} ┃ ${roll()} ❱`;
+
+      let spinUI =
+`╔════════════════════╗
+    🔰♻️ 𝐒𝐋𝐎𝐓 𝐌𝐀𝐂𝐇𝐈𝐍𝐄 ♻️🔰
+╚════════════════════╝
+
+${spinLine}
+
+🎰 𝐒𝐩𝐢𝐧𝐧𝐢𝐧𝐠...
+━━━━━━━━━━━━━━━━━━`;
+
+      await new Promise(r => setTimeout(r, i > 2 ? 600 : 300));
+
+      try {
+        await api.editMessage(spinUI, msgID);
+      } catch(e) {}
+    }
+
+    // 🎯 result logic
+    let chance = Math.random();
+
+    let resultType;
+    if (chance < 0.08) resultType = "jackpot";
+    else if (chance < 0.25) resultType = "big";
+    else if (chance < 0.50) resultType = "good";
+    else if (chance < 0.70) resultType = "small";
+    else if (chance < 0.85) resultType = "near";
+    else resultType = "lose";
+
+    let s1 = roll(), s2 = roll(), s3 = roll(), s4 = roll(), s5 = roll();
+
+    // near miss
+    if (resultType === "near") {
+      s1 = s2 = roll();
+    }
+
+    let win = 0, text = "", bonus = "";
+
+    if (resultType === "jackpot") {
+      win = bet * (10 + Math.random()*5);
+      text = "💎 𝐉𝐀𝐂𝐊𝐏𝐎𝐓 💎";
+      bonus = "𝐈𝐍𝐒𝐀𝐍𝐄 𝐖𝐈𝐍!";
+    }
+    else if (resultType === "big") {
+      win = bet * (5 + Math.random()*2);
+      text = "🎉 𝐁𝐈𝐆 𝐖𝐈𝐍 🎉";
+      bonus = "𝐇𝐮𝐠𝐞 𝐡𝐢𝐭!";
+    }
+    else if (resultType === "good") {
       win = bet * (2 + Math.random());
-      resultText = "🔥 GOOD WIN 🔥";
-      bonusText = "Nice hit!";
-    } 
-    else if (chance < 0.70) {
-      win = bet * (1.2 + Math.random() * 0.5);
-      resultText = "🙂 SMALL WIN";
-      bonusText = "Lucky spin!";
-    } 
+      text = "⚡ 𝐆𝐎𝐎𝐃 𝐖𝐈𝐍 ⚡";
+      bonus = "𝐍𝐢𝐜𝐞!";
+    }
+    else if (resultType === "small") {
+      win = bet * (1.2 + Math.random()*0.5);
+      text = "✨ 𝐒𝐌𝐀𝐋𝐋 𝐖𝐈𝐍 ✨";
+      bonus = "𝐋𝐮𝐜𝐤𝐲!";
+    }
+    else if (resultType === "near") {
+      win = -bet * 0.2;
+      text = "😏 𝐀𝐋𝐌𝐎𝐒𝐓!";
+      bonus = "𝐒𝐨 𝐜𝐥𝐨𝐬𝐞!";
+    }
     else {
       win = -bet;
-      resultText = "😢 YOU LOST";
-      bonusText = "Better luck next time!";
+      text = "😢 𝐋𝐎𝐒𝐓 😢";
+      bonus = "𝐓𝐫𝐲 𝐚𝐠𝐚𝐢𝐧!";
     }
 
     win = Math.floor(win);
 
-    const newBalance = userData.money + win;
+    let newBal = user.money + win;
 
     await usersData.set(senderID, {
-      money: newBalance,
-      data: userData.data
+      money: newBal,
+      data: user.data
     });
 
-    await threadsData.set(threadID, slotData, "data.slotData");
+    await threadsData.set(threadID, data, "data.slotData");
 
-    const format = (n) => {
-      if (n >= 1e6) return (n / 1e6).toFixed(2) + "M";
-      if (n >= 1e3) return (n / 1e3).toFixed(2) + "K";
-      return n;
-    };
+    const format = n =>
+      n >= 1e6 ? (n/1e6).toFixed(2)+"M" :
+      n >= 1e3 ? (n/1e3).toFixed(2)+"K" : n;
 
-    let msg =
+    let final =
 `╔════════════════════╗
-   🔰♻️ 𝐒𝐋𝐎𝐓 𝐌𝐀𝐂𝐇𝐈𝐍𝐄 ♻️🔰
+    🔰♻️ 𝐒𝐋𝐎𝐓 𝐌𝐀𝐂𝐇𝐈𝐍𝐄 ♻️🔰
 ╚════════════════════╝
 
 ❰ ${s1} ┃ ${s2} ┃ ${s3} ┃ ${s4} ┃ ${s5} ❱
 
 ━━━━━━━━━━━━━━━━━━
-🎯 𝐑𝐄𝐒𝐔𝐋𝐓 ➤ ${resultText}
+🎯 𝐑𝐄𝐒𝐔𝐋𝐓 ➤ ${text}
 
-${win > 0 
-? `🟢 𝐖𝐈𝐍 ➤ 💵 $${format(win)}`
-: `🔴 𝐋𝐎𝐒𝐒 ➤ 💵 $${format(-win)}`
-}
+${win>0?`🟢 𝐖𝐈𝐍 ➤ $${format(win)}`:`🔴 𝐋𝐎𝐒𝐒 ➤ $${format(-win)}`}
 
-💰 𝐁𝐀𝐋𝐀𝐍𝐂𝐄 ➤ $${format(newBalance)}
+💰 𝐁𝐀𝐋𝐀𝐍𝐂𝐄 ➤ $${format(newBal)}
+🎲 𝐒𝐏𝐈𝐍𝐒 ➤ ${data[senderID].spins}/40
 
-💡 ${bonusText}
-🎲 𝐒𝐏𝐈𝐍𝐒 ➤ ${slotData[senderID].spins}/40
+💡 ${bonus}
 ━━━━━━━━━━━━━━━━━━`;
 
-    return message.reply(msg);
+    // 💥 jackpot flash
+    if (resultType === "jackpot") {
+      await message.reply("💎💎 𝐉𝐀𝐂𝐊𝐏𝐎𝐓 💎💎");
+    }
+
+    try {
+      await api.editMessage(final, msgID);
+    } catch(e) {
+      return message.reply(final);
+    }
   }
 };
