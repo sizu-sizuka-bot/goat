@@ -26,7 +26,6 @@ module.exports = {
       process.exit(1);
     }
 
-    // default setting create
     if (!fs.existsSync(controlFile)) {
       fs.writeFileSync(controlFile, JSON.stringify({ active: true }));
     }
@@ -44,7 +43,7 @@ module.exports = {
       status = JSON.parse(fs.readFileSync(controlFile)).active;
     }
 
-    // 🔘 Commands (GLOBAL)
+    // 🔘 Commands
     if (input === "/autoreact off") {
       fs.writeFileSync(controlFile, JSON.stringify({ active: false }));
       return message.reply("❌ Auto React & Seen OFF (All Groups)");
@@ -55,23 +54,22 @@ module.exports = {
       return message.reply("✅ Auto React & Seen ON (All Groups)");
     }
 
-    // ❌ Ignore command prefix
+    // ❌ Ignore prefix commands
     const prefixes = ["/", "!", "#"];
     if (prefixes.some(p => inputRaw.startsWith(p))) return;
 
-    // 👀 Auto Seen (only if ON)
+    // 👀 Auto Seen
     if (status) {
       try {
         api.markAsRead(event.threadID);
       } catch (e) {}
     }
 
-    // 😆 Auto React (only if ON)
+    // 😆 Auto React
     if (status) {
       try {
         const reactions = ["👍", "😆", "🔥", "❤️", "😎"];
         const randomReact = reactions[Math.floor(Math.random() * reactions.length)];
-
         api.setMessageReaction(randomReact, event.messageID, () => {}, true);
       } catch (e) {}
     }
@@ -103,9 +101,12 @@ module.exports = {
       "বায়": "https://files.catbox.moe/fdqh2m.mp3"
     };
 
-    // 🔍 Keyword match
+    // 🔍 STRICT WORD MATCH (main fix)
     for (const key in voiceMap) {
-      if (input.includes(key)) {
+      const escapedKey = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const pattern = new RegExp(`(^|\\s)${escapedKey}(\\s|$)`, "i");
+
+      if (pattern.test(inputRaw)) {
         const audioUrl = voiceMap[key];
 
         const cacheDir = path.join(__dirname, "cache", "voices");
