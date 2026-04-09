@@ -26,7 +26,7 @@ module.exports.onStart = async ({ api, event, args, usersData }) => {
 
     try {
         if (!args[0]) {
-            const ran = ["𓆩» বলুন আমি বট আপনাকে কিভাবে সাহায্য করতে পারি? 😘 «𓆪", "𓆩» please type:→[ bot ] «𓆪", "𓆩» please type:→[ বট ] «𓆪"];
+            const ran = ["𓆩» বলুন আমি বট আপনাকে কিভাবে সাহায্য করতে পারি? 😘 «𓆪", "𓆩» please type:→[ baby ] «𓆪", "𓆩» please type:→[ বেবি ] «𓆪"];
             return api.sendMessage(ran[Math.floor(Math.random() * ran.length)], event.threadID, event.messageID);
         }
 
