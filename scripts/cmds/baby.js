@@ -146,7 +146,7 @@ module.exports.onReply = async ({ api, event }) => {
 module.exports.onChat = async ({ api, event, message, usersData }) => {
     try {
         const body = event.body ? event.body.toLowerCase() : "";
-        if (body.startsWith("baby") || body.startsWith("bby") || body.startsWith("বাবু") || body.startsWith("jan") || body.startsWith("babu") || body.startsWith("সিজুকা") || body.startsWith("সিজু") || body.startsWith("জানু") || body.startsWith("জান") || body.startsWith("বেবি") || body.startsWith("sizuka") || body.startsWith("sizu") || body.startsWith("bbz") || body.startsWith("janu")) {
+        if (body.startsWith("baby") || body.startsWith("বট") || body.startsWith("bby") || body.startsWith("বাবু") || body.startsWith("jan") || body.startsWith("babu") || body.startsWith("সিজুকা") || body.startsWith("সিজু") || body.startsWith("জানু") || body.startsWith("জান") || body.startsWith("বেবি") || body.startsWith("sizuka") || body.startsWith("sizu") || body.startsWith("bbz") || body.startsWith("janu")) {
             const arr = body.replace(/^\S+\s*/, "");
             const uid = event.senderID;
             const name = await usersData.getName(uid).catch(() => "Unknown");
