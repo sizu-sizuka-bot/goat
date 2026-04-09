@@ -1,86 +1,55 @@
 const axios = require("axios");
-const fs = require("fs-extra");
-const path = require("path");
+
+let videoIndex = 0;
 
 module.exports = {
   config: {
     name: "adminmention",
-    version: "7.0.0",
-    author: "Farhan-Khan", // ⚠️ এটা change করলে bot বন্ধ হয়ে যাবে
+    version: "19.0.0",
+    author: "Farhan-Khan",
     countDown: 0,
     role: 0,
-    shortDescription: "Admin mention reply styled",
+    shortDescription: "Fast synced SMS + Video reply",
     category: "system"
   },
 
   onStart: async function () {},
 
   onChat: async function ({ event, message }) {
+    // Author lock
+    if (this.config.author !== "Farhan-Khan") return;
 
-    // 🔒 AUTHOR LOCK
-    if (this.config.author !== "Farhan-Khan") {
-      console.log("⚠️ Author changed! Module stopped.");
-      return;
-    }
-
-    // 👑 ADMINS
     const admins = [
-      {
-        uid: "61573366160918",
-        names: ["মিৃঁ'স্টাৃঁ'রৃঁ ফাৃঁ'রৃঁ'হা্ঁ'নৃঁ"]
-      },
-      {
-        uid: "61583610247347",
-        names: ["ヽ｟ᏟᎬϴ｠▁▁ዐዐዐ 🙁😚☺️👿"]
-      }
+      { uid: "61573366160918", names: ["মিৃঁ'স্টাৃঁ'রৃঁ ফাৃঁ'রৃঁ'হা্ঁ'নৃঁ"] },
+      { uid: "61583610247347", names: ["ヽ｟ᏟᎬϴ｠▁▁ዐዐዐ 🙁😚☺️👿"] }
     ];
 
     const senderID = String(event.senderID);
-
-    // ❌ Admin নিজে লিখলে reply দিবে না
     if (admins.some(a => a.uid === senderID)) return;
 
-    const text = (event.body || "").toLowerCase().trim();
+    const text = (event.body || "").toLowerCase();
     const mentionedIDs = event.mentions ? Object.keys(event.mentions) : [];
 
-    // 🔍 MENTION DETECT
     const isMentioning = admins.some(admin =>
       mentionedIDs.includes(admin.uid) ||
-      text.includes(admin.uid) ||
       admin.names.some(name => text.includes(name.toLowerCase()))
     );
 
     if (!isMentioning) return;
 
-    // 🎬 VIDEO LIST
+    // ভিডিও লিস্ট
     const videos = [
-      "https://files.catbox.moe/y9irm8.mp4",
-      "https://files.catbox.moe/gitfya.mp4",
-      "https://files.catbox.moe/9aavty.mp4",
-      "https://files.catbox.moe/p78siw.mp4",
-      "https://files.catbox.moe/9uvit1.mp4",
-      "https://files.catbox.moe/34etgc.mp4",
-      "https://files.catbox.moe/stk4lq.mp4",
-      "https://files.catbox.moe/ladp3x.mp4",
-      "https://files.catbox.moe/l8vx40.mp4",
-      "https://files.catbox.moe/hgo8gp.mp4",
-      "https://files.catbox.moe/ejx7a6.mp4",
-      "https://files.catbox.moe/gogfic.mp4",
-      "https://files.catbox.moe/ilmb5j.mp4",
-      "https://files.catbox.moe/bq7ngm.mp4",
-      "https://files.catbox.moe/27mwt2.mp4",
-      "https://files.catbox.moe/eyqcud.mp4",
-      "https://files.catbox.moe/vlgjrp.mp4",
-      "https://files.catbox.moe/bjjtmk.mp4",
-      "https://files.catbox.moe/22enjn.mp4",
-      "https://files.catbox.moe/j7fh66.mp4",
-      "https://files.catbox.moe/btrwyg.mp4",
-      "https://files.catbox.moe/qb2mq3.mp4",
-      "https://files.catbox.moe/l15d8y.mp4",
-      "https://files.catbox.moe/rnsdlb.mp4"
+      "https://i.imgur.com/43gtj8Z.mp4",
+      "https://i.imgur.com/kTGfdD0.mp4",
+      "https://i.imgur.com/wRKo5sb.mp4",
+      "https://i.imgur.com/LivwF3W.mp4",
+      "https://i.imgur.com/8GdtmE0.mp4"
     ];
 
-    // 💬 RAW CAPTIONS
+    const videoUrl = videos[videoIndex];
+    videoIndex = (videoIndex + 1) % videos.length;
+
+    // captions
     const captions = [
       "Mantion_দিস না _ফারহান বস এর মন মন ভালো নেই আস্কে-!💔🥀",
       "- আমার বস ফারহান এর সাথে কেউ সেক্স করে না থুক্কু টেক্স করে নাহ🫂💔",
@@ -95,37 +64,33 @@ module.exports = {
       "চুমু খাওয়ার বয়স টা আমার বস ফারহান চকলেট🍫খেয়ে উড়িয়ে দিল 🤗"
     ];
 
-    // 🔹 Style Wrapper Function
-    const formatCaption = (text) => {
-      return `
+    // Mentioned নাম top show
+    const mentionNames = mentionedIDs.map(id => `@${id}`).join(", ");
+    const caption = `
 ✿•≫───────────────≪•✿
-『 ${text} 』
+${mentionNames ? `Reply to: ${mentionNames}\n` : ""}
+『 ${captions[Math.floor(Math.random() * captions.length)]} 』
 ✿•≫───────────────≪•✿
 `;
-    };
-
-    const rawCaption = captions[Math.floor(Math.random() * captions.length)];
-    const styledCaption = formatCaption(rawCaption);
-
-    const videoUrl = videos[Math.floor(Math.random() * videos.length)];
-    const filePath = path.join(__dirname, "cache", `admin_${Date.now()}.mp4`);
 
     try {
-      // ⬇️ Download video
-      const res = await axios.get(videoUrl, { responseType: "arraybuffer" });
-      fs.writeFileSync(filePath, Buffer.from(res.data, "utf-8"));
-
-      // 📤 Reply to original message (SMS + Video)
-      await message.reply({
-        body: styledCaption,
-        attachment: fs.createReadStream(filePath)
+      // ⚡ SMS + Video একসাথে attach
+      const videoStream = await axios({
+        url: videoUrl,
+        method: "GET",
+        responseType: "stream",
+        timeout: 10000,
+        headers: { "User-Agent": "Mozilla/5.0" }
       });
 
-      // 🧹 Delete cached file
-      fs.unlinkSync(filePath);
+      await message.reply({
+        body: caption,
+        attachment: videoStream.data
+      });
 
     } catch (err) {
-      console.log("Error sending admin reply:", err);
+      console.log("❌ ভিডিও error:", err.message);
+      await message.reply("😢 ভিডিও দিতে পারলাম না");
     }
   }
 };
