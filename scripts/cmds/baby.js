@@ -26,7 +26,7 @@ module.exports.onStart = async ({ api, event, args, usersData }) => {
 
     try {
         if (!args[0]) {
-            const ran = ["Bolo baby", "hum", "type help baby", "type #baby hi"];
+            const ran = [`𓆩» ${name} «𓆪\n\nবলুন আমি বট আপনাকে কিভাবে সাহায্য করতে পারি? 😘`, `𓆩» ${name} «𓆪\n\nplease type:→[ bot ]`, `𓆩» ${name} «𓆪\n\nplease type:→[ বট ]`];
             return api.sendMessage(ran[Math.floor(Math.random() * ran.length)], event.threadID, event.messageID);
         }
 
@@ -146,7 +146,7 @@ module.exports.onReply = async ({ api, event, Reply }) => {
 module.exports.onChat = async ({ api, event, message, usersData }) => {
     try {
         const body = event.body ? event.body.toLowerCase() : "";
-        const triggers = ["baby", "bby", "বাবু", "jan", "babu", "সিজুকা", "সিজু", "জানু", "জান", "বেবি", "sizuka", "sizu", "bbz", "janu"];
+        const triggers = ["বট", "𝘽𝙤𝙩", "𝘉𝘰𝘵", "𝗕𝗼𝘁", "𝐁𝐨𝐭", "𝕭𝖔𝖙", "𝔅𝔬𝔱", "ʙᴏᴛ", "ᴮᵒᵗ", "вσт", "🄱🄾🅃", "🅱🅾🆃", "Ⓑⓞⓣ", "baby", "bby", "বাবু", "jan", "babu", "সিজুকা", "সিজু", "জানু", "জান", "বেবি", "sizuka", "sizu", "bbz", "janu"];
 
         if (triggers.some(trigger => body.startsWith(trigger))) {
             const arr = body.replace(/^\S+\s*/, "");
