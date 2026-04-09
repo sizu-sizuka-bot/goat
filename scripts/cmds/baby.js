@@ -8,7 +8,7 @@ module.exports.config = {
     name: "baby",
     aliases: ["baby", "bbe", "babe", "bot chan"],
     version: "6.9.0",
-    author: "FARHAN-KHAN",
+    author: "dipto edit by farhan",
     countDown: 0,
     role: 0,
     description: "better then all sim simi",
