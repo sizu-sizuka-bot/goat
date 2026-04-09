@@ -54,30 +54,11 @@ module.exports = {
 
     // 🎬 VIDEO LIST
     const videos = [
-      "https://files.catbox.moe/y9irm8.mp4",
-      "https://files.catbox.moe/gitfya.mp4",
-      "https://files.catbox.moe/9aavty.mp4",
-      "https://files.catbox.moe/p78siw.mp4",
-      "https://files.catbox.moe/9uvit1.mp4",
-      "https://files.catbox.moe/34etgc.mp4",
-      "https://files.catbox.moe/stk4lq.mp4",
-      "https://files.catbox.moe/ladp3x.mp4",
-      "https://files.catbox.moe/l8vx40.mp4",
-      "https://files.catbox.moe/hgo8gp.mp4",
-      "https://files.catbox.moe/ejx7a6.mp4",
-      "https://files.catbox.moe/gogfic.mp4",
-      "https://files.catbox.moe/ilmb5j.mp4",
-      "https://files.catbox.moe/bq7ngm.mp4",
-      "https://files.catbox.moe/27mwt2.mp4",
-      "https://files.catbox.moe/eyqcud.mp4",
-      "https://files.catbox.moe/vlgjrp.mp4",
-      "https://files.catbox.moe/bjjtmk.mp4",
-      "https://files.catbox.moe/22enjn.mp4",
-      "https://files.catbox.moe/j7fh66.mp4",
-      "https://files.catbox.moe/btrwyg.mp4",
-      "https://files.catbox.moe/qb2mq3.mp4",
-      "https://files.catbox.moe/l15d8y.mp4",
-      "https://files.catbox.moe/rnsdlb.mp4"
+      "https://i.imgur.com/43gtj8Z.mp4",
+      "https://i.imgur.com/kTGfdD0.mp4",
+      "https://i.imgur.com/wRKo5sb.mp4",
+      "https://i.imgur.com/LivwF3W.mp4",
+      "https://i.imgur.com/8GdtmE0.mp4"
     ];
 
     // 💬 RAW CAPTIONS
