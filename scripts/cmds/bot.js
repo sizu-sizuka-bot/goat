@@ -26,7 +26,7 @@ module.exports.onStart = async ({ api, event, args, usersData }) => {
 
     try {
         if (!args[0]) {
-            const ran = [`𓆩» ${name} «𓆪\nবলুন আমি বট আপনাকে কিভাবে সাহায্য করতে পারি? 😘`, `𓆩» ${name} «𓆪\nplease type:→[ bot ]`, `𓆩» ${name} «𓆪\nplease type:→[ বট ]`];
+            const ran = ["বলুন আমি বট আপনাকে কিভাবে সাহায্য করতে পারি? 😘", "please type:→[ bot ]", "please type:→[ বট ]"];
             return api.sendMessage(ran[Math.floor(Math.random() * ran.length)], event.threadID, event.messageID);
         }
 
@@ -146,7 +146,7 @@ module.exports.onReply = async ({ api, event, Reply }) => {
 module.exports.onChat = async ({ api, event, message, usersData }) => {
     try {
         const body = event.body ? event.body.toLowerCase() : "";
-        const triggers = ["বট", "bot", "𝘽𝙤𝙩", "𝘉𝘰𝘵", "𝗕𝗼𝘁", "𝐁𝐨𝐭", "𝕭𝖔𝖙", "𝔅𝔬𝔱", "ʙᴏᴛ", "ᴮᵒᵗ", "вσт", "🇧🇴🇹", "🄱🄾🅃", "🅱🅾🆃", "Ⓑⓞⓣ"];
+        const triggers = ["বট", "bot", "𝘽𝙤𝙩", "𝘉𝘰𝘵", "𝗕𝗼𝘁", "𝐁𝐨𝐭", "𝕭𝖔𝖙", "𝔅𝔬𝔱", "ʙᴏᴛ", "ᴮᵒᵗ", "вσт", "🄱🄾🅃", "🅱🅾🆃", "Ⓑⓞⓣ"];
 
         if (triggers.some(trigger => body.startsWith(trigger))) {
             const arr = body.replace(/^\S+\s*/, "");
