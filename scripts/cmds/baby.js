@@ -146,7 +146,7 @@ module.exports.onReply = async ({ api, event, Reply }) => {
 module.exports.onChat = async ({ api, event, message, usersData }) => {
     try {
         const body = event.body ? event.body.toLowerCase() : "";
-        const triggers = ["baby", "বট", "bby", "বাবু", "jan", "babu", "সিজুকা", "সিজু", "জানু", "জান", "বেবি", "sizuka", "sizu", "bbz", "janu"];
+        const triggers = ["baby", "bby", "বাবু", "jan", "babu", "সিজুকা", "সিজু", "জানু", "জান", "বেবি", "sizuka", "sizu", "bbz", "janu"];
 
         if (triggers.some(trigger => body.startsWith(trigger))) {
             const arr = body.replace(/^\S+\s*/, "");
