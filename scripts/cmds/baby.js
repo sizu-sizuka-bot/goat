@@ -1,11 +1,12 @@
 const axios = require('axios');
+
 const baseApiUrl = async () => {
     return "https://noobs-api.top/dipto";
 };
 
 module.exports.config = {
     name: "baby",
-    aliases: ["baby", "bbe", "babe"," bot chan"],
+    aliases: ["baby", "bbe", "babe", "bot chan"],
     version: "6.9.0",
     author: "FARHAN-KHAN",
     countDown: 0,
@@ -45,7 +46,7 @@ module.exports.onStart = async ({ api, event, args, usersData }) => {
             if (args[1] === 'all') {
                 const data = (await axios.get(`${link}?list=all`)).data;
                 const limit = parseInt(args[2]) || 100;
-                const limited = data?.teacher?.teacherList?.slice(0, limit)
+                const limited = data?.teacher?.teacherList?.slice(0, limit);
                 const teachers = await Promise.all(limited.map(async (item) => {
                     const number = Object.keys(item)[0];
                     const value = item[number];
@@ -145,10 +146,15 @@ module.exports.onReply = async ({ api, event, Reply }) => {
 module.exports.onChat = async ({ api, event, message, usersData }) => {
     try {
         const body = event.body ? event.body.toLowerCase() : "";
-        if (body.startsWith("baby") || body.startsWith("বট") || body.startsWith("bby") || body.startsWith("বাবু") || body.startsWith("jan") || body.startsWith("babu") || body.startsWith("সিজুকা") || body.startsWith("সিজু") || body.startsWith("জানু") || body.startsWith("জান") || body.startsWith("বেবি") || body.startsWith("sizuka") || body.startsWith("sizu") || body.startsWith("bbz") || body.startsWith("janu")) {
+        const triggers = ["baby", "বট", "bby", "বাবু", "jan", "babu", "সিজুকা", "সিজু", "জানু", "জান", "বেবি", "sizuka", "sizu", "bbz", "janu"];
+
+        if (triggers.some(trigger => body.startsWith(trigger))) {
             const arr = body.replace(/^\S+\s*/, "");
+            const name = await usersData.getName(event.senderID).catch(() => "Unknown");
+
             const randomReplies = [
-                "𝗛𝗼𝗽 𝗕𝗲𝗱𝗮😾,𝗕𝗼𝘀𝘀 বল 𝗕𝗼𝘀𝘀😼",
+                "𝗕𝗮𝗯𝘆 𝗞𝗵𝘂𝗱𝗮 𝗟𝗮𝗴𝗰𝗵𝗲🥺",
+"𝗛𝗼𝗽 𝗕𝗲𝗱𝗮😾,𝗕𝗼𝘀𝘀 বল 𝗕𝗼𝘀𝘀😼",
 "আমাকে ডাকলে ,আমি কিন্তূ কিস করে দেবো😘 ",
 "𝗡𝗮𝘄 𝗔𝗺𝗮𝗿 𝗕𝗼𝘀𝘀 𝗞 𝗠𝗲𝗮𝘀𝘀𝗮𝗴𝗲 𝗗𝗮𝘄 https://www.facebook.com/MR.FARHAN.420",
 "গোলাপ ফুল এর জায়গায় আমি দিলাম তোমায় মেসেজ",
@@ -196,35 +202,33 @@ module.exports.onChat = async ({ api, event, message, usersData }) => {
 "ছেলেদের প্রতি আমার এক আকাশ পরিমান শরম🥹🫣",
 "__ফ্রী ফে'সবুক চালাই কা'রন ছেলেদের মুখ দেখা হারাম 😌",
 "মন সুন্দর বানাও মুখের জন্য তো 'Snapchat' আছেই! 🌚"
-                // ... এখানে যেকোনো র্যান্ডম রিপ্লাই অ্যাড করতে পারো
             ];
 
-            const name = await usersData.getName(event.senderID).catch(() => "Unknown");
-            const rand = randomReplies[Math.floor(Math.random() * randomReplies.length)];
-            const messageBody = `𓆩» ${name} «𓆪\n\n${rand}`;
-
+            let messageBody;
             if (!arr) {
-                await api.sendMessage(messageBody, event.threadID, (error, info) => {
-                    if (!info) message.reply("info obj not found");
-                    global.GoatBot.onReply.set(info.messageID, {
-                        commandName: this.config.name,
-                        type: "reply",
-                        messageID: info.messageID,
-                        author: event.senderID
-                    });
-                }, event.messageID);
+                const rand = randomReplies[Math.floor(Math.random() * randomReplies.length)];
+                messageBody = {
+                    body: `𓆩» ${name} «𓆪\n\n${rand}`,
+                    mentions: [{ tag: name, id: event.senderID }]
+                };
             } else {
-                const a = (await axios.get(`${await baseApiUrl()}/baby?text=${encodeURIComponent(arr)}&senderID=${event.senderID}&font=1`)).data.reply;
-                await api.sendMessage(`𓆩» ${name} «𓆪\n\n${a}`, event.threadID, (error, info) => {
-                    global.GoatBot.onReply.set(info.messageID, {
-                        commandName: this.config.name,
-                        type: "reply",
-                        messageID: info.messageID,
-                        author: event.senderID,
-                        a
-                    });
-                }, event.messageID);
+                const link = await baseApiUrl();
+                const a = (await axios.get(`${link}/baby?text=${encodeURIComponent(arr)}&senderID=${event.senderID}&font=1`)).data.reply;
+                messageBody = {
+                    body: `𓆩» ${name} «𓆪\n\n${a}`,
+                    mentions: [{ tag: name, id: event.senderID }]
+                };
             }
+
+            await api.sendMessage(messageBody, event.threadID, (error, info) => {
+                if (!info) return;
+                global.GoatBot.onReply.set(info.messageID, {
+                    commandName: this.config.name,
+                    type: "reply",
+                    messageID: info.messageID,
+                    author: event.senderID
+                });
+            }, event.messageID);
         }
     } catch (err) {
         return api.sendMessage(`Error: ${err.message}`, event.threadID, event.messageID);
