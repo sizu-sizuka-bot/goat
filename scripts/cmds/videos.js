@@ -24,7 +24,7 @@ module.exports = {
     en: {
       noInput: "⚠️ Give a keyword!\nExample: {pn} naruto",
       tooLarge: "❌ Video is too large (25MB+). Try another!",
-      success: "🎬 Here is your bideo\n🔍 Search: %1",
+      success: "🎬 Here is your video\n🔍 Search: %1",
       error: "❌ Error: %1"
     }
   },
@@ -41,7 +41,7 @@ module.exports = {
     let waitMsgID;
 
     try {
-      // ⏳ FULL visible waiting message (safe UI)
+      // ⏳ waiting message
       const waitMsg = await message.reply(
         "━━━━━━━━━━━━━━━━━━\n" +
         "⏳ কিছুক্ষণ অপেক্ষা করুন....!\n" +
@@ -75,10 +75,7 @@ module.exports = {
         return message.reply(getLang("tooLarge"));
       }
 
-      // ⏳ remove waiting message before video
-      if (waitMsgID) api.unsendMessage(waitMsgID);
-
-      // 🎬 FULL visible caption (no cut issue)
+      // 🎬 SEND VIDEO FIRST
       await message.reply({
         body: [
           "━━━━━━━━━━━━━━━━━━",
@@ -91,13 +88,19 @@ module.exports = {
         attachment: fs.createReadStream(videoPath)
       });
 
+      // ⏳ THEN UNSEND WAIT MESSAGE (SAFE DELAY)
+      if (waitMsgID) {
+        setTimeout(() => {
+          api.unsendMessage(waitMsgID);
+        }, 800);
+      }
+
       fs.unlink(videoPath, () => {});
 
     } catch (err) {
       console.error(err);
 
       if (waitMsgID) api.unsendMessage(waitMsgID);
-
       if (fs.existsSync(videoPath)) fs.unlinkSync(videoPath);
 
       return message.reply(getLang("error", err.message));
