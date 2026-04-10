@@ -40,7 +40,7 @@ module.exports = {
     // 🖼️ Image list (ভিডিওর জায়গায়)
     const images = [
       "https://i.imgur.com/vWIuNpc.jpeg",
- "https://i.imgur.com/mvjVHCD.jpeg"
+      "https://i.imgur.com/mvjVHCD.jpeg"
     ];
 
     const imageUrl = images[imageIndex];
