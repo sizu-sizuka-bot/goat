@@ -12,7 +12,7 @@ module.exports = {
                 name: "ani",
                 aliases: ["animesearch", "anisrch"],
                 version: "1.7",
-                author: "Farhan-khan",
+                author: "MahMUD",
                 countDown: 10,
                 role: 0,
                 description: {
