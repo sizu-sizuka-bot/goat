@@ -36,7 +36,7 @@ module.exports = {
                 },
                 en: {
                         noQuery: "• Baby, please provide a search query! 😘",
-                        success: "• 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐚𝐧𝐢𝐦𝐞 𝐯𝐢𝐝𝐞𝐨 <😘\n• 𝐒𝐞𝐚𝐫𝐜𝐡: %1",
+                        success: "• 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐮𝐫 𝐚𝐧𝐢𝐦𝐞 𝐯𝐢𝐝𝐞𝐨 <😘\n• 𝐒𝐞𝐚𝐫𝐜𝐡: %1",
                         error: "× API error: %1. Contact Kakashi for help."
                 },
                 vi: {
@@ -59,7 +59,12 @@ module.exports = {
                 const videoPath = path.join(cacheDir, `anisr_${Date.now()}.mp4`);
                 fs.ensureDirSync(cacheDir);
 
+                let loadingMsg;
+
                 try {
+                        // ⏳ loading message
+                        loadingMsg = await message.reply("⏳ একটু অপেক্ষা করো...");
+
                         api.setMessageReaction("⏳", event.messageID, () => {}, true);
 
                         const base = await baseApiUrl();
@@ -88,12 +93,23 @@ module.exports = {
                                 body: getLang("success", kw),
                                 attachment: fs.createReadStream(videoPath)
                         }, () => {
+                                // ✅ unsend loading message
+                                if (loadingMsg) {
+                                        api.unsendMessage(loadingMsg.messageID);
+                                }
+
                                 if (fs.existsSync(videoPath)) fs.unlinkSync(videoPath);
                         });
 
                 } catch (err) {
                         console.error("Anisr Error:", err);
                         api.setMessageReaction("❌", event.messageID, () => {}, true);
+
+                        // ❌ error হলেও unsend
+                        if (loadingMsg) {
+                                api.unsendMessage(loadingMsg.messageID);
+                        }
+
                         if (fs.existsSync(videoPath)) fs.unlinkSync(videoPath);
                         return message.reply(getLang("error", err.message));
                 }
