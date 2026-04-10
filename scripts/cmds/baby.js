@@ -54,7 +54,7 @@ module.exports = {
                 name: "hinata",
                 aliases: ["baby", "bby", "bbu", "jan", "janu", "sizu", "SIZUKA"],
                 version: "1.8",
-                author: "MahMUD",
+                author: "FARHAN-KHAN",
                 countDown: 2,
                 role: 0,
                 description: {
