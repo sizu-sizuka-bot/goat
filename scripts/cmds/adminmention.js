@@ -1,22 +1,18 @@
-const axios = require("axios");
-
-let videoIndex = 0;
-
 module.exports = {
   config: {
     name: "adminmention",
-    version: "19.0.0",
+    version: "20.0.0",
     author: "Farhan-Khan",
     countDown: 0,
     role: 0,
-    shortDescription: "Fast synced SMS + Video reply",
+    shortDescription: "Ultra fast caption reply",
     category: "system"
   },
 
   onStart: async function () {},
 
   onChat: async function ({ event, message }) {
-    // Author lock
+    // 🔒 Author lock
     if (this.config.author !== "Farhan-Khan") return;
 
     const admins = [
@@ -37,35 +33,23 @@ module.exports = {
 
     if (!isMentioning) return;
 
-    // ভিডিও লিস্ট
-    const videos = [
-      "https://i.imgur.com/43gtj8Z.mp4",
-      "https://i.imgur.com/kTGfdD0.mp4",
-      "https://i.imgur.com/wRKo5sb.mp4",
-      "https://i.imgur.com/LivwF3W.mp4",
-      "https://i.imgur.com/8GdtmE0.mp4"
-    ];
-
-    const videoUrl = videos[videoIndex];
-    videoIndex = (videoIndex + 1) % videos.length;
-
-    // captions
+    // ⚡ captions only (no video)
     const captions = [
       "Mantion_দিস না _ফারহান বস এর মন মন ভালো নেই আস্কে-!💔🥀",
-      "- আমার বস ফারহান এর সাথে কেউ সেক্স করে না থুক্কু টেক্স করে নাহ🫂💔",
-      "👉আমার বস ♻️ 𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍 এখন বিজি আছে । তার ইনবক্সে এ মেসেজ দিয়ে রাখো https://www.facebook.com/MR.FARHAN.420 🔰 ♪√বস ফ্রি হলে আসবে🧡😁😜🐒",
-      "বস ফারহান কে এত মেনশন না দিয়ে বক্স আসো হট করে দিবো🤷‍ঝাং 😘🥒",
-      "বস ফারহান কে Mantion_দিলে চুম্মাইয়া ঠুটের কালার change কইরা,লামু 💋😾😾🔨",
-      "ফারহান বস এখন বিজি জা বলার আমাকে বলতে পারেন_!!😼🥰",
-      "ফারহান বস কে এতো মেনশন নাহ দিয়া বস কে একটা জি এফ দে 😒 😏",
-      "Mantion_না দিয়ে বস ফারহান এর সাথে সিরিয়াস প্রেম করতে চাইলে ইনবক্স",
-      "বস ফারহান কে মেনশন দিসনা পারলে একটা জি এফ দে",
-      "বাল পাকনা Mantion_দিস না বস ফারহান প্রচুর বিজি আছে 🥵🥀🤐",
-      "চুমু খাওয়ার বয়স টা আমার বস ফারহান চকলেট🍫খেয়ে উড়িয়ে দিল 🤗"
+      "- আমার বস ফারহান এর সাথে কেউ টেক্স করে নাহ🫂💔",
+      "👉আমার বস ♻️ 𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍 এখন বিজি আছে । ইনবক্সে মেসেজ দিয়ে রাখো 🔰",
+      "বস ফারহান কে এত মেনশন না দিয়ে বক্স আসো 😘",
+      "বস ফারহান কে Mantion_দিলে ঠুটের কালার change কইরা দিবো 💋😾",
+      "ফারহান বস এখন বিজি, যা বলার আমাকে বলো 😼🥰",
+      "ফারহান বস কে এতো মেনশন না দিয়া একটা জি এফ দে 😒",
+      "Mantion_না দিয়ে সিরিয়াস প্রেম করতে চাইলে ইনবক্স 😏",
+      "বস ফারহান কে মেনশন দিসনা 😑",
+      "বাল পাকনা Mantion_দিস না বস ফারহান বিজি 🥵🥀",
+      "চুমু খাওয়ার বয়স টা বস চকলেট খেয়ে উড়ায় দিছে 🍫🤗"
     ];
 
-    // Mentioned নাম top show
     const mentionNames = mentionedIDs.map(id => `@${id}`).join(", ");
+
     const caption = `
 ✿•≫───────────────≪•✿
 ${mentionNames ? `Reply to: ${mentionNames}\n` : ""}
@@ -74,23 +58,12 @@ ${mentionNames ? `Reply to: ${mentionNames}\n` : ""}
 `;
 
     try {
-      // ⚡ SMS + Video একসাথে attach
-      const videoStream = await axios({
-        url: videoUrl,
-        method: "GET",
-        responseType: "stream",
-        timeout: 10000,
-        headers: { "User-Agent": "Mozilla/5.0" }
-      });
-
+      // ⚡ super fast reply (no axios, no delay)
       await message.reply({
-        body: caption,
-        attachment: videoStream.data
+        body: caption
       });
-
     } catch (err) {
-      console.log("❌ ভিডিও error:", err.message);
-      await message.reply("😢 ভিডিও দিতে পারলাম না");
+      console.log("❌ error:", err.message);
     }
   }
 };
