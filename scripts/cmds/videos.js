@@ -38,12 +38,20 @@ module.exports = {
 
     const videoPath = path.join(cacheDir, `unisr_${Date.now()}.mp4`);
 
+    let waitMsgID;
+
     try {
-      api.setMessageReaction("⌛", event.messageID, () => {}, true);
+      // ⏳ FULL visible waiting message (safe UI)
+      const waitMsg = await message.reply(
+        "━━━━━━━━━━━━━━━━━━\n" +
+        "⏳ কিছুক্ষণ অপেক্ষা করুন....!\n" +
+        "━━━━━━━━━━━━━━━━━━"
+      );
+
+      waitMsgID = waitMsg.messageID;
 
       const apiUrl = await baseApiUrl();
 
-      // 🔥 Random video fetch (same API but random result)
       const res = await axios({
         method: "GET",
         url: `${apiUrl}/api/tiksr`,
@@ -60,24 +68,38 @@ module.exports = {
       });
 
       const stat = fs.statSync(videoPath);
+
       if (stat.size > 26214400) {
         fs.unlinkSync(videoPath);
-        api.setMessageReaction("❌", event.messageID, () => {}, true);
+        if (waitMsgID) api.unsendMessage(waitMsgID);
         return message.reply(getLang("tooLarge"));
       }
 
+      // ⏳ remove waiting message before video
+      if (waitMsgID) api.unsendMessage(waitMsgID);
+
+      // 🎬 FULL visible caption (no cut issue)
       await message.reply({
-        body: getLang("success", keyword),
+        body: [
+          "━━━━━━━━━━━━━━━━━━",
+          "🎬 Here is your video",
+          "━━━━━━━━━━━━━━━━━━",
+          "",
+          `🔍 Search: ${keyword}`,
+          "━━━━━━━━━━━━━━━━━━"
+        ].join("\n"),
         attachment: fs.createReadStream(videoPath)
-      }, () => {
-        api.setMessageReaction("✅", event.messageID, () => {}, true);
-        fs.unlinkSync(videoPath);
       });
 
+      fs.unlink(videoPath, () => {});
+
     } catch (err) {
-      console.error("Unisr Error:", err);
-      api.setMessageReaction("❌", event.messageID, () => {}, true);
+      console.error(err);
+
+      if (waitMsgID) api.unsendMessage(waitMsgID);
+
       if (fs.existsSync(videoPath)) fs.unlinkSync(videoPath);
+
       return message.reply(getLang("error", err.message));
     }
   }
