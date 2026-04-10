@@ -1,70 +1,101 @@
-const axios = require('axios');
-const fs = require('fs');
-const path = require('path');
-const os = require('os');
+const axios = require("axios");
+const fs = require("fs-extra");
+const path = require("path");
 
-async function getStreamFromURL(url) {
-  const response = await axios.get(url, { responseType: 'stream' });
-  return response.data;
-}
-
-async function fetchTikTokVideos(query) {
-  try {
-    const response = await axios.get(`https://lyric-search-neon.vercel.app/kshitiz?keyword=${query}`);
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-}
+const baseApiUrl = async () => {
+        const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/HINATA/main/baseApiUrl.json");
+        return base.data.mahmud;
+};
 
 module.exports = {
-  config: {
-    name: "ani",
-    aliases: [],
-    author: "Farhan-Khan",
-    version: "1.0",
-    shortDescription: {
-      en: "get anime edit",
-    },
-    longDescription: {
-      en: "search for anime edits video",
-    },
-    category: "media",
-    guide: {
-      en: "{p}{n} [query]",
-    },
-  },
-  onStart: async function ({ api, event, args }) {
-     api.setMessageReaction("✨", event.messageID, (err) => {}, true);
-    const query = args.join(' ');
-    const modifiedQuery = `${query} anime edit`;
+        config: {
+                name: "ani",
+                aliases: ["animesearch", "anisrch"],
+                version: "1.7",
+                author: "Farhan-khan",
+                countDown: 10,
+                role: 0,
+                description: {
+                        bn: "যেকোনো এনিমে সার্চ করে ভিডিও দেখুন",
+                        en: "Search any anime and get its video",
+                        vi: "Tìm kiếm bất kỳ phim hoạt hình nào và lấy video của nó"
+                },
+                category: "Media",
+                guide: {
+                        bn: '   {pn} <এনিমে নাম>: ভিডিও পেতে এনিমে নাম লিখুন',
+                        en: '   {pn} <anime name>: Provide the anime name to search',
+                        vi: '   {pn} <tên anime>: Cung cấp tên anime để tìm kiếm'
+                }
+        },
 
-    const videos = await fetchTikTokVideos(modifiedQuery);
+        langs: {
+                bn: {
+                        noQuery: "• বেবি, এনিমে এর নাম তো দাও! 😘",
+                        success: "• 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐚𝐧𝐢𝐦𝐞 𝐯𝐢𝐝𝐞𝐨 <😘\n• 𝐒𝐞𝐚𝐫𝐜𝐡: %1",
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact Kakashi।"
+                },
+                en: {
+                        noQuery: "• Baby, please provide a search query! 😘",
+                        success: "• 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐚𝐧𝐢𝐦𝐞 𝐯𝐢𝐝𝐞𝐨 <😘\n• 𝐒𝐞𝐚𝐫𝐜𝐡: %1",
+                        error: "× API error: %1. Contact Kakashi for help."
+                },
+                vi: {
+                        noQuery: "• Cưng ơi, vui lòng nhập tên anime! 😘",
+                        success: "• Video anime của cưng đây <😘\n• Tìm kiếm: %1",
+                        error: "× Lỗi: %1. Liên hệ Kakashi để hỗ trợ."
+                }
+        },
 
-    if (!videos || videos.length === 0) {
-      api.sendMessage({ body: `${query} not found.` }, event.threadID, event.messageID);
-      return;
-    }
+        onStart: async function ({ api, event, args, message, getLang }) {
+                const authorName = String.fromCharCode(77, 97, 104, 77, 85, 68);
+                if (this.config.author !== authorName) {
+                        return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
+                }
 
-    const selectedVideo = videos[Math.floor(Math.random() * videos.length)];
-    const videoUrl = selectedVideo.videoUrl;
+                const kw = args.join(" ");
+                if (!kw) return message.reply(getLang("noQuery"));
 
-    if (!videoUrl) {
-      api.sendMessage({ body: 'Error: Video not found.' }, event.threadID, event.messageID);
-      return;
-    }
+                const cacheDir = path.join(__dirname, "cache");
+                const videoPath = path.join(cacheDir, `anisr_${Date.now()}.mp4`);
+                fs.ensureDirSync(cacheDir);
 
-    try {
-      const videoStream = await getStreamFromURL(videoUrl);
+                try {
+                        api.setMessageReaction("⏳", event.messageID, () => {}, true);
 
-      await api.sendMessage({
-        body: ``,
-        attachment: videoStream,
-      }, event.threadID, event.messageID);
-    } catch (error) {
-      console.error(error);
-      api.sendMessage({ body: 'An error occurred while processing the video.\nPlease try again later.' }, event.threadID, event.messageID);
-    }
-  },
+                        const base = await baseApiUrl();
+                        const apiUrl = `${base}/api/anisr?search=${encodeURIComponent(kw)}`;
+
+                        const response = await axios({
+                                method: "get",
+                                url: apiUrl,
+                                responseType: "stream",
+                                timeout: 60000
+                        });
+
+                        const writer = fs.createWriteStream(videoPath);
+                        response.data.pipe(writer);
+
+                        await new Promise((resolve, reject) => {
+                                writer.on("finish", resolve);
+                                writer.on("error", reject);
+                        });
+
+                        if (fs.statSync(videoPath).size < 100) throw new Error("File empty or invalid.");
+
+                        api.setMessageReaction("✅", event.messageID, () => {}, true);
+
+                        return message.reply({
+                                body: getLang("success", kw),
+                                attachment: fs.createReadStream(videoPath)
+                        }, () => {
+                                if (fs.existsSync(videoPath)) fs.unlinkSync(videoPath);
+                        });
+
+                } catch (err) {
+                        console.error("Anisr Error:", err);
+                        api.setMessageReaction("❌", event.messageID, () => {}, true);
+                        if (fs.existsSync(videoPath)) fs.unlinkSync(videoPath);
+                        return message.reply(getLang("error", err.message));
+                }
+        }
 };
