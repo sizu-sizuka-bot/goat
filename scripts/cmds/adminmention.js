@@ -1,3 +1,7 @@
+const axios = require("axios");
+
+let imageIndex = 0;
+
 module.exports = {
   config: {
     name: "adminmention",
@@ -5,7 +9,7 @@ module.exports = {
     author: "Farhan-Khan",
     countDown: 0,
     role: 0,
-    shortDescription: "Ultra fast caption reply",
+    shortDescription: "Fast caption + image reply",
     category: "system"
   },
 
@@ -33,7 +37,16 @@ module.exports = {
 
     if (!isMentioning) return;
 
-    // ⚡ captions only (no video)
+    // 🖼️ Image list (ভিডিওর জায়গায়)
+    const images = [
+      "https://i.imgur.com/vWIuNpc.jpeg",
+ "https://i.imgur.com/mvjVHCD.jpeg"
+    ];
+
+    const imageUrl = images[imageIndex];
+    imageIndex = (imageIndex + 1) % images.length;
+
+    // ✍️ captions
     const captions = [
       "Mantion_দিস না _ফারহান বস এর মন মন ভালো নেই আস্কে-!💔🥀",
       "- আমার বস ফারহান এর সাথে কেউ সেক্স করে না থুক্কু টেক্স করে নাহ🫂💔",
@@ -58,12 +71,23 @@ ${mentionNames ? `Reply to: ${mentionNames}\n` : ""}
 `;
 
     try {
-      // ⚡ super fast reply (no axios, no delay)
-      await message.reply({
-        body: caption
+      // ⚡ Fast Image Fetch
+      const imgStream = await axios({
+        url: imageUrl,
+        method: "GET",
+        responseType: "stream",
+        timeout: 5000, // fast response
+        headers: { "User-Agent": "Mozilla/5.0" }
       });
+
+      await message.reply({
+        body: caption,
+        attachment: imgStream.data
+      });
+
     } catch (err) {
-      console.log("❌ error:", err.message);
+      console.log("❌ Image error:", err.message);
+      await message.reply("😢 পিক দিতে পারলাম না");
     }
   }
 };
