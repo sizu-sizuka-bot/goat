@@ -8,7 +8,7 @@ module.exports = {
     name: "murgi",
     version: "1.1.0",
     role: 2,
-    author: "Akash Edit",
+    author: "MR_FARHAN",
     description: "Loop bad word messages until stopped",
     category: "fun",
     usages: "@mention | off",
@@ -28,14 +28,15 @@ module.exports = {
 
     const mention = Object.keys(event.mentions)[0];
     if (!mention) {
-      return message.reply("Please @mention a target first!");
+      return message.reply("বস যে মাগির পোলা কে চুদ্দে চাউ তার আইডি @ম্যানশন দেউ,🖕");
     }
 
     const name = event.mentions[mention];
     const arraytag = [{ id: mention, tag: name }];
 
     const messages = [
-      "খা*নকির পোলা রেডি তো চু*দা খাওয়ার জন্য 😈 ",
+        "বস 𓆩𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍𓆪 এর চুদা লো-🖕🥵",
+        "খা*নকির পোলা রেডি তো চু*দা খাওয়ার জন্য 😈 ",
         "এখন তোর মার দুধ দরে ঘুমামু সকালে তোর বাপরে পুকটি মারতে জামু গুড নাইট ছোট 😚",
         "শুন খানকির পোলা ইডেট করতে করতে মইরা যা পোস্ট কইরা ফেমাস কর আমারে, 🙄",
         "গালাগালি করতে করতে তোর বুরি মারে সস্তা বানিয়ে ফেলছস",
