@@ -43,9 +43,9 @@ module.exports = {
     try {
       // ⏳ waiting message
       const waitMsg = await message.reply(
-        "━━━━━━━━━━━━━━━━━━\n" +
-        "⏳ কিছুক্ষণ অপেক্ষা করুন....!\n" +
-        "━━━━━━━━━━━━━━━━━━"
+        "━━━━━━━━━━━━━━━━━\n" +
+        "⏳ কিছুক্ষণ অপেক্ষা করুন...\n" +
+        "━━━━━━━━━━━━━━━━━"
       );
 
       waitMsgID = waitMsg.messageID;
