@@ -22,7 +22,7 @@ module.exports = {
         activeMurgi.set(event.threadID, false);
         return message.reply("🛑 ওকে বস মাগীর পোলা কে আর চুদবো না..");
       } else {
-        return message.reply("বস 𓆩𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍𓆪 এর চুদা লো-🖕🥵");
+        return message.reply("⚠️ Murgi mode is not running.");
       }
     }
 
@@ -79,7 +79,7 @@ module.exports = {
     ];
 
     activeMurgi.set(event.threadID, true);
-    message.reply("🔥 Murgi mode started.");
+    message.reply("বস 𓆩𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍𓆪 এর চুদা লো-🖕🥵");
 
     try {
       while (activeMurgi.get(event.threadID)) {
