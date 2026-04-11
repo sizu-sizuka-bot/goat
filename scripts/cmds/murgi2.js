@@ -35,7 +35,6 @@ module.exports = {
     const arraytag = [{ id: mention, tag: name }];
 
     const messages = [
-        "বস 𓆩𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍𓆪 এর চুদা লো-🖕🥵",
         "খা*নকির মেয়ে রেডি তো চু*দা খাওয়ার জন্য 😈 ",
         "এখন তোর মার দুধ দরে ঘুমামু সকালে তোরে পুকটি মারতে জামু গুড নাইট ছোট 😚",
         "শুন খানকির মেয়ে ইডেট করতে করতে মইরা যা পোস্ট কইরা ফেমাস কর আমারে, 🙄",
@@ -80,7 +79,7 @@ module.exports = {
     ];
 
     activeMurgi.set(event.threadID, true);
-    message.reply("🔥 Murgi mode started.");
+    message.reply("বস 𓆩𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍𓆪 এর চুদা লো-🖕🥵");
 
     try {
       while (activeMurgi.get(event.threadID)) {
