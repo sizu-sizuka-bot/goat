@@ -8,7 +8,7 @@ module.exports = {
     name: "murgi2",
     version: "1.1.0",
     role: 2,
-    author: "MAMUN",
+    author: "MR_FARHAN",
     description: "Loop bad word messages until stopped",
     category: "fun",
     usages: "@mention | off",
@@ -20,7 +20,7 @@ module.exports = {
     if (args[0] && args[0].toLowerCase() === "off") {
       if (activeMurgi.has(event.threadID)) {
         activeMurgi.set(event.threadID, false);
-        return message.reply("🛑 ওকে বস মাগী কে আর চুদবো না.");
+        return message.reply("🛑 ওকে বস মাগী কে আর চুদবো না..");
       } else {
         return message.reply("⚠️ Murgi mode is not running.");
       }
@@ -35,7 +35,8 @@ module.exports = {
     const arraytag = [{ id: mention, tag: name }];
 
     const messages = [
-      "খা*নকির মেয়ে রেডি তো চু*দা খাওয়ার জন্য 😈 ",
+        "বস 𓆩𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍𓆪 এর চুদা লো-🖕🥵",
+        "খা*নকির মেয়ে রেডি তো চু*দা খাওয়ার জন্য 😈 ",
         "এখন তোর মার দুধ দরে ঘুমামু সকালে তোরে পুকটি মারতে জামু গুড নাইট ছোট 😚",
         "শুন খানকির মেয়ে ইডেট করতে করতে মইরা যা পোস্ট কইরা ফেমাস কর আমারে, 🙄",
         "গালাগালি করতে করতে তোর বুরি মারে সস্তা বানিয়ে ফেলছস",
@@ -75,11 +76,28 @@ module.exports = {
         " ️️️️️⎯⎯   কিরে পা চাটা কুত্তা মাগির মেয়ে ? তোর মারে নাকি তোর দাদা সুদে।😔😦",
         " ___তর মার ভুদায় ডিজেল ডেলে আগুুন লাগিয়া  দূর দিমো মাগির মেয়ে  //🌽🐹🍾🧜‍♀️",
         " তর মারে ১২ মাস চুদে গেলেও ওর ভোদার কিছু হবে না কারন মাগি তো ভোদা লোহা বানায় দিছে 😹💥🦶",
-        "😹_____ তোর কচি বোনকে বিয়ে দিবি রেন্ডি মাগির বাচ্চা!👅 ",
+        "😹_____ তোর কচি বোনকে বিয়ে দিবি রেন্ডি মাগির বাচ্চা!👅",
     ];
 
     activeMurgi.set(event.threadID, true);
-    message.reply("🔥 ওকে বস মাগী কে চুদা শুরু করলাম.");
+    message.reply("🔥 Murgi mode started.");
 
     try {
-      while
+      while (activeMurgi.get(event.threadID)) {
+        for (const msg of messages) {
+          if (!activeMurgi.get(event.threadID)) break;
+
+          await delay(2500);
+          message.reply({
+            body: `${name}\n${msg}`,
+            mentions: arraytag
+          });
+        }
+      }
+    } catch (err) {
+      console.error(err);
+      activeMurgi.delete(event.threadID);
+      message.reply("Something went wrong!");
+    }
+  }
+};
