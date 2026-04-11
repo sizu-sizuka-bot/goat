@@ -78,11 +78,11 @@ module.exports = {
       // 🎬 SEND VIDEO FIRST
       await message.reply({
         body: [
-          "━━━━━━━━━━━━━━━━━━",
+          "━━━━━━━━━━━━━━━━━",
           "🎬 Here is your video",
-          "━━━━━━━━━━━━━━━━━━",
+          "━━━━━━━━━━━━━━━━━",
           `🔍 Search: ${keyword}`,
-          "━━━━━━━━━━━━━━━━━━"
+          "━━━━━━━━━━━━━━━━━"
         ].join("\n"),
         attachment: fs.createReadStream(videoPath)
       });
