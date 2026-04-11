@@ -20,9 +20,9 @@ module.exports = {
     if (args[0] && args[0].toLowerCase() === "off") {
       if (activeMurgi.has(event.threadID)) {
         activeMurgi.set(event.threadID, false);
-        return message.reply("🛑 Murgi mode stopped.");
+        return message.reply("🛑 ওকে বস মাগীর পোলা কে আর চুদবো না..");
       } else {
-        return message.reply("⚠️ Murgi mode is not running.");
+        return message.reply("বস 𓆩𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍𓆪 এর চুদা লো-🖕🥵");
       }
     }
 
@@ -35,7 +35,6 @@ module.exports = {
     const arraytag = [{ id: mention, tag: name }];
 
     const messages = [
-        "বস 𓆩𝐑𝐉 𝐅𝐀𝐑𝐇𝐀𝐍𓆪 এর চুদা লো-🖕🥵",
         "খা*নকির পোলা রেডি তো চু*দা খাওয়ার জন্য 😈 ",
         "এখন তোর মার দুধ দরে ঘুমামু সকালে তোর বাপরে পুকটি মারতে জামু গুড নাইট ছোট 😚",
         "শুন খানকির পোলা ইডেট করতে করতে মইরা যা পোস্ট কইরা ফেমাস কর আমারে, 🙄",
