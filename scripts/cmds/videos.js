@@ -81,7 +81,6 @@ module.exports = {
           "━━━━━━━━━━━━━━━━━━",
           "🎬 Here is your video",
           "━━━━━━━━━━━━━━━━━━",
-          "",
           `🔍 Search: ${keyword}`,
           "━━━━━━━━━━━━━━━━━━"
         ].join("\n"),
