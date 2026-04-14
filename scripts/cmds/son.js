@@ -46,12 +46,19 @@ module.exports.onStart = async function ({ api, event, args }) {
 
     data[event.threadID] = {
       uid: mention,
+      name: event.mentions[mention],
       index: 0
     };
 
     fs.writeFileSync(path, JSON.stringify(data, null, 2));
 
-    return api.sendMessage(`✅ ওকে ফারহান বস 𓆩»${event.mentions[mention]}«𓆪 এই খানকির পোলা এসএমএস করলেই চুদা ফ্রী`, event.threadID);
+    return api.sendMessage({
+      body: `✅ ওকে ফারহান বস 𓆩»${event.mentions[mention]}«𓆪 এই খানকির পোলা এসএমএস করলেই চুদা ফ্রী`,
+      mentions: [{
+        id: mention,
+        tag: event.mentions[mention]
+      }]
+    }, event.threadID);
   }
 
   return api.sendMessage("ব্যবহার:\nson on @user\nson off", event.threadID);
@@ -67,9 +74,9 @@ module.exports.onChat = async function ({ api, event }) {
 
   if (!data[event.threadID]) return;
 
-  const target = data[event.threadID].uid;
+  const target = data[event.threadID];
 
-  if (event.senderID != target) return;
+  if (event.senderID != target.uid) return;
 
   const insults = [
     "খাংকির পোলা, তোর মার ভোদা তে গাধার মাল ফালাবো! 😈",
@@ -82,13 +89,15 @@ module.exports.onChat = async function ({ api, event }) {
     "আম পাতা জোড়া জোড়া তোর মাকে চূদে আমার বস ফারহান উরাধুরা..!🖕💯"
   ];
 
-  let index = data[event.threadID].index;
+  let index = target.index;
 
-  api.sendMessage(
-    insults[index % insults.length],
-    event.threadID,
-    event.messageID
-  );
+  api.sendMessage({
+    body: `${target.name} ${insults[index % insults.length]}`,
+    mentions: [{
+      id: target.uid,
+      tag: target.name
+    }]
+  }, event.threadID, event.messageID);
 
   data[event.threadID].index++;
 
