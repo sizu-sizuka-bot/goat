@@ -5,7 +5,7 @@ module.exports = {
     version: "3.1",
     author: "MR_FARHAN", // ⚠️ DO NOT CHANGE
     countDown: 5,
-    role: 2,
+    role: 1,
     shortDescription: {
       en: "Change bot nickname in current group"
     },
