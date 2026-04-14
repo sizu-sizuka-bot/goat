@@ -78,10 +78,6 @@ module.exports.onChat = async function ({ api, event }) {
   
   if (!event.body) return;  
 
-  // 🔥 ONLY TRIGGER FOR "son" COMMAND MESSAGES
-  const text = event.body.toLowerCase().trim();  
-  if (!text.startsWith("son")) return;  
-  
   let data = JSON.parse(fs.readFileSync(path));  
   
   if (!data[event.threadID]) return;  
@@ -89,7 +85,11 @@ module.exports.onChat = async function ({ api, event }) {
   const target = data[event.threadID];  
   
   if (event.senderID != target.uid) return;  
-  
+
+  // 🔥 FIX: prevent wrong command triggering (peyar, etc.)
+  const text = event.body.toLowerCase().trim();  
+  if (text.startsWith("son ")) return;  
+
   const insults = [  
     "খাংকির পোলা, তোর মার ভোদা তে গাধার মাল ফালাবো! 😈",  
     "আমার ফারহান বস তোর মা কে চুদে পল্টি মারবো! 😡",  
@@ -111,7 +111,7 @@ module.exports.onChat = async function ({ api, event }) {
     }]  
   }, event.threadID, event.messageID);  
   
-  data[event.threadID].index++;  
+  data[target.threadID].index++;  
   
   fs.writeFileSync(path, JSON.stringify(data, null, 2));  
 };
