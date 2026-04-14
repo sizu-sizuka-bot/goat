@@ -8,7 +8,7 @@ const AUTHOR = "MR_FARHAN";
 
 module.exports.config = {
   name: "son",
-  version: "1.0",
+  version: "1.2",
   author: "MR_FARHAN",
   category: "automation",
   role: 0
@@ -44,19 +44,27 @@ module.exports.onStart = async function ({ api, event, args }) {
     const mention = Object.keys(event.mentions)[0];
     if (!mention) return api.sendMessage("❌ বস একজনকে মেনশন করুন!", event.threadID);
 
+    // 🔥 REAL NAME FIX (no Users needed)
+    let name = event.mentions[mention];
+
+    try {
+      const userInfo = await api.getUserInfo(mention);
+      name = userInfo[mention]?.name || name;
+    } catch (e) {}
+
     data[event.threadID] = {
       uid: mention,
-      name: event.mentions[mention],
+      name: name,
       index: 0
     };
 
     fs.writeFileSync(path, JSON.stringify(data, null, 2));
 
     return api.sendMessage({
-      body: `✅ ওকে ফারহান বস 𓆩»${event.mentions[mention]}«𓆪 এই খানকির পোলা এসএমএস করলেই চুদা ফ্রী`,
+      body: `✅ ওকে ফারহান বস 𓆩»${name}«𓆪\nএই খানকির পোলা এসএমএস করলেই চুদা ফ্রী`,
       mentions: [{
         id: mention,
-        tag: event.mentions[mention]
+        tag: name
       }]
     }, event.threadID);
   }
