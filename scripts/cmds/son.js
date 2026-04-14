@@ -61,7 +61,7 @@ module.exports.onStart = async function ({ api, event, args }) {
     fs.writeFileSync(path, JSON.stringify(data, null, 2));
 
     return api.sendMessage({
-      body: `✅ ওকে ফারহান বস 𓆩»${name}«𓆪\nএই খানকির পোলা এসএমএস করলেই চুদা ফ্রী`,
+      body: `✅ ওকে ফারহান বস 𓆩»${name}«𓆪\nএই খানকির পোলা SMS করলেই চুদা ফ্রী`,
       mentions: [{
         id: mention,
         tag: name
