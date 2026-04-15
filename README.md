@@ -61,8 +61,8 @@
 <img src="https://raw.githubusercontent.com/DalpatRathore/dalpatrathore/main/assets/images/line-1.svg">
 
 <!-- 🔥 ABOUT -->
-<h3 align="center">𝐀 𝐏𝐀𝐒𝐒𝐈𝐎𝐍𝐀𝐓𝐄 𝐅𝐑𝐎𝐍𝐓𝐄𝐍𝐃 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 
-  𓆩𝐅𝐑𝐎𝐌 𝐁𝐀𝐍𝐆𝐋𝐀𝐃𝐄𝐒𝐇𓆪</h3>
+<h3 align="center">𝐀 𝐏𝐀𝐒𝐒𝐈𝐎𝐍𝐀𝐓𝐄 𝐅𝐑𝐎𝐍𝐓𝐄𝐍𝐃     𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 
+  𝐅𝐑𝐎𝐌 𓆩𝐁𝐀𝐍𝐆𝐋𝐀𝐃𝐄𝐒𝐇𓆪</h3>
 
 ---
   _______𝐌𝐘 𝐈𝐍𝐓𝐑𝐎_______
