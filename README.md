@@ -112,4 +112,4 @@ ___𝐂𝐎𝐍𝐓𝐀𝐂𝐓 𝐌𝐄___
 
 ---
 
-<h2 align="center">😈 FARHAN IS NOT NAME — IT'S BRAND 😈</h2>
+<h2 align="center">FARHAN IS NOT NAME 😈 IT'S BRAND 😈</h2>
