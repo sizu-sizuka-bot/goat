@@ -5,7 +5,7 @@
 
 <!-- 🔥 TITLE -->
 <h1 align="center">
-  <img src="./dashboard/images/logo-non-bg.png" width="25px">𓆩𝐃𝐄𝐕𝐈𝐋-𝐅𝐀𝐑𝐇𝐀𝐍𓆪 𝗠𝗘𝗦𝗦𝗘𝗡𝗚𝗘𝗥 𝗖𝗛𝗔𝗧 𝗕𝗢𝗧
+  <img src="./dashboard/images/logo-non-bg.png" width="25px">𓆩𝐌𝐑-𝐅𝐀𝐑𝐇𝐀𝐍𓆪 𝗠𝗘𝗦𝗦𝗘𝗡𝗚𝗘𝗥 𝗖𝗛𝗔𝗧 𝗕𝗢𝗧
 </h1>
 
 <!-- 🔥 BADGE -->
