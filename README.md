@@ -5,7 +5,7 @@
 
 <!-- 🔥 TITLE -->
 <h1 align="center">
-  <img src="./dashboard/images/logo-non-bg.png" width="28px">
+  <img src="./dashboard/images/logo-non-bg.png" width="25px">
   𓆩𝐌𝐑-𝐅𝐀𝐑𝐇𝐀𝐍𓆪 𝗠𝗘𝗦𝗦𝗘𝗡𝗚𝗘𝗥 𝗖𝗛𝗔𝗧 𝗕𝗢𝗧
 </h1>
 
@@ -30,7 +30,7 @@
 
 ---
 
-## ⚡ 𝐆𝐈𝐓𝐇𝐔𝐁 𝐓𝐑𝐎𝐏𝐇𝐘 ⚡
+## ⚡ 𝐆𝐈𝐓𝐇𝐔𝐁 𝐁𝐎𝐀𝐑𝐃 ⚡
 
 <p align="center">
   <img src="https://github-profile-trophy.vercel.app/?username=FARHAN-MIRAI-BOT&theme=radical&no-frame=true&margin-w=15">
@@ -64,8 +64,7 @@
 
 ## 👤 𝐀𝐁𝐎𝐔𝐓 𝐌𝐄
 
-### 𝐀 𝐏𝐀𝐒𝐒𝐈𝐎𝐍𝐀𝐓𝐄 𝐅𝐑𝐎𝐍𝐓𝐄𝐍𝐃 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 𝐅𝐑𝐎𝐌 𓆩𝐁𝐀𝐍𝐆𝐋𝐀𝐃𝐄𝐒𝐇𓆪
-
+- ➪___↓『 𝗠𝗬 𝗜𝗡𝗧𝗥𝗢 』↓___
 - ➪ 𝐍𝐀𝐌𝐄 : 𓆩𝐃𝐄𝐕𝐈𝐋-𝐅𝐀𝐑𝐇𝐀𝐍𓆪  
 - ➪ 𝐑𝐄𝐋𝐈𝐆𝐈𝐎𝐍 : 𝐈𝐒𝐋𝐀𝐌  
 - ➪ 𝐀𝐃𝐃𝐑𝐄𝐒𝐒 : 𝐂𝐇𝐔𝐀𝐃𝐀𝐍𝐆𝐀  
@@ -76,14 +75,14 @@
 
 ## 📞 𝐂𝐎𝐍𝐓𝐀𝐂𝐓 𝐌𝐄
 
-### 🔵 𝐅𝐀𝐂𝐄𝐁𝐎𝐎𝐊
+### 🔴 FACEBOOK
 <a href="https://www.facebook.com/MR.FARHAN.420">
 <img src="https://img.shields.io/badge/Facebook-ff0000?style=for-the-badge&logo=facebook&logoColor=white">
 </a>
 
 ---
 
-### 🟢 𝐖𝐇𝐀𝐓𝐒𝐀𝐏𝐏
+### 🟢 WHATSAPP
 <a href="https://wa.me/8801934640061">
 <img src="https://img.shields.io/badge/WhatsApp-00ff00?style=for-the-badge&logo=whatsapp&logoColor=black">
 </a>
@@ -92,6 +91,7 @@
 
 ## 🌐 𝐅𝐎𝐋𝐋𝐎𝐖 𝐌𝐄
 
+<p>
 <a href="https://github.com/FARHAN-MIRAI-BOT">
 <img width="30px" src="https://cdn.jsdelivr.net/npm/simple-icons@3.0.1/icons/github.svg">
 </a>
@@ -103,7 +103,8 @@
 <a href="https://www.instagram.com/mr_farhan.420">
 <img width="30px" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg">
 </a>
+</p>
 
 ---
 
-<h2 align="center">𓆩 𝐅𝐀𝐑𝐇𝐀𝐍 𝐈𝐒 𝐍𝐎𝐓 𝐀 𝐍𝐀𝐌𝐄 𓆪 😈 𝐈𝐓'𝐒 𝐀 𝐁𝐑𝐀𝐍𝐃 😈</h2>
+<h2 align="center">𓆩𝐅𝐀𝐑𝐇𝐀𝐍 𝐈𝐒 𝐍𝐎𝐓 𝐀 𝐍𝐀𝐌𝐄𓆪 😈 𝐈𝐓'𝐒 𝐀 𝐁𝐑𝐀𝐍𝐃 😈</h2>
