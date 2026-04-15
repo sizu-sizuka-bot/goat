@@ -61,7 +61,8 @@
 <img src="https://raw.githubusercontent.com/DalpatRathore/dalpatrathore/main/assets/images/line-1.svg">
 
 <!-- 🔥 ABOUT -->
-<h3 align="center">𓆩𝐀 𝐏𝐀𝐒𝐒𝐈𝐎𝐍𝐀𝐓𝐄 𝐅𝐑𝐎𝐍𝐓𝐄𝐍𝐃 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 𝐅𝐑𝐎𝐌 𝐁𝐀𝐍𝐆𝐋𝐀𝐃𝐄𝐒𝐇𓆪</h3>
+<h3 align="center">𝐀 𝐏𝐀𝐒𝐒𝐈𝐎𝐍𝐀𝐓𝐄 𝐅𝐑𝐎𝐍𝐓𝐄𝐍𝐃 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 
+  𓆩𝐅𝐑𝐎𝐌 𝐁𝐀𝐍𝐆𝐋𝐀𝐃𝐄𝐒𝐇𓆪</h3>
 
 ---
   _______𝐌𝐘 𝐈𝐍𝐓𝐑𝐎_______
@@ -112,4 +113,4 @@ ___𝐂𝐎𝐍𝐓𝐀𝐂𝐓 𝐌𝐄___
 
 ---
 
-<h2 align="center">FARHAN IS NOT NAME 😈 IT'S BRAND 😈</h2>
+<h2 align="center">𓆩FARHAN IS NOT NAME𓆪  😈 IT'S BRAND 😈</h2>
