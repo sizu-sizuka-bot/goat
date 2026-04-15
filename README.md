@@ -10,7 +10,7 @@
 
 <!-- 🔥 BADGE -->
 <p align="center">
-  <img src="https://img.shields.io/badge/𝗜%𝟮𝟬𝗔𝗠%𝟮𝟬𝗙𝗔𝗥𝗛𝗔𝗡-𝗕𝗔𝗡𝗚𝗟𝗔𝗗𝗘𝗦𝗛𝗜%𝟮𝟬𝗡𝗢𝗢𝗕%𝟮𝟬𝗣𝗥𝗢𝗚𝗥𝗔𝗠𝗠𝗘𝗥-ff0000?style=for-the-badge&logo=github&logoColor=white">
+  <img src="https://img.shields.io/badge/𝐈%20𝐀𝐌%20𝐅𝐀𝐑𝐇𝐀𝐍-𝐁𝐀𝐍𝐆𝐋𝐀𝐃𝐄𝐒𝐇𝐈%20𝐍𝐎𝐎𝐁%20𝐏𝐑𝐎𝐆𝐑𝐀𝐌𝐌𝐄𝐑-ff0000?style=for-the-badge&logo=github&logoColor=white">
 </p>
 
 <!-- 🔥 WELCOME -->
