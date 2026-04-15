@@ -6,18 +6,18 @@
 <!-- 🔥 TITLE -->
 <h1 align="center">
   <img src="./dashboard/images/logo-non-bg.png" width="25px">
-  《𓆩𝐃𝐄𝐕𝐈𝐋-𝐅𝐀𝐑𝐇𝐀𝐍𓆪》 𝗠𝗘𝗦𝗦𝗘𝗡𝗚𝗘𝗥 𝗖𝗛𝗔𝗧 𝗕𝗢𝗧
+𓆩𝐃𝐄𝐕𝐈𝐋-𝐅𝐀𝐑𝐇𝐀𝐍𓆪 𝗠𝗘𝗦𝗦𝗘𝗡𝗚𝗘𝗥 𝗖𝗛𝗔𝗧 𝗕𝗢𝗧
 </h1>
 
 <!-- 🔥 BADGE -->
 <p align="center">
-  <img src="https://img.shields.io/badge/I%20AM%20FARHAN-BANGLADESHI%20NOOB%20PROGRAMMER-ff0000?style=for-the-badge&logo=github&logoColor=white">
+  <img src="https://img.shields.io/badge/𝐈%20𝐀𝐌%20𝐅𝐀𝐑𝐇𝐀𝐍-𝐁𝐀𝐍𝐆𝐋𝐀𝐃𝐄𝐒𝐇𝐈%20𝐍𝐎𝐎𝐁%20𝐏𝐑𝐎𝐆𝐑𝐀𝐌𝐌𝐄𝐑-ff0000?style=for-the-badge&logo=github&logoColor=white">
 </p>
 
 <!-- 🔥 WELCOME -->
 <h3 align="center">
   <img src="https://emoji.discord.st/emojis/768b108d-274f-4f44-a634-8477b16efce7.gif" width="25">
-  WELCOME TO MY CHAT BOT
+  ᴡᴇʟᴄᴏᴍᴇ ᴛᴏ ᴍʏ ᴄʜᴀᴛ ʙᴏᴛ
   <img src="https://emoji.discord.st/emojis/768b108d-274f-4f44-a634-8477b16efce7.gif" width="25">
 </h3>
 
@@ -25,13 +25,13 @@
 
 <!-- 🔥 TYPING -->
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?color=00FF00&size=28&center=true&vCenter=true&width=600&lines=I+AM+INNOCENT+BOY;IT'S+NOT+JUST+A+NAME+BRO;FARHAN+IS+THE+BRAND;THANK+YOU+EVERYONE;LOVE+YOU+ALL+FRIENDS">
+  <img src="https://readme-typing-svg.herokuapp.com?color=00FF00&size=28&center=true&vCenter=true&width=600&lines=𝐈+𝐀𝐌+𝐈𝐍𝐍𝐎𝐂𝐄𝐍𝐓+𝐁𝐎𝐘;𝐈𝐓'𝐒+𝐍𝐎𝐓+𝐉𝐔𝐒𝐓+𝐀+𝐍𝐀𝐌𝐄+𝐁𝐑𝐎;𝐅𝐀𝐑𝐇𝐀𝐍+𝐈𝐒+𝐓𝐇𝐄+𝐁𝐑𝐀𝐍𝐃;𝐓𝐇𝐀𝐍𝐊+𝐘𝐎𝐔+𝐄𝐕𝐄𝐑𝐘𝐎𝐍𝐄;𝐋𝐎𝐕𝐄+𝐘𝐎𝐔+𝐀𝐋𝐋+𝐅𝐑𝐈𝐄𝐍𝐃𝐒">
 </p>
 
 ---
 
 <!-- 🔥 TROPHY -->
-<h2 align="center">⚡ GITHUB BOARD ⚡</h2>
+<h2 align="center">⚡ 𝐆𝐈𝐓𝐇𝐔𝐁 𝐁𝐎𝐀𝐑𝐃 ⚡</h2>
 
 <p align="center">
   <img src="https://github-profile-trophy.vercel.app/?username=DJ-FARHAN-BOT&theme=radical&no-frame=true&margin-w=15">
@@ -62,19 +62,19 @@
 <img src="https://raw.githubusercontent.com/DalpatRathore/dalpatrathore/main/assets/images/line-1.svg">
 
 <!-- 🔥 ABOUT -->
-<h3 align="center">𝐀 𝐏𝐚𝐬𝐬𝐢𝐨𝐧𝐚𝐭𝐞 𝐅𝐫𝐨𝐧𝐭𝐞𝐧𝐝 𝐃𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫 𝐅𝐫𝐨𝐦 𝐁𝐚𝐧𝐠𝐥𝐚𝐝𝐞𝐬𝐡</h3>
+<h3 align="center">𓆩𝐀 𝐏𝐀𝐒𝐒𝐈𝐎𝐍𝐀𝐓𝐄 𝐅𝐑𝐎𝐍𝐓𝐄𝐍𝐃 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑𓆪</h3>
 
 ---
 
-- ➪ 𝗡𝗔𝗠𝗘 : 《𓆩𝐃𝐄𝐕𝐈𝐋-𝐅𝐀𝐑𝐇𝐀𝐍𓆪》
-- ➪ 𝗥𝗘𝗟𝗜𝗚𝗜𝗢𝗡 : 𝗜𝗦𝗟𝗔𝗠
-- ➪ 𝗘𝗗𝗨𝗖𝗔𝗧𝗜𝗢𝗡 : 𝗦𝗧𝗨𝗗𝗘𝗡𝗧
-- ➪ 𝗥𝗘𝗟𝗔𝗧𝗜𝗢𝗡𝗦𝗛𝗜𝗣 : 𝗦𝗜𝗡𝗚𝗟𝗘
+- ➪ 𝐍𝐀𝐌𝐄 : 𓆩𝐃𝐄𝐕𝐈𝐋-𝐅𝐀𝐑𝐇𝐀𝐍𓆪  
+- ➪ 𝐑𝐄𝐋𝐈𝐆𝐈𝐎𝐍 : 𝐈𝐒𝐋𝐀𝐌  
+- ➪ 𝐄𝐃𝐔𝐂𝐀𝐓𝐈𝐎𝐍 : 𝐒𝐓𝐔𝐃𝐄𝐍𝐓  
+- ➪ 𝐑𝐄𝐋𝐀𝐓𝐈𝐎𝐍𝐒𝐇𝐈𝐏 : 𝐒𝐈𝐍𝐆𝐋𝐄  
 
 ---
 
 <!-- 🔴 FACEBOOK -->
-- ➪ FACEBOOK :
+- ➪ 𝐅𝐀𝐂𝐄𝐁𝐎𝐎𝐊 :
 <p>
 <a href="https://www.facebook.com/MR.FARHAN.420">
 <img src="https://img.shields.io/badge/Facebook-ff0000?style=for-the-badge&logo=facebook&logoColor=white">
@@ -84,7 +84,7 @@
 ---
 
 <!-- 🟢 WHATSAPP -->
-- ➪ WHATSAPP :
+- ➪ 𝐖𝐇𝐀𝐓𝐒𝐀𝐏𝐏 :
 <p>
 <a href="https://wa.me/8801934640061">
 <img src="https://img.shields.io/badge/WhatsApp-00ff00?style=for-the-badge&logo=whatsapp&logoColor=black">
@@ -94,7 +94,7 @@
 ---
 
 <!-- 🔥 CONTACT -->
-<h3>🔥 CONTACT ME</h3>
+<h3>🔥 𝐂𝐎𝐍𝐓𝐀𝐂𝐓 𝐌𝐄</h3>
 
 <p>
 <a href="https://github.com/DJ-FARHAN-BOT">
