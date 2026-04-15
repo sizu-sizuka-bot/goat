@@ -5,13 +5,12 @@
 
 <!-- 🔥 TITLE -->
 <h1 align="center">
-  <img src="./dashboard/images/logo-non-bg.png" width="25px">
-𓆩𝐃𝐄𝐕𝐈𝐋-𝐅𝐀𝐑𝐇𝐀𝐍𓆪 𝗠𝗘𝗦𝗦𝗘𝗡𝗚𝗘𝗥 𝗖𝗛𝗔𝗧 𝗕𝗢𝗧
+  <img src="./dashboard/images/logo-non-bg.png" width="25px">𓆩𝐃𝐄𝐕𝐈𝐋-𝐅𝐀𝐑𝐇𝐀𝐍𓆪 𝗠𝗘𝗦𝗦𝗘𝗡𝗚𝗘𝗥 𝗖𝗛𝗔𝗧 𝗕𝗢𝗧
 </h1>
 
 <!-- 🔥 BADGE -->
 <p align="center">
-  <img src="https://img.shields.io/badge/𝐈%20𝐀𝐌%20𝐅𝐀𝐑𝐇𝐀𝐍-𝐁𝐀𝐍𝐆𝐋𝐀𝐃𝐄𝐒𝐇𝐈%20𝐍𝐎𝐎𝐁%20𝐏𝐑𝐎𝐆𝐑𝐀𝐌𝐌𝐄𝐑-ff0000?style=for-the-badge&logo=github&logoColor=white">
+  <img src="https://img.shields.io/badge/𝗜%𝟮𝟬𝗔𝗠%𝟮𝟬𝗙𝗔𝗥𝗛𝗔𝗡-𝗕𝗔𝗡𝗚𝗟𝗔𝗗𝗘𝗦𝗛𝗜%𝟮𝟬𝗡𝗢𝗢𝗕%𝟮𝟬𝗣𝗥𝗢𝗚𝗥𝗔𝗠𝗠𝗘𝗥-ff0000?style=for-the-badge&logo=github&logoColor=white">
 </p>
 
 <!-- 🔥 WELCOME -->
@@ -62,16 +61,17 @@
 <img src="https://raw.githubusercontent.com/DalpatRathore/dalpatrathore/main/assets/images/line-1.svg">
 
 <!-- 🔥 ABOUT -->
-<h3 align="center">𓆩𝐀 𝐏𝐀𝐒𝐒𝐈𝐎𝐍𝐀𝐓𝐄 𝐅𝐑𝐎𝐍𝐓𝐄𝐍𝐃 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑𓆪</h3>
+<h3 align="center">𓆩𝐀 𝐏𝐀𝐒𝐒𝐈𝐎𝐍𝐀𝐓𝐄 𝐅𝐑𝐎𝐍𝐓𝐄𝐍𝐃 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 𝐅𝐑𝐎𝐌 𝐁𝐀𝐍𝐆𝐋𝐀𝐃𝐄𝐒𝐇𓆪</h3>
 
 ---
-
+  _______𝐌𝐘 𝐈𝐍𝐓𝐑𝐎_______
 - ➪ 𝐍𝐀𝐌𝐄 : 𓆩𝐃𝐄𝐕𝐈𝐋-𝐅𝐀𝐑𝐇𝐀𝐍𓆪  
 - ➪ 𝐑𝐄𝐋𝐈𝐆𝐈𝐎𝐍 : 𝐈𝐒𝐋𝐀𝐌  
+- ➪ 𝐀𝐃𝐃𝐑𝐄𝐒𝐒 : 𝐂𝐇𝐔𝐀𝐃𝐀𝐍𝐆𝐀
 - ➪ 𝐄𝐃𝐔𝐂𝐀𝐓𝐈𝐎𝐍 : 𝐒𝐓𝐔𝐃𝐄𝐍𝐓  
 - ➪ 𝐑𝐄𝐋𝐀𝐓𝐈𝐎𝐍𝐒𝐇𝐈𝐏 : 𝐒𝐈𝐍𝐆𝐋𝐄  
-
 ---
+___𝐂𝐎𝐍𝐓𝐀𝐂𝐓 𝐌𝐄___
 
 <!-- 🔴 FACEBOOK -->
 - ➪ 𝐅𝐀𝐂𝐄𝐁𝐎𝐎𝐊 :
@@ -94,7 +94,7 @@
 ---
 
 <!-- 🔥 CONTACT -->
-<h3>🔥 𝐂𝐎𝐍𝐓𝐀𝐂𝐓 𝐌𝐄</h3>
+<h3>🌐 𝐏𝐀𝐆𝐄 𝐅𝐎𝐋𝐋𝐎𝐖 𝐌𝐄 🌐</h3>
 
 <p>
 <a href="https://github.com/DJ-FARHAN-BOT">
