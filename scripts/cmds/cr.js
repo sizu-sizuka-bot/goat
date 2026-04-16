@@ -38,7 +38,7 @@ api.sendMessage(
 👥 Members: ${members.length}
 📌 Name: ${groupName}
 
-♡┋ 《𓆩𝐒𝐈𝐙𝐔𝐊𝐀𓆪》ᥫ᭡🎀🙂`,
+♡┋《𓆩𝐒𝐈𝐙𝐔𝐊𝐀𓆪》┋♡`,
 info.threadID
 );
 
