@@ -5,7 +5,7 @@ module.exports = {
     version: "1.3",
     author: "MR_FARHAN",
     countDown: 5,
-    role: 2,
+    role: 0,
     shortDescription: {
       en: "Change nickname of all members in current group"
     },
