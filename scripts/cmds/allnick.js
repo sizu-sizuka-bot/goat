@@ -2,19 +2,19 @@ module.exports = {
   config: {
     name: "allnick",
     aliases: ["an"],
-    version: "1.3",
+    version: "1.4",
     author: "MR_FARHAN",
     countDown: 5,
     role: 0,
     shortDescription: {
-      en: "Change nickname of all members in current group"
+      en: "Change or reset nickname of all members"
     },
     longDescription: {
-      en: "Change nickname of all members in the current group"
+      en: "Change or reset nickname of all members in the current group"
     },
     category: "owner",
     guide: {
-      en: "{pn} <new nickname>"
+      en: "{pn} <nickname | cancel>"
     },
     envConfig: {
       delayPerUser: 200
@@ -23,28 +23,29 @@ module.exports = {
 
   langs: {
     en: {
-      missingNickname: "⚠️ Please enter a nickname",
-      start: "⏳ Changing nickname for %1 members...",
-      success: "✅ Successfully changed nickname for all members",
+      missingNickname: "⚠️ Please enter a nickname or 'cancel'",
+      start: "⏳ Processing %1 members...",
+      success: "✅ Done for all members",
       partial: "⚠️ Done, but failed for %1 users:\n%2",
       error: "❌ Error: %1",
       onlyGroup: "❌ This command only works in groups",
-      locked: "⛔ File locked! Don't change author name."
+      locked: "⛔ File locked! Don't change author name.",
+      resetDone: "🔄 All nicknames removed successfully"
     }
   },
 
   onStart: async function ({ api, event, args, message, getLang }) {
 
-    // 🔒 AUTHOR LOCK SYSTEM
+    // 🔒 AUTHOR LOCK
     if (module.exports.config.author !== "MR_FARHAN") {
       return message.reply(getLang("locked"));
     }
 
     const threadID = event.threadID;
-    const newNickname = args.join(" ");
+    const input = args.join(" ").trim();
     const delay = module.exports.config.envConfig.delayPerUser || 200;
 
-    if (!newNickname) {
+    if (!input) {
       return message.reply(getLang("missingNickname"));
     }
 
@@ -63,15 +64,26 @@ module.exports = {
 
       for (const userID of members) {
         try {
-          await api.changeNickname(newNickname, threadID, userID);
+          // 🔥 cancel দিলে nickname remove হবে
+          if (input.toLowerCase() === "cancel") {
+            await api.changeNickname("", threadID, userID);
+          } else {
+            await api.changeNickname(input, threadID, userID);
+          }
+
           await new Promise(res => setTimeout(res, delay));
+
         } catch (err) {
           failed.push(userID);
         }
       }
 
       if (failed.length === 0) {
-        message.reply(getLang("success"));
+        if (input.toLowerCase() === "cancel") {
+          message.reply(getLang("resetDone"));
+        } else {
+          message.reply(getLang("success"));
+        }
       } else {
         message.reply(getLang("partial", failed.length, failed.join(", ")));
       }
