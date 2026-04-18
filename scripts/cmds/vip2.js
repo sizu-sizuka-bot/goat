@@ -1,6 +1,6 @@
 module.exports = {
         config: {
-                name: "vip",
+                name: "vip2",
                 aliases: ["premium"],
                 version: "1.0",
                 author: "MR_FARHAN",
