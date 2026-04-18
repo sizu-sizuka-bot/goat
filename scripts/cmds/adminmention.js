@@ -65,7 +65,6 @@ module.exports = {
 
     const caption = `
 ✿•≫───────────────≪•✿
-${mentionNames ? `Reply to: ${mentionNames}\n` : ""}
 『 ${captions[Math.floor(Math.random() * captions.length)]} 』
 ✿•≫───────────────≪•✿
 `;
