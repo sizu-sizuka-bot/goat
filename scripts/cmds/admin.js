@@ -159,12 +159,12 @@ module.exports = {
 ‎⋆✦⋆⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⋆✦⋆`;
 
 				const operatorsBox =
-`◊━━━━[ 𝙾𝙿𝙴𝚁𝙰𝚃𝙾𝚁 𝙻𝙸𝚂𝚃 ]━━━━◊
+`✿•≫──[ 𝙾𝙿𝙴𝚁𝙰𝚃𝙾𝚁 𝙻𝙸𝚂𝚃 ]──≪•✿
 ${getNames.length > 0
 	 ? getNames.map(i => `┋╰‣𝙽𝙰𝙼𝙴: 「 ${i.name} 」   
 ┋╰‣𝚄𝙸𝙳: 「 ${i.uid} 」`).join("\n")
 	: "│ No Operators Found"}
-◊━━━━━━━━━━━━━━━━━━━━◊`;
+✿•≫────────────────≪•✿`;
 
 				return message.reply(ownerBox + "\n\n" + operatorsBox);
 			}
