@@ -62,10 +62,10 @@ module.exports = {
 ➤ https://wa.me/+8801934640061
 
 [🌍] 𝐅𝐀𝐂𝐄𝐁𝐎𝐎𝐊 𝐈𝐃 (❶)
-➤ https://m.me/MR.FARHAN.420
+➤ https://m.me/MR.FARHAN.111
 
 [🌍] 𝐅𝐀𝐂𝐄𝐁𝐎𝐎𝐊 𝐈𝐃 (❷)
-➤ https://www.facebook.com/MR.FARHAN.420
+➤ https://www.facebook.com/MR.FARHAN.111
 
 ╚═══❖𝗧𝗛𝗔𝗡𝗞 𝗬𝗢𝗨❖═══╝`;
 
