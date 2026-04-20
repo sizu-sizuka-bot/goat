@@ -1,14 +1,10 @@
-const fs = require("fs-extra");
-const request = require("request");
-const path = require("path");
-
 module.exports = {
   config: {
     name: "owner",
-    version: "1.3.0",
+    version: "3.0.1",
     author: "Farhan-Khan",
     role: 0,
-    shortDescription: "Owner information with image",
+    shortDescription: "Owner info (fb link bottom)",
     category: "Information",
     guide: {
       en: "owner"
@@ -16,6 +12,7 @@ module.exports = {
   },
 
   onStart: async function ({ api, event }) {
+
     const ownerText = 
 `╔═══❖𝗢𝗪𝗡𝗘𝗥 𝗜𝗡𝗙𝗢❖═══╗
  
@@ -58,38 +55,20 @@ module.exports = {
 
 ‎⋆✦⋆═══🅲🅾🅽🆃🅰🅲🆃═══⋆✦⋆
 
-[📞] 𝗪𝗛𝗔𝗧𝗦𝗔𝗣𝗣
-➤ https://wa.me/+8801934640061
-
 [🌍] 𝐅𝐀𝐂𝐄𝐁𝐎𝐎𝐊 𝐈𝐃 (❶)
+
 ➤ https://m.me/MR.FARHAN.111
 
 [🌍] 𝐅𝐀𝐂𝐄𝐁𝐎𝐎𝐊 𝐈𝐃 (❷)
+
 ➤ https://www.facebook.com/MR.FARHAN.111
+‎‎⋆✦⋆══════════════⋆✦⋆
+[📞] ↓:𝗪𝗛𝗔𝗧𝗦𝗔𝗣𝗣:↓
+
+https://wa.me/+8801934640061
 
 ╚═══❖𝗧𝗛𝗔𝗡𝗞 𝗬𝗢𝗨❖═══╝`;
 
-    const cacheDir = path.join(__dirname, "cache");
-    const imgPath = path.join(cacheDir, "owner.jpg");
-
-    if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir);
-
-    const imgLink = "https://i.imgur.com/aeYswQs.jpeg";
-
-    const send = () => {
-      api.sendMessage(
-        {
-          body: ownerText,
-          attachment: fs.createReadStream(imgPath)
-        },
-        event.threadID,
-        () => fs.unlinkSync(imgPath),
-        event.messageID
-      );
-    };
-
-    request(encodeURI(imgLink))
-      .pipe(fs.createWriteStream(imgPath))
-      .on("close", send)
+    return api.sendMessage(ownerText, event.threadID, event.messageID);
   }
 };
