@@ -3,7 +3,7 @@ const axios = require("axios");
 module.exports = {
 	config: {
 		name: "couple",
-		aliases: ["couplevideo","love video"],
+		aliases: ["couplevideo","cuppol"],
 		version: "2.0",
 		author: "Rocky Chowdhury",
 		countDown: 5,
