@@ -47,7 +47,7 @@ module.exports = {
 
       current.forEach((g, i) => {
         msg += `_____________________\n🔢 ${start + i + 1}. ${g.name || "Unnamed Group"}\n`;
-        msg += `🆔 𝐔𝐈𝐃:≫: ${g.threadID}\n\n`;
+        msg += `\n🆔 𝐔𝐈𝐃:≫: ${g.threadID}\n\n`;
       });
 
       msg +=
@@ -103,7 +103,7 @@ module.exports = {
 
       current.forEach((g, i) => {
         msg += `_____________________\n🔢 ${start + i + 1}. ${g.name || "Unnamed Group"}\n`;
-        msg += `🆔 𝐔𝐈𝐃:≫ ${g.threadID}\n\n`;
+        msg += `\n🆔 𝐔𝐈𝐃:≫ ${g.threadID}\n\n`;
       });
 
       return api.sendMessage(msg, threadID, (err, info) => {
