@@ -1,85 +1,82 @@
 const axios = require("axios");
-const fs = require("fs-extra");
-const path = require("path");
 
 module.exports = {
-  config: {
-    name: "funny",
-    version: "2.0.0",
-    author: "NAZRUL x MOHAMMAD AKASH",
-    countDown: 5,
-    role: 0,
-    shortDescription: "Sad video sender 😢",
-    longDescription: "Sends random sad video with emotional captions 💔",
-    category: "media",
-    guide: {
-      en: "{pn}"
-    }
-  },
+	config: {
+		name: "funny",
+		aliases: ["animevideo","cartoon"],
+		version: "2.0",
+		author: "Rocky Chowdhury",
+		countDown: 5,
+		role: 0,
+		shortDescription: "Random captions with video and owner link",
+		longDescription: "Bangla + English captions with direct video and owner contact link",
+		category: "𝗙𝗨𝗡",
+		guide: "{pn}"
+	},
 
-  onStart: async function ({ api, event }) {
-    // 💔 Random sad captions
-    const captions = [
-      "===「𝐏𝐑𝐄𝐅𝐈𝐗-𝐄𝐕𝐄𝐍𝐓」=== \n--❖(✷‿𝐒𝐈𝐙𝐔𝐊𝐀-𝐁𝐎𝐓‿✷)❖-- \n✢━━━━━━━━━━━━━━━✢        \n🤡 ♡-𝐅𝐔𝐍𝐍𝐘-𝐕𝐈𝐃𝐄𝐎-♡ 🤡 \n✢━━━━━━━━━━━━━━━✢\n(✷‿𝐎𝐖𝐍𝐄𝐑:-𝐑𝐉-𝐅𝐀𝐑𝐇𝐀𝐍‿✷)"
-    ];
+	onStart: async function ({ message, api }) {
+		const { messageID } = message;
 
-    const caption = captions[Math.floor(Math.random() * captions.length)];
+		// 🔒 AUTHOR LOCK
+		if (this.config.author !== "Rocky Chowdhury") {
+			return message.reply("⚠️ Author change detected! Command disabled.");
+		}
 
-    // 🎥 Sad videos list
-    const links = [
-    "https://drive.google.com/uc?id=1Zg6YCrfLNFVPuIarV3ZBvyg9NW9vKf-i",
-    "https://drive.google.com/uc?id=1Tu7vjhlkUls3SKSTl-pGK3y69NYgeGMe",
-    "https://drive.google.com/uc?id=1vHhwiHHDRJpflMGCU0Alg7A5ARkugLya", 
-    "https://drive.google.com/uc?id=1KrHanrUqkqr0kFjFh1abl72xlmZ0_18a",
-    "https://drive.google.com/uc?id=1rs6cbx8oOYg2Zgi_0UZHfbDhEz8LjFlU",
-    "https://drive.google.com/uc?id=1thJh4_fG8DYdgKiOhsy8Jkp98O0m-23b",
-    "https://drive.google.com/uc?id=1T5x_hAEu5yozou0HeNrCHC6GS3XbgTSx",
-    "https://drive.google.com/uc?id=1CRvedhuz9z2JWLY6LH2dNgtt7cwuBBsG",
-    "https://drive.google.com/uc?id=1RbPFrHj4y7eno8OsAuYElOfdOsJ75eZp",
-    "https://drive.google.com/uc?id=1mY0B0yGi90h0K1GvxVdZ7eLkj-Q-W2Eq",
-    "https://drive.google.com/uc?id=1xgh5EePrQq62zeDRu2YAkJTrAXSCXpOp",
-    "https://drive.google.com/uc?id=1-aZjX6vnC1HDn25jBoexmyLBlm6bLwli",
-    "https://drive.google.com/uc?id=1znMcAJbcDnS0oDG6LCUH8PN0gZOJxhRC", 
-    "https://drive.google.com/uc?id=1teEOVYZwvGuz75_Is_ZEEvZwroB1IZW8", 
-    "https://drive.google.com/uc?id=10gQjKcAL8MkXOqi8vLYqPYiFg0_Qh-rR", 
-    "https://drive.google.com/uc?id=1b0xOpxhPq0xZO7QDpU4BZ-OnRKYPMdLD", 
-    "https://drive.google.com/uc?id=1-KLse2-7YKacnPGL7zHH5_KOHQUbVUt0"
-    ];
+		try {
+			api.setMessageReaction("⏳", messageID, () => {}, true);
+		} catch {}
 
-    const link = links[Math.floor(Math.random() * links.length)];
-    const cachePath = path.join(__dirname, "cache", "sad.mp4");
+		let loadingMsg;
+		try {
+			loadingMsg = await message.reply("⚡ ᴠɪᴅᴇᴏ ʟᴏᴀᴅɪɴɢ...⚡");
+		} catch {}
 
-    try {
-      const response = await axios({
-        url: encodeURI(link),
-        method: "GET",
-        responseType: "stream"
-      });
+		// 🔥 Drive Links (Converted)
+		const links = [
+	"1Zg6YCrfLNFVPuIarV3ZBvyg9NW9vKf-i",
+	"1Tu7vjhlkUls3SKSTl-pGK3y69NYgeGMe",
+	"1vHhwiHHDRJpflMGCU0Alg7A5ARkugLya",
+	"1KrHanrUqkqr0kFjFh1abl72xlmZ0_18a",
+	"1rs6cbx8oOYg2Zgi_0UZHfbDhEz8LjFlU",
+	"1thJh4_fG8DYdgKiOhsy8Jkp98O0m-23b",
+	"1T5x_hAEu5yozou0HeNrCHC6GS3XbgTSx",
+	"1CRvedhuz9z2JWLY6LH2dNgtt7cwuBBsG",
+	"1RbPFrHj4y7eno8OsAuYElOfdOsJ75eZp",
+	"1mY0B0yGi90h0K1GvxVdZ7eLkj-Q-W2Eq",
+	"1xgh5EePrQq62zeDRu2YAkJTrAXSCXpOp",
+	"1-aZjX6vnC1HDn25jBoexmyLBlm6bLwli",
+	"1znMcAJbcDnS0oDG6LCUH8PN0gZOJxhRC",
+	"1teEOVYZwvGuz75_Is_ZEEvZwroB1IZW8",
+	"10gQjKcAL8MkXOqi8vLYqPYiFg0_Qh-rR",
+	"1b0xOpxhPq0xZO7QDpU4BZ-OnRKYPMdLD",
+	"1-KLse2-7YKacnPGL7zHH5_KOHQUbVUt0"
+		];
 
-      await fs.ensureDir(path.join(__dirname, "cache"));
-      const writer = fs.createWriteStream(cachePath);
+		// 🎲 Random ID
+		const randomID = links[Math.floor(Math.random() * links.length)];
 
-      response.data.pipe(writer);
+		// ✅ Proper Direct Download Link
+		const videoURL = `https://drive.google.com/uc?export=download&id=${randomID}`;
 
-      writer.on("finish", async () => {
-        await api.sendMessage(
-          {
-            body: `「 ${caption} 」`,
-            attachment: fs.createReadStream(cachePath)
-          },
-          event.threadID
-        );
-        fs.unlinkSync(cachePath);
-      });
+		const caption = `✢━━━━━━━━━━━━━━━✢\n✨ 𝐑𝐚𝐧𝐝𝐨𝐦 𝐅𝐮𝐧𝐧𝐲 𝐕𝐢𝐝𝐞𝐨 🎬\n𝐄𝐧𝐣𝐨𝐲 𝐭𝐡𝐞 𝐦𝐨𝐦𝐞𝐧𝐭 💫`;
 
-      writer.on("error", (err) => {
-        console.error(err);
-        api.sendMessage("❌ ভিডিও পাঠাতে সমস্যা হয়েছে!", event.threadID);
-      });
+		const footer = `\n✢━━━━━━━━━━━━━━━✢\n--❖(✷‿𝐒𝐈𝐙𝐔𝐊𝐀-𝐁𝐎𝐓‿✷)❖--\n✢━━━━━━━━━━━━━━━✢\n(✷‿𝐎𝐖𝐍𝐄𝐑:-𝐑𝐉-𝐅𝐀𝐑𝐇𝐀𝐍‿✷)`;
 
-    } catch (error) {
-      console.error(error);
-      api.sendMessage("❌ কিছু একটা সমস্যা হয়েছে ভিডিও আনতে।", event.threadID);
-    }
-  }
+		try {
+			const stream = await global.utils.getStreamFromURL(videoURL);
+
+			await message.reply({
+				body: caption + footer,
+				attachment: stream
+			});
+
+			if (loadingMsg) api.unsendMessage(loadingMsg.messageID);
+			api.setMessageReaction("✅", messageID, () => {}, true);
+
+		} catch (err) {
+			console.error(err);
+			api.setMessageReaction("❌", messageID, () => {}, true);
+			message.reply("❌ Video load failed!");
+		}
+	}
 };
