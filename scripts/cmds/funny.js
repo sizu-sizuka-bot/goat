@@ -3,7 +3,7 @@ const axios = require("axios");
 module.exports = {
 	config: {
 		name: "funny",
-		aliases: ["animevideo","cartoon"],
+		aliases: ["funvideo","funnyvideo"],
 		version: "2.0",
 		author: "Rocky Chowdhury",
 		countDown: 5,
