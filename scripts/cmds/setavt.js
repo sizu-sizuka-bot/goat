@@ -2,10 +2,10 @@ const axios = require("axios");
 
 module.exports = {
 	config: {
-		name: "setdp",
-		aliases: ["changedp", "setpp"],
+		name: "setavt",
+		aliases: ["changeavt", "setavatar"],
 		version: "1.3",
-		author: "NTKhang",
+		author: "MR_FARHAN",
 		countDown: 5,
 		role: 2,
 		description: {
