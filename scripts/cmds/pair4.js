@@ -5,7 +5,7 @@ const path = require("path");
 
 module.exports = {
   config: {
-    name: "pair2",
+    name: "pair4",
     author: "Ew'r Saim X Ariyan",
     category: "love",
   },
