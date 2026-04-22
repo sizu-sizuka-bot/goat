@@ -66,10 +66,10 @@ module.exports = {
 ⋆✦⋆═══🅲🅾🅽🆃🅰🅲🆃═══⋆✦⋆
 
 [🌍] 𝐅𝐀𝐂𝐄𝐁𝐎𝐎𝐊 𝐈𝐃 (❶)
-➤ https://m.me/Ewr.Farhan.420
+➤ https://m.me/61560833120754
 
 [🌍] 𝐅𝐀𝐂𝐄𝐁𝐎𝐎𝐊 𝐈𝐃 (❷)
-➤ https://www.facebook.com/Ewr.Farhan.420
+➤ https://www.facebook.com/61560833120754
 
 ⋆✦⋆══════════════⋆✦⋆
 [📞] ↓:𝗪𝗛𝗔𝗧𝗦𝗔𝗣𝗣:↓
