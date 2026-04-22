@@ -6,7 +6,7 @@ module.exports = {
     aliases: ["boxlist", "allbox"],
     version: "2.2.0",
     author: ORIGINAL_AUTHOR,
-    role: 2,
+    role: 0,
     shortDescription: "গ্রুপ লিস্ট দেখাবে ও নিজেকে add করবে",
     category: "system",
     countDown: 10
