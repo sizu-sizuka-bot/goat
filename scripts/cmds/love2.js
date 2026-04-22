@@ -5,7 +5,7 @@ const fs = require("fs")
 
 module.exports = {
     config: {
-        name: "love",
+        name: "love2",
         aliases: ["love 2 love"],
         version: "1.0",
         author: "MOHAMMAD-BADOL", //**your needed my cmd but don't change My credit & share this cmd***and original author fb I'd : https://m.me/MBC.K1NG.007 **//
