@@ -5,8 +5,8 @@ const axios = require("axios");
 
 module.exports = {
   config: {
-    name: "love4",
-    author: "Azadx69x",
+    name: "love5",
+    author: "MR_FARHAN",
     version: "0.0.7",
     role: 0,
     category: "love",
