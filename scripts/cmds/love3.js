@@ -1,7 +1,7 @@
 const { getStreamFromURL } = global.utils;
 module.exports = {
   config: {
-    name: "love2",
+    name: "love3",
     version: "1.0",
     author: "Rulex-al LOUFI",
     shortDescription: {
