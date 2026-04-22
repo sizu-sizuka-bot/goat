@@ -5,7 +5,7 @@ const path = require("path");
 module.exports = {
  config: {
  name: "sizuka",
- aliases: ["waifu", "neko", "shinobu", "megumin", "bully", "cuddle", "cry", "hug", "awoo", "kiss", "lick", "pat", "smug", "bonk", "yeet", "blush", "smile", "wave", "highfive", "handhold", "nom", "bite", "glomp", "slap", "kill", "kick", "happy", "wink", "poke", "dance", "cringe"],
+ aliases: ["waifu", "neko", "shinobu", "megumin", "bully", "cuddle", "cry", "awoo", "lick", "pat", "smug", "bonk", "yeet", "blush", "smile", "wave", "highfive", "handhold", "nom", "bite", "glomp", "kill", "wink", "poke", "dance", "cringe"],
  version: "1.4.0",
  author: "Chitron Bhattacharjee",
  countDown: 10,
