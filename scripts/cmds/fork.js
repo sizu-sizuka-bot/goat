@@ -25,10 +25,6 @@ module.exports = {
        ‎  ↓𓆩» 𝐆𝐎𝐀𝐓-𝐅𝐎𝐑𝐊 «𓆪↓
 ⋆✦⋆⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⋆✦⋆      
        [>https://github.com/FARHAN-MIRAI-BOT/GOAT<]
- ‎⋆✦⋆⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⋆✦⋆
-         ↓𓆩» 𝐌𝐈𝐑𝐀𝐈-𝐅𝐎𝐑𝐊 «𓆪↓
- ‎⋆✦⋆⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⋆✦⋆      
-       [>https://github.com/FARHAN-MIRAI-BOT/SIZUKA<]
 ╠══════════════════╣`;
 
     return api.sendMessage(ownerText, event.threadID, event.messageID);
