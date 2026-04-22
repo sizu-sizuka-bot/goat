@@ -20,7 +20,7 @@ onStart: async function ({ api, event, usersData }) {
 try {                                                
                                                 
 const senderData = await usersData.get(event.senderID);                                                
-let senderName = (senderData && senderData.name) ? senderData.name : "You";   // 🔒 NAME LOCK                                                
+let senderName = (senderData && senderData.name) ? senderData.name : "MR_FARHAN";   // 🔒 NAME LOCK                                                
                                                 
 const threadData = await api.getThreadInfo(event.threadID);                                                
 const users = threadData.userInfo;                                                
