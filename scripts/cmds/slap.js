@@ -1,44 +1,54 @@
-const DIG = require("discord-image-generation");
-const fs = require("fs-extra");
+const axios = require("axios");
 
 module.exports = {
- config: {
- name: "slap",
- version: "1.1",
- author: "MR_FARHAN",
- countDown: 5,
- role: 0,
- shortDescription: "Batslap image",
- longDescription: "Batslap image",
- category: "𝗙𝗨𝗡 & 𝗚𝗔𝗠𝗘",
- guide: {
- en: " {pn} @tag"
- }
- },
+  config: {
+    name: "slap",
+    version: "1.0.0",
+    author: "MR_FARHAN",
+    countDown: 3,
+    role: 0,
+    shortDescription: "𝐒𝐥𝐚𝐩 𝐚 𝐮𝐬𝐞𝐫 😆",
+    longDescription: "𝐒𝐥𝐚𝐩 𝐚𝐧𝐲𝐨𝐧𝐞 𝐰𝐢𝐭𝐡 𝐚 𝐟𝐮𝐧𝐧𝐲 𝐢𝐦𝐚𝐠𝐞",
+    category: "fun",
+    guide: {
+      en: "{pn} @mention / reply"
+    }
+  },
 
- langs: {
- vi: {
- noTag: "Bạn phải tag người bạn muốn tát"
- },
- en: {
- noTag: "যারে থাপড়াবি ওরে মেনশন দে বলদ 🤓"
- }
- },
+  onStart: async function ({ event, message, usersData }) {
+    try {
+      const senderID = event.senderID;
 
- onStart: async function ({ event, message, usersData, args, getLang }) {
- const uid1 = event.senderID;
- const uid2 = Object.keys(event.mentions)[0];
- if (!uid2)
- return message.reply(getLang("noTag"));
- const avatarURL1 = await usersData.getAvatarUrl(uid1);
- const avatarURL2 = await usersData.getAvatarUrl(uid2);
- const img = await new DIG.Batslap().getImage(avatarURL1, avatarURL2);
- const pathSave = `${__dirname}/tmp/${uid1}_${uid2}Batslap.png`;
- fs.writeFileSync(pathSave, Buffer.from(img));
- const content = args.join(' ').replace(Object.keys(event.mentions)[0], "");
- message.reply({
- body: `${(content || "বেশি বাল পাকনামি কারণে চটকানি খাইলি তো আর করবি বাল পাকনামি 😵‍💫😵")}`,
- attachment: fs.createReadStream(pathSave)
- }, () => fs.unlinkSync(pathSave));
- }
+      let targetID =
+        (event.type === "message_reply" && event.messageReply?.senderID) ||
+        (event.mentions && Object.keys(event.mentions)[0]);
+
+      if (!targetID) {
+        return message.reply("❌ 𝐏𝐥𝐞𝐚𝐬𝐞 𝐦𝐞𝐧𝐭𝐢𝐨𝐧 𝐨𝐫 𝐫𝐞𝐩𝐥𝐲 𝐭𝐨 𝐬𝐨𝐦𝐞𝐨𝐧𝐞!");
+      }
+
+      const name1 = await usersData.getName(senderID).catch(() => "User");
+      const name2 = await usersData.getName(targetID).catch(() => "User");
+
+      const avatar1 = await usersData.getAvatarUrl(senderID);
+      const avatar2 = await usersData.getAvatarUrl(targetID);
+
+      const apiURL = `https://azadx69x-all-apis-top.vercel.app/api/slap?avatar1=${encodeURIComponent(
+        avatar1
+      )}&avatar2=${encodeURIComponent(avatar2)}`;
+
+      const stream = await global.utils.getStreamFromURL(apiURL);
+
+      const replyText = `✿•≫───────────────≪•✿\n🤣 ${name1} 𝐬𝐥𝐚𝐩𝐩𝐞𝐝 ${name2}! \nবেশি বাল পাকনামির কারণে চটকানি খাইলি তো আর করবি ভাল পাগলামি,👊😹\n✿•≫───────────────≪•✿`;
+
+      return message.reply({
+        body: replyText,
+        attachment: stream
+      });
+
+    } catch (err) {
+      console.error("SLAP CMD ERROR:", err);
+      return message.reply("❌ 𝐂𝐨𝐮𝐥𝐝 𝐧𝐨𝐭 𝐟𝐞𝐭𝐜𝐡 𝐬𝐥𝐚𝐩 𝐢𝐦𝐚𝐠𝐞.");
+    }
+  }
 };
