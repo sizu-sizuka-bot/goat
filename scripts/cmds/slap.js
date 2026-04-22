@@ -39,7 +39,7 @@ module.exports = {
 
       const stream = await global.utils.getStreamFromURL(apiURL);
 
-      const replyText = `✿•≫───────────────≪•✿\n🤣 ${name1} 𝐬𝐥𝐚𝐩𝐩𝐞𝐝 ${name2}! \nবেশি বাল পাকনামির কারণে চটকানি খাইলি তো আর করবি ভাল পাগলামি,👊😹\n✿•≫───────────────≪•✿`;
+      const replyText = `✿•≫───────────────≪•✿\n「 ${name2} 」 \n\nবেশি বাল পাকনামির কারণে চটকানি খাইলি তো আর করবি ভাল পাগলামি,👊😹\n✿•≫───────────────≪•✿`;
 
       return message.reply({
         body: replyText,
