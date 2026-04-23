@@ -47,7 +47,7 @@ module.exports = {
     const hours = Math.floor((uptime % 86400) / 3600);
     const minutes = Math.floor((uptime % 3600) / 60);
     const seconds = Math.floor(uptime % 60);
-    const uptimeString = ${days}𝐝 ${hours}𝐡 ${minutes}𝐦 ${seconds}𝐬;
+    const uptimeString = `${days}𝐝 ${hours}𝐡 ${minutes}𝐦 ${seconds}𝐬`;
 
     // ===== VIDEO DOWNLOAD (TEMP FIX, NO 429) =====
     const videoUrl = "https://files.catbox.moe/rtgdvs.mp4";
@@ -106,7 +106,8 @@ ${ownerFB2}
 📞 𝐖𝐇𝐀𝐓𝐒𝐀𝐏𝐏
 ${ownerWhatsApp}
 
-╚════❖𝗧𝗛𝗔𝗡𝗞 𝗬𝗢𝗨❖════╝`,
+╚════❖𝗧𝗛𝗔𝗡𝗞 𝗬𝗢𝗨❖════╝
+`;
 
     return message.reply({
       body: msg,
