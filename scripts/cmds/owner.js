@@ -26,8 +26,8 @@ module.exports = {
     const ownerAddress = "𝐂𝐇𝐔𝐀𝐃𝐀𝐍𝐆𝐀";
     const ownerRelation = "𝐒𝐈𝐍𝐆𝐋𝐄";
     const ownerWork = "𝐉𝐎𝐁";
-    const ownerFB1 = "https://m.me/61560833120754";
-    const ownerFB2 = "https://www.facebook.com/61560833120754";
+    const ownerFB1 = "https://m.me/XX.FARHAN.420";
+    const ownerFB2 = "https://www.facebook.com/XX.FARHAN.420";
     const ownerWhatsApp = "https://wa.me/+8801934640061";
     const status = "𝐀𝐂𝐓𝐈𝐕𝐄 ✅";
 
