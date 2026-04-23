@@ -50,7 +50,7 @@ module.exports = {
     const uptimeString = `${days}𝐝 ${hours}𝐡 ${minutes}𝐦 ${seconds}𝐬`;
 
     // ===== VIDEO DOWNLOAD (TEMP FIX, NO 429) =====
-    const videoUrl = "https://files.catbox.moe/rtgdvs.mp4";
+    const videoUrl = "https://i.imgur.com/pzZmP2u.jpg";
     const filePath = path.join(__dirname, "cache", "owner.mp4");
 
     const writer = fs.createWriteStream(filePath);
