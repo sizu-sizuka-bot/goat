@@ -1,17 +1,17 @@
 const moment = require("moment-timezone");
 const axios = require("axios");
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
 
 module.exports = {
   config: {
     name: "owner",
-    version: "3.0.0",
+    version: "7.0.0",
     author: "MR_FARHAN",
     role: 0,
-    countDown: 10,
+    countDown: 5,
     shortDescription: {
-      en: "Owner & Bot Info"
+      en: "Owner Info (Drive Video + Caption Fix)"
     },
     category: "owner"
   },
@@ -19,7 +19,7 @@ module.exports = {
   onStart: async function ({ message }) {
 
     // ===== OWNER INFO =====
-    const ownerName = "𝐑𝐉-𝐅𝐀𝐑𝐇𝐀𝐍";
+    const ownerName = "𝐌𝐑_𝐅𝐀𝐑𝐇𝐀𝐍";
     const ownerAge = "𝟐𝟎+";
     const ownerGender = "𝐌𝐀𝐋𝐄";
     const ownerReligion = "𝐈𝐒𝐋𝐀𝐌";
@@ -49,23 +49,31 @@ module.exports = {
     const seconds = Math.floor(uptime % 60);
     const uptimeString = `${days}𝐝 ${hours}𝐡 ${minutes}𝐦 ${seconds}𝐬`;
 
-    // ===== VIDEO DOWNLOAD (TEMP FIX, NO 429) =====
-    const videoUrl = "https://files.catbox.moe/rtgdvs.mp4";
+    // ===== DRIVE FILE ID =====
+    const fileId = "1Ddk4WuFPMFWOEvN2zQmYMc5AvE6tptFJ";
     const filePath = path.join(__dirname, "cache", "owner.mp4");
+    await fs.ensureDir(path.dirname(filePath));
 
-    const writer = fs.createWriteStream(filePath);
-    const response = await axios({
-      url: videoUrl,
-      method: "GET",
-      responseType: "stream"
-    });
+    // ===== DOWNLOAD FUNCTION =====
+    async function downloadDriveVideo(id) {
+      const url = `https://drive.google.com/uc?export=download&id=${id}`;
 
-    response.data.pipe(writer);
+      const writer = fs.createWriteStream(filePath);
 
-    await new Promise((resolve, reject) => {
-      writer.on("finish", resolve);
-      writer.on("error", reject);
-    });
+      const res = await axios({
+        url,
+        method: "GET",
+        responseType: "stream",
+        headers: { "User-Agent": "Mozilla/5.0" }
+      });
+
+      res.data.pipe(writer);
+
+      return new Promise((resolve, reject) => {
+        writer.on("finish", resolve);
+        writer.on("error", reject);
+      });
+    }
 
     // ===== MESSAGE =====
     const msg = `
@@ -87,7 +95,7 @@ module.exports = {
 
 🔧 𝐏𝐑𝐄𝐅𝐈𝐗     : 「 ${prefix} 」
 
-📜 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒   : ${totalCommands}
+📜 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒   :「 ${totalCommands} 」
 
 📡 𝐒𝐓𝐀𝐓𝐔𝐒     : ${status}
 
@@ -109,9 +117,17 @@ ${ownerWhatsApp}
 ╚════❖𝗧𝗛𝗔𝗡𝗞 𝗬𝗢𝗨❖════╝
 `;
 
-    return message.reply({
-      body: msg,
-      attachment: fs.createReadStream(filePath)
-    });
+    // ===== RUN =====
+    try {
+      await downloadDriveVideo(fileId);
+
+      return message.reply({
+        body: msg,
+        attachment: fs.createReadStream(filePath)
+      });
+
+    } catch (err) {
+      return message.reply(msg + "\n\n❌ Video send failed!");
+    }
   }
 };
