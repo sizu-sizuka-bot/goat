@@ -52,7 +52,7 @@ module.exports.onLoad = async function ({ api }) {
     // 🚫 duplicate block
     if (now === lastSentTime) return;
 
-    if (azan_times[now]) {
+    if (prayerTimes[now]) {
 
       lastSentTime = now;
 
@@ -63,7 +63,7 @@ module.exports.onLoad = async function ({ api }) {
 
       const finalMsg =
 `━━━━━━━━━━━━━━━━━━
-${azan_times[now]}
+${prayerTimes[now]}
 🕒 সময়: ${timeNow}
 📅 তারিখ: ${dateNow}
 ━━━━━━━━━━━━━━━━━━
@@ -115,7 +115,7 @@ ${randomDua}
         console.log("✅ নামাজ + দোয়া + আজান পাঠানো হয়েছে");
 
       } catch (err) {
-        console.error("❌ Azan Timer Error:", err);
+        console.error("❌ Prayer Timer Error:", err);
       }
     }
   };
