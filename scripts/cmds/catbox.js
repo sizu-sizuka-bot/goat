@@ -30,20 +30,20 @@ module.exports = {
                 bn: {
                         noMedia: "🐤 | বেবি, একটি ছবি বা ভিডিওতে রিপ্লাই দাও! 🖼",
                         uploading: "⌛ | আপলোড হচ্ছে, একটু অপেক্ষা করো বেবি... <😘",
-                        success: "Successfully Uploaded ✅\n\n🔗 𝐔𝐑𝐋: %1",
-                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact MahMUD।"
+                        success: "𝐒𝐮𝐜𝐜𝐞𝐬𝐬𝐟𝐮𝐥𝐥𝐲 𝐔𝐩𝐥𝐨𝐚𝐝𝐞𝐝 ✅\n\n🔗 𝐔𝐑𝐋: %1",
+                        error: "× সমস্যা হয়েছে: %1। প্রয়োজনে Contact Farhan..."
                 },
                 en: {
                         noMedia: "🐤 | Baby, please reply to a media file (image/video)! 🖼",
                         uploading: "⌛ | Uploading, please wait a moment baby... <😘",
-                        success: "Successfully Uploaded ✅\n\n🔗 𝐔𝐑𝐋: %1",
-                        error: "× API error: %1. Contact MahMUD for help."
+                        success: "𝐒𝐮𝐜𝐜𝐞𝐬𝐬𝐟𝐮𝐥𝐥𝐲 𝐔𝐩𝐥𝐨𝐚𝐝𝐞𝐝 ✅\n\n🔗 𝐔𝐑𝐋: %1",
+                        error: "× API error: %1. Contact Farhan for help."
                 },
                 vi: {
                         noMedia: "🐤 | Cưng ơi, vui lòng phản hồi một tệp ảnh hoặc video! 🖼",
                         uploading: "⌛ | Đang tải lên, chờ chút nhé cưng... <😘",
                         success: "Tải lên thành công ✅\n\n🔗 𝐔𝐑𝐋: %1",
-                        error: "× Lỗi: %1. Liên hệ MahMUD để hỗ trợ."
+                        error: "× Lỗi: %1. Liên hệ Farhan để hỗ trợ."
                 }
         },
 
