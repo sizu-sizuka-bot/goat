@@ -1,17 +1,17 @@
 const moment = require("moment-timezone");
 const axios = require("axios");
-const fs = require("fs-extra");
+const fs = require("fs");
 const path = require("path");
 
 module.exports = {
   config: {
     name: "owner",
-    version: "7.0.0",
+    version: "3.0.0",
     author: "MR_FARHAN",
     role: 0,
-    countDown: 5,
+    countDown: 10,
     shortDescription: {
-      en: "Owner Info (Drive Video + Caption Fix)"
+      en: "Owner & Bot Info"
     },
     category: "owner"
   },
@@ -49,31 +49,23 @@ module.exports = {
     const seconds = Math.floor(uptime % 60);
     const uptimeString = `${days}𝐝 ${hours}𝐡 ${minutes}𝐦 ${seconds}𝐬`;
 
-    // ===== DRIVE FILE ID =====
-    const fileId = "1Ddk4WuFPMFWOEvN2zQmYMc5AvE6tptFJ";
+    // ===== VIDEO DOWNLOAD (TEMP FIX, NO 429) =====
+    const videoUrl = "https://files.catbox.moe/wzosnu.mp4";
     const filePath = path.join(__dirname, "cache", "owner.mp4");
-    await fs.ensureDir(path.dirname(filePath));
 
-    // ===== DOWNLOAD FUNCTION =====
-    async function downloadDriveVideo(id) {
-      const url = `https://drive.google.com/uc?export=download&id=${id}`;
+    const writer = fs.createWriteStream(filePath);
+    const response = await axios({
+      url: videoUrl,
+      method: "GET",
+      responseType: "stream"
+    });
 
-      const writer = fs.createWriteStream(filePath);
+    response.data.pipe(writer);
 
-      const res = await axios({
-        url,
-        method: "GET",
-        responseType: "stream",
-        headers: { "User-Agent": "Mozilla/5.0" }
-      });
-
-      res.data.pipe(writer);
-
-      return new Promise((resolve, reject) => {
-        writer.on("finish", resolve);
-        writer.on("error", reject);
-      });
-    }
+    await new Promise((resolve, reject) => {
+      writer.on("finish", resolve);
+      writer.on("error", reject);
+    });
 
     // ===== MESSAGE =====
     const msg = `
@@ -117,17 +109,9 @@ ${ownerWhatsApp}
 ╚════❖𝗧𝗛𝗔𝗡𝗞 𝗬𝗢𝗨❖════╝
 `;
 
-    // ===== RUN =====
-    try {
-      await downloadDriveVideo(fileId);
-
-      return message.reply({
-        body: msg,
-        attachment: fs.createReadStream(filePath)
-      });
-
-    } catch (err) {
-      return message.reply(msg + "\n\n❌ Video send failed!");
-    }
+    return message.reply({
+      body: msg,
+      attachment: fs.createReadStream(filePath)
+    });
   }
 };
