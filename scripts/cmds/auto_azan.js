@@ -52,7 +52,7 @@ module.exports.onLoad = async function ({ api }) {
     // 🚫 duplicate block
     if (now === lastSentTime) return;
 
-    if (prayerTimes[now]) {
+    if (azan_times[now]) {
 
       lastSentTime = now;
 
@@ -63,7 +63,7 @@ module.exports.onLoad = async function ({ api }) {
 
       const finalMsg =
 `━━━━━━━━━━━━━━━━━━
-${prayerTimes[now]}
+${azan_times[now]}
 🕒 সময়: ${timeNow}
 📅 তারিখ: ${dateNow}
 ━━━━━━━━━━━━━━━━━━
