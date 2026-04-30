@@ -8,15 +8,15 @@ const AUTHOR_LOCK = "𝙼'𝚁_𝙵𝙰𝚁𝙷𝙰𝙽";
 
 module.exports.config = {
   name: "auto_azan",
-  version: "3.0",
+  version: "4.0",
   role: 0,
   author: AUTHOR_LOCK,
-  description: "নামাজ টাইমে ভিডিও + Random Dua সহ মেসেজ যাবে",
+  description: "নামাজ টাইমে ভিডিও + Random Dua সহ মেসেজ যাবে (No Duplicate)",
   category: "Utility",
   countDown: 5,
 };
 
-// 🔒 SAFE PROTECTION (bot crash করবে না)
+// 🔒 SAFE PROTECTION
 if (module.exports.config.author !== AUTHOR_LOCK) {
   console.log("❌ Author changed! Command disabled.");
   module.exports.onLoad = () => {};
@@ -26,7 +26,14 @@ if (module.exports.config.author !== AUTHOR_LOCK) {
 
 module.exports.onLoad = async function ({ api }) {
 
-  let lastSentTime = "";
+  // 🔥 memory + file based lock (strong anti-duplicate)
+  const sentFile = path.join(__dirname, "cache", "azan_sent.json");
+
+  if (!fs.existsSync(sentFile)) {
+    fs.writeJsonSync(sentFile, {});
+  }
+
+  let sentData = fs.readJsonSync(sentFile);
 
   const prayerTimes = {
     "05:00 AM": "🕌 ফজরের নামাজের সময় হয়েছে",
@@ -44,26 +51,28 @@ module.exports.onLoad = async function ({ api }) {
     "🤲 اللّهُمَّ ارْزُقْنِي حَلَالًا طَيِّبًا\nহে আল্লাহ, আমাকে হালাল রিযিক দান করুন"
   ];
 
-  console.log("🕌 Auto Azan Loaded (Stable + Protected)...");
+  console.log("🕌 Auto Azan Loaded (No Duplicate Mode)...");
 
   const checkPrayer = async () => {
-    const now = moment().tz("Asia/Dhaka").format("hh:mm A");
+    const now = moment().tz("Asia/Dhaka");
+    const timeNow = now.format("hh:mm A");
+    const dateNow = now.format("DD-MM-YYYY");
 
-    // 🚫 duplicate block
-    if (now === lastSentTime) return;
+    const key = `${dateNow}_${timeNow}`;
 
-    if (prayerTimes[now]) {
+    // 🚫 already sent check (strong)
+    if (sentData[key]) return;
 
-      lastSentTime = now;
+    if (prayerTimes[timeNow]) {
 
-      const timeNow = moment().tz("Asia/Dhaka").format("hh:mm A");
-      const dateNow = moment().tz("Asia/Dhaka").format("DD-MM-YYYY");
+      sentData[key] = true;
+      fs.writeJsonSync(sentFile, sentData);
 
       const randomDua = duas[Math.floor(Math.random() * duas.length)];
 
       const finalMsg =
 `━━━━━━━━━━━━━━━━━━
-${prayerTimes[now]}
+${prayerTimes[timeNow]}
 🕒 সময়: ${timeNow}
 📅 তারিখ: ${dateNow}
 ━━━━━━━━━━━━━━━━━━
@@ -83,7 +92,6 @@ ${randomDua}
         const cacheDir = path.join(__dirname, "cache");
         const filePath = path.join(cacheDir, "azan.mp4");
 
-        // 📁 ensure cache folder
         if (!fs.existsSync(cacheDir)) {
           fs.mkdirSync(cacheDir);
         }
@@ -104,7 +112,7 @@ ${randomDua}
           });
         }
 
-        // 📤 send to all groups
+        // 📤 send one time only
         for (const thread of groupThreads) {
           await api.sendMessage({
             body: finalMsg,
@@ -112,16 +120,16 @@ ${randomDua}
           }, thread.threadID);
         }
 
-        console.log("✅ নামাজ + দোয়া + আজান পাঠানো হয়েছে");
+        console.log("✅ Azan sent (No duplicate)");
 
       } catch (err) {
-        console.error("❌ Prayer Timer Error:", err);
+        console.error("❌ Error:", err);
       }
     }
   };
 
-  // ⚡ fast & stable interval
-  setInterval(checkPrayer, 10000);
+  // ⚡ smarter interval (5 sec)
+  setInterval(checkPrayer, 5000);
 };
 
 module.exports.onStart = () => {};
