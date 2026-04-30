@@ -1,165 +1,8 @@
 const fs = require("fs-extra");
-const path = require("path");
-const { OpenAI } = require("openai");
-const moment = require('moment-timezone');
 const nullAndUndefined = [undefined, null];
-
-let aiClient = null;
-let conversationHistory = {};
-const aiMessageTracker = new Map();
-
-function initializeAI(config) {
-	if (!config.rasinAI?.apiKey) {
-		console.warn("Hugging Face API key not found in config.json");
-		return;
-	}
-	
-	try {
-		aiClient = new OpenAI({
-			baseURL: "https://router.huggingface.co/v1",
-			apiKey: config.rasinAI.apiKey,
-		});
-	} catch (err) {
-		console.error("❌ Failed to initialize AI client:", err.message);
-	}
-}
-
-async function getReplyx(userMessage, userId, botName = "GoatBot V3") {
-	if (!aiClient) return null;
-	
-	if (!conversationHistory[userId]) {
-		conversationHistory[userId] = [];
-	}
-	
-	const promptx = `You are GoatBot AI, an advanced assistant for a Facebook Messenger chatbot. Be friendly, helpful, and conversational. You can understand and respond in English`;
-
-	conversationHistory[userId].push({ role: "user", content: userMessage });
-	
-	if (conversationHistory[userId].length > 10) {
-		conversationHistory[userId] = conversationHistory[userId].slice(-10);
-	}
-	
-	try {
-		const chatCompletion = await aiClient.chat.completions.create({
-			model: "meta-llama/Llama-3.1-8B-Instruct",
-			messages: [
-				{ role: "system", content: promptx },
-				...conversationHistory[userId]
-			],
-			temperature: 0.7,
-			max_tokens: 500,
-		});
-		
-		const response = chatCompletion.choices[0].message.content;
-		conversationHistory[userId].push({ role: "assistant", content: response });
-		
-		return response;
-	} catch (err) {
-		console.error("AI Error:", err.response?.data || err.message);
-		return null;
-	}
-}
-
-function clearUserHistory(userId) {
-	delete conversationHistory[userId];
-}
-
-global.goatAI = {
-	getResponse: getReplyx,
-	clearHistory: clearUserHistory,
-	isAvailable: () => aiClient !== null,
-	trkMsg: (messageID, userId) => {
-		aiMessageTracker.set(messageID, { userId, timestamp: Date.now() });
-	},
-	isAIMessage: (messageID) => aiMessageTracker.has(messageID)
-};
-
-let bioInitialized = false;
-
-function initializeAutoBio(api, config) {
-	if (bioInitialized) return;
-	
-	if (!config.autoBio?.enabled) {
-		return;
-	}
-
-	const { bio } = config.autoBio;
-	
-	if (!bio || typeof bio !== 'string') {
-		console.warn("⚠️ Bio text not configured in config.json");
-		return;
-	}
-	
-	bioInitialized = true;
-
-	function processBio(bioText, config) {
-		const timeZone = config.timeZone || 'Asia/Dhaka';
-		const now = moment().tz(timeZone);
-		
-		return bioText
-			.replace(/\{time\}/g, now.format('HH:mm:ss'))
-			.replace(/\{date\}/g, now.format('DD/MM/YYYY'))
-			.replace(/\{day\}/g, now.format('dddd'))
-			.replace(/\{botName\}/g, config.nickNameBot || 'GoatBot')
-			.replace(/\{prefix\}/g, config.prefix || '!');
-	}
-
-	(async () => {
-		try {
-			const processedBio = processBio(bio, config);
-			await api.changeBio(processedBio, false);
-			console.log(`✅ Bio updated`);
-		} catch (err) {
-			console.error("❌ Failed to update bio:", err.message);
-		}
-	})();
-}
-
-global.botBioSystem = {
-	toggle: (api, config) => {
-		config.autoBio.enabled = !config.autoBio.enabled;
-		if (config.autoBio.enabled) {
-			bioInitialized = false;
-			initializeAutoBio(api, config);
-		} else {
-			if (bioUpdateInterval) {
-				clearInterval(bioUpdateInterval);
-				bioUpdateInterval = null;
-				bioInitialized = false;
-			}
-		}
-		return config.autoBio.enabled;
-	},
-	getStatus: (config) => config.autoBio?.enabled || false,
-	updateNow: async (api, config) => {
-		if (!config.autoBio?.bio) return false;
-		try {
-			const timeZone = config.timeZone || 'Asia/Dhaka';
-			const now = moment().tz(timeZone);
-			const processedBio = config.autoBio.bio
-				.replace(/\{time\}/g, now.format('HH:mm:ss'))
-				.replace(/\{date\}/g, now.format('DD/MM/YYYY'))
-				.replace(/\{day\}/g, now.format('dddd'))
-				.replace(/\{botName\}/g, config.nickNameBot || 'GoatBot')
-				.replace(/\{prefix\}/g, config.prefix || '!');
-			await api.changeBio(processedBio, false);
-			return true;
-		} catch (err) {
-			console.error("Failed to update bio:", err);
-			return false;
-		}
-	},
-	restart: (api, config) => {
-		if (bioUpdateInterval) {
-			clearInterval(bioUpdateInterval);
-			bioUpdateInterval = null;
-		}
-		bioInitialized = false;
-		if (config.autoBio?.enabled) {
-			initializeAutoBio(api, config);
-		}
-	}
-};
+const leven = require('leven');
+// const { config } = global.GoatBot;
+// const { utils } = global;
 
 function getType(obj) {
 	return Object.prototype.toString.call(obj).slice(8, -1);
@@ -219,12 +62,19 @@ function getRoleConfig(utils, command, isGroup, threadData, commandName) {
 	}
 
 	return roleConfig;
+	// {
+	// 	onChat,
+	// 	onStart,
+	// 	onReaction,
+	// 	onReply
+	// }
 }
 
 function isBannedOrOnlyAdmin(userData, threadData, senderID, threadID, isGroup, commandName, message, lang) {
 	const config = global.GoatBot.config;
 	const { adminBot, hideNotiMessage } = config;
 
+	// check if user banned
 	const infoBannedUser = userData.banned;
 	if (infoBannedUser.status == true) {
 		const { reason, date } = infoBannedUser;
@@ -233,6 +83,7 @@ function isBannedOrOnlyAdmin(userData, threadData, senderID, threadID, isGroup, 
 		return true;
 	}
 
+	// check if only admin bot
 	if (
 		config.adminOnly.enable == true
 		&& !adminBot.includes(senderID)
@@ -243,17 +94,20 @@ function isBannedOrOnlyAdmin(userData, threadData, senderID, threadID, isGroup, 
 		return true;
 	}
 
+	// ==========    Check Thread    ========== //
 	if (isGroup == true) {
 		if (
 			threadData.data.onlyAdminBox === true
 			&& !threadData.adminIDs.includes(senderID)
 			&& !(threadData.data.ignoreCommanToOnlyAdminBox || []).includes(commandName)
 		) {
+			// check if only admin box
 			if (!threadData.data.hideNotiMessageOnlyAdminBox)
 				message.reply(getText("onlyAdminBox", null, null, null, lang));
 			return true;
 		}
 
+		// check if thread banned
 		const infoBannedThread = threadData.banned;
 		if (infoBannedThread.status == true) {
 			const { reason, date } = infoBannedThread;
@@ -264,6 +118,7 @@ function isBannedOrOnlyAdmin(userData, threadData, senderID, threadID, isGroup, 
 	}
 	return false;
 }
+
 
 function createGetText2(langCode, pathCustomLang, prefix, command) {
 	const commandType = command.config.countDown ? "command" : "command event";
@@ -285,9 +140,6 @@ function createGetText2(langCode, pathCustomLang, prefix, command) {
 }
 
 module.exports = function (api, threadModel, userModel, dashBoardModel, globalModel, usersData, threadsData, dashBoardData, globalData) {
-	initializeAI(global.GoatBot.config);
-	initializeAutoBio(api, global.GoatBot.config);
-	
 	return async function (event, message) {
 
 		const { utils, client, GoatBot } = global;
@@ -298,17 +150,9 @@ module.exports = function (api, threadModel, userModel, dashBoardModel, globalMo
 
 		const { body, messageID, threadID, isGroup } = event;
 
+		// Check if has threadID
 		if (!threadID)
 			return;
-
-		try {
-    api.markAsReadAll((err) => {
-        if (err) console.error("markAsReadAll error:", err);
-    });
-} catch (err) {
-    // Silently ignore errors
-}
-
 
 		const senderID = event.userID || event.senderID || event.author;
 
@@ -339,7 +183,6 @@ module.exports = function (api, threadModel, userModel, dashBoardModel, globalMo
 
 		const prefix = getPrefix(threadID);
 		const role = getRole(threadData, senderID);
-		
 		const parameters = {
 			api, usersData, threadsData, message, event,
 			userModel, threadModel, prefix, dashBoardModel,
@@ -363,78 +206,33 @@ module.exports = function (api, threadModel, userModel, dashBoardModel, globalMo
 			};
 		}
 
-		function findCommand(input, prefix) {
-			if (!input) return null;
-
-			let commandName = "";
-			let args = [];
-			let usedPrefix = false;
-			let bodyWithoutCommand = "";
-
-			if (input.startsWith(prefix)) {
-				usedPrefix = true;
-				const argsArray = input.slice(prefix.length).trim().split(/ +/);
-				commandName = argsArray.shift().toLowerCase();
-				args = argsArray;
-				bodyWithoutCommand = input.replace(new RegExp(`^${prefix}(\\s+|)${commandName}`, "i"), "").trim();
-			} else {
-				const argsArray = input.trim().split(/ +/);
-				commandName = argsArray.shift().toLowerCase();
-				args = argsArray;
-				bodyWithoutCommand = input.replace(new RegExp(`^${commandName}`, "i"), "").trim();
-			}
-
-			let command = GoatBot.commands.get(commandName) || GoatBot.commands.get(GoatBot.aliases.get(commandName));
-			
-			if (!command) {
-				const aliasesData = threadData.data.aliases || {};
-				for (const cmdName in aliasesData) {
-					if (aliasesData[cmdName].includes(commandName)) {
-						command = GoatBot.commands.get(cmdName);
-						break;
-					}
-				}
-			}
-
-			if (!command) return null;
-
-			const requiresPrefix = command.config.prefix !== false;
-
-			if (requiresPrefix && !usedPrefix) return null;
-
-			return {
-				command,
-				commandName: command.config.name,
-				args,
-				usedPrefix,
-				bodyWithoutCommand
-			};
-		}
-
+		/*
+			+-----------------------------------------------+
+			|							 WHEN CALL COMMAND								|
+			+-----------------------------------------------+
+		*/
 		let isUserCallCommand = false;
 		async function onStart() {
-			if (!body)
+			// —————————————— CHECK USE BOT —————————————— //
+			if (!body || !body.startsWith(prefix))
 				return;
-			
 			const dateNow = Date.now();
-			
-			const commandInfo = findCommand(body, prefix);
-			
-			if (!commandInfo) {
-				if (body.startsWith(prefix) && !hideNotiMessage.commandNotFound) {
-					const args = body.slice(prefix.length).trim().split(/ +/);
-					const inputCommandName = args.shift().toLowerCase();
-					return await message.reply(
-						inputCommandName ?
-							utils.getText({ lang: langCode, head: "handlerEvents" }, "commandNotFound", inputCommandName, prefix) :
-							utils.getText({ lang: langCode, head: "handlerEvents" }, "commandNotFound2", prefix)
-					);
+			const args = body.slice(prefix.length).trim().split(/ +/);
+			// ————————————  CHECK HAS COMMAND ——————————— //
+			let commandName = args.shift().toLowerCase();
+			let command = GoatBot.commands.get(commandName) || GoatBot.commands.get(GoatBot.aliases.get(commandName));
+			// ———————— CHECK ALIASES SET BY GROUP ———————— //
+			const aliasesData = threadData.data.aliases || {};
+			for (const cmdName in aliasesData) {
+				if (aliasesData[cmdName].includes(commandName)) {
+					command = GoatBot.commands.get(cmdName);
+					break;
 				}
-				return;
 			}
-
-			const { command, commandName, args, usedPrefix, bodyWithoutCommand } = commandInfo;
-
+			// ————————————— SET COMMAND NAME ————————————— //
+			if (command)
+				commandName = command.config.name;
+			// ——————— FUNCTION REMOVE COMMAND NAME ———————— //
 			function removeCommandNameFromBody(body_, prefix_, commandName_) {
 				if (arguments.length) {
 					if (typeof body_ != "string")
@@ -444,20 +242,44 @@ module.exports = function (api, threadModel, userModel, dashBoardModel, globalMo
 					if (typeof commandName_ != "string")
 						throw new Error(`The third argument (commandName) must be a string, but got "${getType(commandName_)}"`);
 
-					if (body_.startsWith(prefix_)) {
-						return body_.replace(new RegExp(`^${prefix_}(\\s+|)${commandName_}`, "i"), "").trim();
-					} else {
-						return body_.replace(new RegExp(`^${commandName_}`, "i"), "").trim();
-					}
+					return body_.replace(new RegExp(`^${prefix_}(\\s+|)${commandName_}`, "i"), "").trim();
 				}
 				else {
-					return bodyWithoutCommand;
+					return body.replace(new RegExp(`^${prefix}(\\s+|)${commandName}`, "i"), "").trim();
 				}
 			}
-			
+			// —————  CHECK BANNED OR ONLY ADMIN BOX  ————— //
 			if (isBannedOrOnlyAdmin(userData, threadData, senderID, threadID, isGroup, commandName, message, langCode))
 				return;
-				
+			if (!command) {
+				if (!hideNotiMessage.commandNotFound) {
+					const allCommands = Array.from(GoatBot.commands.keys());
+					let closestCommand = null;
+					let minDistance = 999;
+					const distanceThreshold = 2;
+					if (commandName) {
+						for (const correctCommand of allCommands) {
+							const distance = leven(commandName.toLowerCase(), correctCommand.toLowerCase());
+							if (distance < minDistance && distance <= distanceThreshold) {
+								minDistance = distance;
+								closestCommand = correctCommand;
+							}
+						}
+					}
+					if (closestCommand) {
+						return await message.reply(
+							utils.getText({ lang: langCode, head: "handlerEvents" }, "commandNotFoundSuggestion", closestCommand, prefix)
+						);
+					} else {
+						return await message.reply(
+							commandName ?
+								utils.getText({ lang: langCode, head: "handlerEvents" }, "commandNotFound", commandName, prefix) :
+								utils.getText({ lang: langCode, head: "handlerEvents" }, "commandNotFound2", prefix)
+						);
+					}
+				} else return true;
+			}
+			// ————————————— CHECK PERMISSION ———————————— //
 			const roleConfig = getRoleConfig(utils, command, isGroup, threadData, commandName);
 			const needRole = roleConfig.onStart;
 
@@ -472,7 +294,7 @@ module.exports = function (api, threadModel, userModel, dashBoardModel, globalMo
 					return true;
 				}
 			}
-			
+			// ———————————————— countDown ———————————————— //
 			if (!client.countDown[commandName])
 				client.countDown[commandName] = {};
 			const timestamps = client.countDown[commandName];
@@ -485,10 +307,11 @@ module.exports = function (api, threadModel, userModel, dashBoardModel, globalMo
 				if (dateNow < expirationTime)
 					return await message.reply(utils.getText({ lang: langCode, head: "handlerEvents" }, "waitingForCommand", ((expirationTime - dateNow) / 1000).toString().slice(0, 3)));
 			}
-			
+			// ——————————————— RUN COMMAND ——————————————— //
 			const time = getTime("DD/MM/YYYY HH:mm:ss");
 			isUserCallCommand = true;
 			try {
+				// analytics command call
 				(async () => {
 					const analytics = await globalData.get("analytics", "data", {});
 					if (!analytics[commandName])
@@ -516,123 +339,70 @@ module.exports = function (api, threadModel, userModel, dashBoardModel, globalMo
 		}
 
 
-async function onChat() {
-	const allOnChat = GoatBot.onChat || [];
-	const args = body ? body.split(/ +/) : [];
-	
-	if (body && !event.messageReply && config.aiAssistant?.enabled && aiClient) {
-		const goatAI = config.aiAssistant?.goatAI || [];
-		
-		const messageWords = body.trim().toLowerCase().split(/\s+/);
-		const firstWord = messageWords[0];
-		
-		const shouldRespond = goatAI.some(word => 
-			word.toLowerCase() === firstWord
-		);
+		/*
+		 +------------------------------------------------+
+		 |                    ON CHAT                     |
+		 +------------------------------------------------+
+		*/
+		async function onChat() {
+			const allOnChat = GoatBot.onChat || [];
+			const args = body ? body.split(/ +/) : [];
+			for (const key of allOnChat) {
+				const command = GoatBot.commands.get(key);
+				if (!command)
+					continue;
+				const commandName = command.config.name;
 
-		if (shouldRespond) {
-			let thinkingMsg;
-			let typingInterval;
+				// —————————————— CHECK PERMISSION —————————————— //
+				const roleConfig = getRoleConfig(utils, command, isGroup, threadData, commandName);
+				const needRole = roleConfig.onChat;
+				if (needRole > role)
+					continue;
 
-			try {
-				thinkingMsg = await message.reply("𝗚𝗼𝗮𝘁𝗕𝗼𝘁 𝗔𝗜 𝗶𝘀 𝘁𝗵𝗶𝗻𝗸𝗶𝗻𝗴.");
+				const getText2 = createGetText2(langCode, `${process.cwd()}/languages/cmds/${langCode}.js`, prefix, command);
+				const time = getTime("DD/MM/YYYY HH:mm:ss");
+				createMessageSyntaxError(commandName);
 
-				const dots = [
-					"𝗚𝗼𝗮𝘁𝗕𝗼𝘁 𝗔𝗜 𝗶𝘀 𝘁𝗵𝗶𝗻𝗸𝗶𝗻𝗴..",
-					"𝗚𝗼𝗮𝘁𝗕𝗼𝘁 𝗔𝗜 𝗶𝘀 𝘁𝗵𝗶𝗻𝗸𝗶𝗻𝗴..."
-				];
-				let i = 0;
-
-				typingInterval = setInterval(() => {
-					try {
-						api.editMessage(dots[i % dots.length], thinkingMsg.messageID);
-					} catch (e) {}
-					i++;
-				}, 700);
-
-				const userQuery = messageWords.slice(1).join(' ') || body;
-				
-				const aiResponse = await getReplyx(
-					userQuery,
-					senderID,
-					config.botName || "GoatBot v3"
-				);
-
-				clearInterval(typingInterval);
-
-				if (aiResponse) {
-					try {
-						await api.editMessage(
-							`𝗚𝗢𝗔𝗧𝗕𝗢𝗧 𝗔𝗜\n─────────\n\n${aiResponse}`,
-							thinkingMsg.messageID
-						);
-						global.goatAI.trkMsg(thinkingMsg.messageID, senderID);
-					} catch (e) {
-						const sent = await message.reply(
-							`𝗚𝗢𝗔𝗧𝗕𝗢𝗧 𝗔𝗜\n─────────\n\n${aiResponse}`
-						);
-						if (sent?.messageID) {
-							global.goatAI.trkMsg(sent.messageID, senderID);
-						}
-					}
-					return;
+				if (getType(command.onChat) == "Function") {
+					const defaultOnChat = command.onChat;
+					// convert to AsyncFunction
+					command.onChat = async function () {
+						return defaultOnChat(...arguments);
+					};
 				}
-			} catch (err) {
-				if (typingInterval) clearInterval(typingInterval);
-				console.error("AI Chat Error:", err);
+
+				command.onChat({
+					...parameters,
+					isUserCallCommand,
+					args,
+					commandName,
+					getLang: getText2
+				})
+					.then(async (handler) => {
+						if (typeof handler == "function") {
+							if (isBannedOrOnlyAdmin(userData, threadData, senderID, threadID, isGroup, commandName, message, langCode))
+								return;
+							try {
+								await handler();
+								log.info("onChat", `${commandName} | ${userData.name} | ${senderID} | ${threadID} | ${args.join(" ")}`);
+							}
+							catch (err) {
+								await message.reply(utils.getText({ lang: langCode, head: "handlerEvents" }, "errorOccurred2", time, commandName, removeHomeDir(err.stack ? err.stack.split("\n").slice(0, 5).join("\n") : JSON.stringify(err, null, 2))));
+							}
+						}
+					})
+					.catch(err => {
+						log.err("onChat", `An error occurred when calling the command onChat ${commandName}`, err);
+					});
 			}
 		}
-	}
-
-	for (const key of allOnChat) {
-		const command = GoatBot.commands.get(key);
-		if (!command)
-			continue;
-		const commandName = command.config.name;
-
-		const roleConfig = getRoleConfig(utils, command, isGroup, threadData, commandName);
-		const needRole = roleConfig.onChat;
-		if (needRole > role)
-			continue;
-
-		const getText2 = createGetText2(langCode, `${process.cwd()}/languages/cmds/${langCode}.js`, prefix, command);
-		const time = getTime("DD/MM/YYYY HH:mm:ss");
-		createMessageSyntaxError(commandName);
-
-		if (getType(command.onChat) == "Function") {
-			const defaultOnChat = command.onChat;
-			command.onChat = async function () {
-				return defaultOnChat(...arguments);
-			};
-		}
-
-		command.onChat({
-			...parameters,
-			isUserCallCommand,
-			args,
-			commandName,
-			getLang: getText2
-		})
-			.then(async (handler) => {
-				if (typeof handler == "function") {
-					if (isBannedOrOnlyAdmin(userData, threadData, senderID, threadID, isGroup, commandName, message, langCode))
-						return;
-					try {
-						await handler();
-						log.info("onChat", `${commandName} | ${userData.name} | ${senderID} | ${threadID} | ${args.join(" ")}`);
-					}
-					catch (err) {
-						await message.reply(utils.getText({ lang: langCode, head: "handlerEvents" }, "errorOccurred2", time, commandName, removeHomeDir(err.stack ? err.stack.split("\n").slice(0, 5).join("\n") : JSON.stringify(err, null, 2))));
-					}
-				}
-			})
-			.catch(err => {
-				log.err("onChat", `An error occurred when calling the command onChat ${commandName}`, err);
-			});
-	}
-}
 
 
+		/*
+		 +------------------------------------------------+
+		 |                   ON ANY EVENT                 |
+		 +------------------------------------------------+
+		*/
 		async function onAnyEvent() {
 			const allOnAnyEvent = GoatBot.onAnyEvent || [];
 			let args = [];
@@ -653,6 +423,7 @@ async function onChat() {
 
 				if (getType(command.onAnyEvent) == "Function") {
 					const defaultOnAnyEvent = command.onAnyEvent;
+					// convert to AsyncFunction
 					command.onAnyEvent = async function () {
 						return defaultOnAnyEvent(...arguments);
 					};
@@ -682,6 +453,11 @@ async function onChat() {
 			}
 		}
 
+		/*
+		 +------------------------------------------------+
+		 |                  ON FIRST CHAT                 |
+		 +------------------------------------------------+
+		*/
 		async function onFirstChat() {
 			const allOnFirstChat = GoatBot.onFirstChat || [];
 			const args = body ? body.split(/ +/) : [];
@@ -701,6 +477,7 @@ async function onChat() {
 
 				if (getType(command.onFirstChat) == "Function") {
 					const defaultOnFirstChat = command.onFirstChat;
+					// convert to AsyncFunction
 					command.onFirstChat = async function () {
 						return defaultOnFirstChat(...arguments);
 					};
@@ -732,67 +509,15 @@ async function onChat() {
 			}
 		}
 
+
+		/* 
+		 +------------------------------------------------+
+		 |                    ON REPLY                    |
+		 +------------------------------------------------+
+		*/
 		async function onReply() {
 			if (!event.messageReply)
 				return;
-			
-			const repMsgID = event.messageReply.messageID;
-		if (global.goatAI.isAIMessage(repMsgID) && body && aiClient) {
-	let thinkingMsg;
-	let typingInterval;
-
-	try {
-		thinkingMsg = await message.reply("𝗚𝗼𝗮𝘁𝗕𝗼𝘁 𝗔𝗜 𝗶𝘀 𝘁𝗵𝗶𝗻𝗸𝗶𝗻𝗴.");
-
-		const dots = ["𝗚𝗼𝗮𝘁𝗕𝗼𝘁 𝗔𝗜 𝗶𝘀 𝘁𝗵𝗶𝗻𝗸𝗶𝗻𝗴..",
-		              "𝗚𝗼𝗮𝘁𝗕𝗼𝘁 𝗔𝗜 𝗶𝘀 𝘁𝗵𝗶𝗻𝗸𝗶𝗻𝗴..."];
-		let i = 0;
-
-		typingInterval = setInterval(() => {
-			if (!thinkingMsg?.messageID) return;
-
-			try {
-				api.editMessage(dots[i % dots.length], thinkingMsg.messageID);
-			} catch (e) {
-			}
-			i++;
-		}, 700);
-
-		const aiResponse = await getReplyx(
-			body,
-			senderID,
-			config.botName || "GoatBot v3"
-		);
-
-		clearInterval(typingInterval);
-
-		if (aiResponse) {
-			try {
-				await api.editMessage(
-					`𝗚𝗢𝗔𝗧𝗕𝗢𝗧 𝗔𝗜\n─────────\n\n${aiResponse}`,
-					thinkingMsg.messageID
-				);
-				global.goatAI.trkMsg(thinkingMsg.messageID, senderID);
-			} catch (e) {
-				const sent = await message.reply(
-					`𝗚𝗢𝗔𝗧𝗕𝗢𝗧 𝗔𝗜\n─────────\n\n${aiResponse}`
-				);
-				if (sent?.messageID) {
-					global.goatAI.trkMsg(sent.messageID, senderID);
-				}
-			}
-		}
-		return;
-
-	} catch (err) {
-		if (typingInterval) clearInterval(typingInterval);
-		console.error("AI onReply Error:", err);
-	}
-}
-
-
-
-			
 			const { onReply } = GoatBot;
 			const Reply = onReply.get(event.messageReply.messageID);
 			if (!Reply)
@@ -809,6 +534,7 @@ async function onChat() {
 				return log.err("onReply", `Command "${commandName}" not found`, Reply);
 			}
 
+			// —————————————— CHECK PERMISSION —————————————— //
 			const roleConfig = getRoleConfig(utils, command, isGroup, threadData, commandName);
 			const needRole = roleConfig.onReply;
 			if (needRole > role) {
@@ -847,6 +573,12 @@ async function onChat() {
 			}
 		}
 
+
+		/*
+		 +------------------------------------------------+
+		 |                   ON REACTION                  |
+		 +------------------------------------------------+
+		*/
 		async function onReaction() {
 			const { onReaction } = GoatBot;
 			const Reaction = onReaction.get(messageID);
@@ -864,6 +596,7 @@ async function onChat() {
 				return log.err("onReaction", `Command "${commandName}" not found`, Reaction);
 			}
 
+			// —————————————— CHECK PERMISSION —————————————— //
 			const roleConfig = getRoleConfig(utils, command, isGroup, threadData, commandName);
 			const needRole = roleConfig.onReaction;
 			if (needRole > role) {
@@ -877,6 +610,7 @@ async function onChat() {
 					return true;
 				}
 			}
+			// —————————————————————————————————————————————— //
 
 			const time = getTime("DD/MM/YYYY HH:mm:ss");
 			try {
@@ -902,6 +636,12 @@ async function onChat() {
 			}
 		}
 
+
+		/*
+		 +------------------------------------------------+
+		 |                 EVENT COMMAND                  |
+		 +------------------------------------------------+
+		*/
 		async function handlerEvent() {
 			const { author } = event;
 			const allEventCommand = GoatBot.eventCommands.entries();
@@ -930,6 +670,12 @@ async function onChat() {
 			}
 		}
 
+
+		/*
+		 +------------------------------------------------+
+		 |                    ON EVENT                    |
+		 +------------------------------------------------+
+		*/
 		async function onEvent() {
 			const allOnEvent = GoatBot.onEvent || [];
 			const args = [];
@@ -948,6 +694,7 @@ async function onChat() {
 
 				if (getType(command.onEvent) == "Function") {
 					const defaultOnEvent = command.onEvent;
+					// convert to AsyncFunction
 					command.onEvent = async function () {
 						return defaultOnEvent(...arguments);
 					};
@@ -977,14 +724,29 @@ async function onChat() {
 			}
 		}
 
+		/*
+		 +------------------------------------------------+
+		 |                    PRESENCE                    |
+		 +------------------------------------------------+
+		*/
 		async function presence() {
 			// Your code here
 		}
 
+		/*
+		 +------------------------------------------------+
+		 |                  READ RECEIPT                  |
+		 +------------------------------------------------+
+		*/
 		async function read_receipt() {
 			// Your code here
 		}
 
+		/*
+		 +------------------------------------------------+
+		 |                   		 TYP                    	|
+		 +------------------------------------------------+
+		*/
 		async function typ() {
 			// Your code here
 		}
