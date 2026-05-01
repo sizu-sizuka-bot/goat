@@ -35,16 +35,19 @@ module.exports = {
 
     // 🔒 Author Lock
     if (module.exports.config.author !== LOCKED_AUTHOR) {
-      throw new Error(getLang("authorError"));
+      return message.reply(getLang("authorError"));
     }
 
-    // ❌ Permission Check
-    const adminIDs = global.GoatBot.config.adminBot || [];
+    // ❌ SIMPLE SAFE PERMISSION CHECK (NO CRASH)
+    const botAdmins = global.GoatBot?.config?.adminBot || [];
 
-    if (
-      event.senderID !== event.threadInfo.adminIDs?.find(a => a.id === event.senderID)?.id &&
-      !adminIDs.includes(event.senderID)
-    ) {
+    const isAdmin = event.isGroup == false
+      ? true
+      : (event.threadInfo?.adminIDs || []).some(a => a.id == event.senderID);
+
+    const isBotAdmin = botAdmins.includes(event.senderID);
+
+    if (!isAdmin && !isBotAdmin) {
       return message.reply(getLang("noPermission"));
     }
 
@@ -64,7 +67,6 @@ module.exports = {
       const targetID = event.messageReply.senderID;
       const threadID = event.threadID;
 
-      // ✅ Change nickname only for replied user
       await api.changeNickname(newNickname, threadID, targetID);
 
       return message.reply(getLang("success", newNickname));
