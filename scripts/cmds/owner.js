@@ -22,11 +22,11 @@ try {
 
 // ===== OWNER INFO =====  
   const ownerName = "𝙼𝚁.𝙵𝙰𝚁𝙷𝙰𝙽";  
-  const ownerNick = "M'ʀ Fʌʀʜʌŋ";  
+  const ownerRelation = "𝚂𝙸𝙽𝙶𝙻𝙴";
+  const ownerReligion = "𝙸𝚂𝙻𝙰𝙼";  
   const ownerAge = "𝟐𝟎";  
-  const ownerFrom = "𝙳𝙷𝙰𝙺𝙰 𝙱𝙰𝙽𝙶𝙻𝙰𝙳𝙴𝚂𝙷";  
-  const ownerUID = "61584807686126";  
-
+  const ownerFrom = "𝙳𝙷𝙰𝙺𝙰 𝙱𝙰𝙽𝙶𝙻𝙰𝙳𝙴𝚂𝙷";
+  
   // ===== CONTACT =====  
   const facebook = "fb.com/MR.MUNNA.220";  
   const whatsapp = "wa.me/+8801934640061";  
@@ -97,11 +97,11 @@ try {
 
 ┏━━━━━━━━━━━━━━━━━━┓
 ┃ 👑 𝙽𝙰𝙼𝙴: ${ownerName}
-┃ 💎 𝙽𝙸𝙲𝙺: ${ownerNick}
+┃ 💞 𝚁𝙴𝙻𝙰𝚃𝙸𝙾𝙽: ${ownerRelation}
+┃ 🕋 𝚁𝙴𝙻𝙸𝙶𝙸𝙾𝙽: ${ownerReligion}
 ┃ 🎂 𝙰𝙶𝙴: ${ownerAge}
 ┃ 📍 𝙵𝚁𝙾𝙼: ${ownerFrom}
-┃ 🆔 𝚄𝙸𝙳: ${ownerUID}
-┃ 🟢 𝙰𝙲𝚃𝙸𝚅𝙴「 24/7 」
+┃ 🟢 𝙰𝙲𝚃𝙸𝚅𝙴:「 24/7 」
 ┗━━━━━━━━━━━━━━━━━━┛
 
 ╭─── 📱𝗖𝗢𝗡𝗧𝗔𝗖𝗧 𝗠𝗘 ───╮
