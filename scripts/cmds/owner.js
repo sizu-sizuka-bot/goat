@@ -22,10 +22,10 @@ try {
 
 // ===== OWNER INFO =====  
   const ownerName = "𝙼𝚁.𝙵𝙰𝚁𝙷𝙰𝙽";  
+  const ownerReligion = "𝙸𝚂𝙻𝙰𝙼";
   const ownerRelation = "𝚂𝙸𝙽𝙶𝙻𝙴";
-  const ownerReligion = "𝙸𝚂𝙻𝙰𝙼";  
-  const ownerAge = "𝟐𝟎";  
   const ownerFrom = "𝙳𝙷𝙰𝙺𝙰 𝙱𝙰𝙽𝙶𝙻𝙰𝙳𝙴𝚂𝙷";
+  const ownerAge = "𝟐𝟎";
   
   // ===== CONTACT =====  
   const facebook = "fb.com/MR.MUNNA.220";  
@@ -97,10 +97,10 @@ try {
 
 ┏━━━━━━━━━━━━━━━━━━┓
 ┃ 👑 𝙽𝙰𝙼𝙴: ${ownerName}
-┃ 💞 𝚁𝙴𝙻𝙰𝚃𝙸𝙾𝙽: ${ownerRelation}
 ┃ 🕋 𝚁𝙴𝙻𝙸𝙶𝙸𝙾𝙽: ${ownerReligion}
-┃ 🎂 𝙰𝙶𝙴: ${ownerAge}
+┃ 💞 𝚁𝙴𝙻𝙰𝚃𝙸𝙾𝙽: ${ownerRelation}
 ┃ 📍 𝙵𝚁𝙾𝙼: ${ownerFrom}
+┃ 🎂 𝙰𝙶𝙴: 「 ${ownerAge} 」
 ┃ 🟢 𝙰𝙲𝚃𝙸𝚅𝙴:「 24/7 」
 ┗━━━━━━━━━━━━━━━━━━┛
 
