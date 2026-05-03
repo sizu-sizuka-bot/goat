@@ -1,4 +1,4 @@
-process.stdout.write("\x1b]2;🐐 Goat Bot V3 - Elite Edition ✨\x1b\x5c");
+process.stdout.write("\x1b]2; Goat Bot V3 - Elite Edition \x1b\x5c");
 const defaultRequire = require;
 
 function decode(text) {
