@@ -2,8 +2,8 @@ const axios = require("axios");
 
 module.exports = {
 	config: {
-		name: "captain",
-		aliases: ["captainvideo"],
+		name: "story",
+		aliases: ["shairi"],
 		version: "2.0",
 		author: "Rocky Chowdhury",
 		countDown: 5,
