@@ -3,10 +3,10 @@ module.exports.config = {
   version: "1.0.0",
   permission: 0,
   credits: "MR_FARHAN",
-  description: "Send sexpic safe images",
+  description: "Send sexdp safe images",
   prefix: true,
   category: "fun",
-  usages: "sexpic",
+  usages: "sexdp",
   cooldowns: 5,
   dependencies: {}
 };
@@ -236,7 +236,7 @@ module.exports.run = async ({ api, event }) => {
 
 "https://i.postimg.cc/7PMWGhBk/Mehendi-girl-fingering-pussy-on-video-call.jpg",
 
-"https://i.postimg.cc/fR6KgQHC/big-boobs-of-sexy-Pakistani-girl-exposed.jpg",
+"https://i.postimg.cc/fR6KgQHC/big-boobs-of-sexy-Pakistani-girl-exposed.jpg"
     ];
 
   let img = link[Math.floor(Math.random() * link.length)];
