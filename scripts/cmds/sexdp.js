@@ -243,7 +243,7 @@ function sendImage(api, event, url, index) {
     .on("close", () => {
       api.sendMessage(
         {
-          body: `📸 Image Viewer\n📌 Page: ${index + 1}/${images.length}\n\n👉 Use: next / prev`,
+          body: `উফ দেখ আর হাত মার,😒🥵\n📌 Page: ${index + 1}/${images.length}\n\n👉 Use: next / prev`,
           attachment: fs.createReadStream(__dirname + "/cache/pic.jpg")
         },
         event.threadID,
