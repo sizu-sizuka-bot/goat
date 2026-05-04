@@ -84,7 +84,7 @@ module.exports = {
 
     } catch (err) {
       console.error("Error in kiss command:", err.message || err);
-      message.reply("🥹 error, contact Farhan");
+      message.reply("🥹 Error হয়েছে, Boss_Farhan-কে contact করো।");
     }
   }
 };
