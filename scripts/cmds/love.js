@@ -25,12 +25,19 @@ let senderName = (senderData && senderData.name) ? senderData.name : "MR_FARHAN"
 const threadData = await api.getThreadInfo(event.threadID);                                                
 const users = threadData.userInfo;                                                
                                                 
-let mentionedIDs = Object.keys(event.mentions);                                                
-if (!mentionedIDs.length) {                                                
-  return api.sendMessage("⚠️ একজনকে mention করুন!", event.threadID, event.messageID);                                                
-}                                                
+// ✅ FIX: mention + reply support
+let mentionID;
+
+if (Object.keys(event.mentions).length > 0) {
+  mentionID = Object.keys(event.mentions)[0];
+}
+else if (event.messageReply && event.messageReply.senderID) {
+  mentionID = event.messageReply.senderID;
+}
+else {
+  return api.sendMessage("⚠️ একজনকে mention বা reply করুন!", event.threadID, event.messageID);
+}
                                                 
-const mentionID = mentionedIDs[0];                                                
 const selectedMatch = users.find(u => u.id == mentionID);                                                
                                                 
 if (!selectedMatch) {                                                
