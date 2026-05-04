@@ -1,9 +1,9 @@
 module.exports = {
   config: {
-    name: "join",
-    aliases: ["addgc"],
+    name: "join2",
+    aliases: ["adgc"],
     version: "1.6.1",
-    role: 0,
+    role: 2,
     author: "MR_FARHAN",
     description: "Manage all groups: List, Leave, or Add yourself to any group.",
     category: "admin",
