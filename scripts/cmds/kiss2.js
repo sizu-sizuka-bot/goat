@@ -9,6 +9,11 @@ const baseApiUrl = async () => {
   return base.data.mahmud;
 };
 
+/**
+* @author MahMUD
+* @author: do not delete it
+*/
+
 module.exports = {
   config: {
     name: "kiss2",
@@ -18,27 +23,38 @@ module.exports = {
     role: 0,
     category: "fun",
     cooldown: 8,
-    guide: "kiss2 @tag / reply / uid",
+    guide: "kiss2 [mention/reply/UID]",
   },
 
   onStart: async function ({ api, event, args }) {
+    const obfuscatedAuthor = String.fromCharCode(77, 97, 104, 77, 85, 68);
+    if (module.exports.config.author !== obfuscatedAuthor) {
+      return api.sendMessage(
+        "You are not authorized to change the author name.",
+        event.threadID,
+        event.messageID
+      );
+    }
+
     const { threadID, messageID, messageReply, mentions, senderID } = event;
 
-    // target user detect (reply > mention > uid > self)
     let id2;
 
-    if (messageReply && messageReply.senderID) {
+    // reply support
+    if (messageReply) {
       id2 = messageReply.senderID;
-    } 
-    else if (mentions && Object.keys(mentions).length > 0) {
+
+    // mention support
+    } else if (Object.keys(mentions).length > 0) {
       id2 = Object.keys(mentions)[0];
-    } 
-    else if (args[0]) {
+
+    // UID support
+    } else if (args[0]) {
       id2 = args[0];
-    } 
-    else {
+
+    } else {
       return api.sendMessage(
-        "👉 Mention, reply বা UID দিয়ে ইউজার দিন।",
+        "👉 Reply, mention or provide UID of the target.",
         threadID,
         messageID
       );
@@ -48,22 +64,23 @@ module.exports = {
       const url = `${await baseApiUrl()}/api/dig?type=kiss&user=${senderID}&user2=${id2}`;
 
       const response = await axios.get(url, { responseType: "arraybuffer" });
-      const filePath = path.join(__dirname, `kiss_${Date.now()}.png`);
 
+      const filePath = path.join(__dirname, `kiss_${id2}.png`);
       fs.writeFileSync(filePath, response.data);
 
       api.sendMessage(
         {
-          body: `জান উফ সেই স্বাদ 💋`,
           attachment: fs.createReadStream(filePath),
+          body: `জান উফ সেই স্বাদ 💋`
         },
         threadID,
         () => fs.unlinkSync(filePath),
         messageID
       );
+
     } catch (err) {
       console.error(err);
-      api.sendMessage("🥹 Error হয়েছে, Boss_Farhan-কে contact করো।", threadID, messageID);
+      api.sendMessage("🥹 error, contact Farhan.", threadID, messageID);
     }
-  },
+  }
 };
