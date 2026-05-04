@@ -1,24 +1,22 @@
+const fs = global.nodemodule["fs-extra"];
+const request = global.nodemodule["request"];
+
+const userState = {}; // store page per user
+
 module.exports.config = {
   name: "sexdp",
-  version: "1.0.0",
+  version: "2.0.0",
   permission: 0,
   credits: "MR_FARHAN",
-  description: "Send sexdp safe images",
+  description: "Image viewer with pagination (next/prev)",
   prefix: true,
   category: "fun",
-  usages: "sexdp",
-  cooldowns: 5,
-  dependencies: {}
+  usages: "pic [next/prev]",
+  cooldowns: 3
 };
 
-module.exports.run = async ({ api, event }) => {
-  const axios = global.nodemodule["axios"];
-  const fs = global.nodemodule["fs-extra"];
-  const request = global.nodemodule["request"];
-
-  // SAFE IMAGE LIST (anime/nature/funny placeholders)
-  var link = [
-    "https://i.postimg.cc/wTZJ1Yvb/images-1-29.jpg",
+const images = [
+  "https://i.postimg.cc/wTZJ1Yvb/images-1-29.jpg",
     
     "https://i.postimg.cc/ZRN79xP1/97420.jpg",
 
@@ -237,21 +235,41 @@ module.exports.run = async ({ api, event }) => {
 "https://i.postimg.cc/7PMWGhBk/Mehendi-girl-fingering-pussy-on-video-call.jpg",
 
 "https://i.postimg.cc/fR6KgQHC/big-boobs-of-sexy-Pakistani-girl-exposed.jpg"
-    ];
+];
 
-  let img = link[Math.floor(Math.random() * link.length)];
+function sendImage(api, event, url, index) {
+  return request(encodeURI(url))
+    .pipe(fs.createWriteStream(__dirname + "/cache/pic.jpg"))
+    .on("close", () => {
+      api.sendMessage(
+        {
+          body: `📸 Image Viewer\n📌 Page: ${index + 1}/${images.length}\n\n👉 Use: next / prev`,
+          attachment: fs.createReadStream(__dirname + "/cache/pic.jpg")
+        },
+        event.threadID,
+        () => fs.unlinkSync(__dirname + "/cache/pic.jpg")
+      );
+    });
+}
 
-  let callback = () =>
-    api.sendMessage(
-      {
-        body: `-ছি ছি তুমি এত খারাপ এসব দেখে কি এখন হাত মারবা,😒🥵\nTotal Images: ${link.length}`,
-        attachment: fs.createReadStream(__dirname + "/cache/1.jpg")
-      },
-      event.threadID,
-      () => fs.unlinkSync(__dirname + "/cache/1.jpg")
-    );
+module.exports.run = async ({ api, event, args }) => {
+  const userID = event.senderID;
 
-  return request(encodeURI(img))
-    .pipe(fs.createWriteStream(__dirname + "/cache/1.jpg"))
-    .on("close", callback);
+  if (!userState[userID]) userState[userID] = 0;
+
+  let cmd = (args[0] || "").toLowerCase();
+
+  if (cmd === "next") {
+    userState[userID]++;
+    if (userState[userID] >= images.length) userState[userID] = 0;
+  } 
+  else if (cmd === "prev") {
+    userState[userID]--;
+    if (userState[userID] < 0) userState[userID] = images.length - 1;
+  }
+
+  let index = userState[userID];
+  let url = images[index];
+
+  return sendImage(api, event, url, index);
 };
