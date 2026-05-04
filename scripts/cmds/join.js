@@ -4,7 +4,7 @@ module.exports = {
   config: {
     name: "join",
     aliases: ["boxlist", "allbox"],
-    version: "2.2.0",
+    version: "2.2.1",
     author: ORIGINAL_AUTHOR,
     role: 0,
     shortDescription: "গ্রুপ লিস্ট দেখাবে ও নিজেকে add করবে",
@@ -16,7 +16,6 @@ module.exports = {
     const { threadID, messageID, senderID } = event;
     const perPage = 10;
 
-    // 🔐 ANTI MODIFICATION CHECK
     if (module.exports.config.author !== ORIGINAL_AUTHOR) {
       return api.sendMessage(
         "⛔ এই কমান্ড পরিবর্তন করা হয়েছে, তাই এটি বন্ধ করা হয়েছে।",
@@ -26,10 +25,15 @@ module.exports = {
     }
 
     try {
-      const allThreads = await api.getThreadList(50, null, ["INBOX"]);
-      const groups = allThreads.filter(t => t.isGroup && t.isSubscribed);
+      const allThreads = await api.getThreadList(100, null, ["INBOX"]);
 
-      if (!groups.length) {
+      if (!allThreads || !Array.isArray(allThreads)) {
+        return api.sendMessage("❌ গ্রুপ ডাটা লোড করা যায়নি।", threadID);
+      }
+
+      const groups = allThreads.filter(t => t.isGroup === true);
+
+      if (groups.length === 0) {
         return api.sendMessage(
           "⚠️ বট এখন কোনো গ্রুপে যুক্ত নেই।",
           threadID,
@@ -38,7 +42,7 @@ module.exports = {
       }
 
       const page = 1;
-      const start = (page - 1) * perPage;
+      const start = 0;
       const current = groups.slice(start, start + perPage);
 
       let msg =
@@ -46,8 +50,8 @@ module.exports = {
 ━━━━━━━━━━━━━━━━━━\n`;
 
       current.forEach((g, i) => {
-        msg += `_____________________\n🔢 ${start + i + 1}. ${g.name || "Unnamed Group"}\n`;
-        msg += `\n🆔 𝐔𝐈𝐃:≫: ${g.threadID}\n\n`;
+        msg += `_____________________\n🔢 ${i + 1}. ${g.name || "Unnamed Group"}\n`;
+        msg += `🆔: ${g.threadID}\n\n`;
       });
 
       msg +=
@@ -76,11 +80,11 @@ module.exports = {
   },
 
   onReply: async function ({ api, event, Reply }) {
-    const { threadID, messageID, senderID } = event;
+    const { threadID, messageID, senderID, body } = event;
 
     if (senderID !== Reply.author) return;
 
-    const args = event.body.trim().toLowerCase().split(/\s+/);
+    const args = body.trim().toLowerCase().split(/\s+/);
     const perPage = Reply.perPage || 10;
 
     // 📄 PAGE SYSTEM
@@ -103,7 +107,7 @@ module.exports = {
 
       current.forEach((g, i) => {
         msg += `_____________________\n🔢 ${start + i + 1}. ${g.name || "Unnamed Group"}\n`;
-        msg += `\n🆔 𝐔𝐈𝐃:≫ ${g.threadID}\n\n`;
+        msg += `🆔: ${g.threadID}\n\n`;
       });
 
       return api.sendMessage(msg, threadID, (err, info) => {
@@ -127,41 +131,36 @@ module.exports = {
 
       const group = Reply.groups[index];
 
-      // 👤 GET USER NAME
       let userName = "Unknown User";
 
       try {
         const userInfo = await api.getUserInfo(senderID);
-        userName = userInfo[senderID]?.name || "Unknown User";
+        userName = userInfo?.[senderID]?.name || "Unknown User";
       } catch (e) {}
 
       try {
         await api.addUserToGroup(senderID, group.threadID);
 
-        // ✅ PRIVATE MESSAGE
         api.sendMessage(
-          `✅ সফলভাবে আপনাকে "${group.name}" গ্রুপে যোগ করা হয়েছে।`,
+          `✅ আপনাকে "${group.name}" গ্রুপে যোগ করা হয়েছে।`,
           threadID,
           messageID
         );
 
-        // 🔔 GROUP NOTIFICATION (NAME + ID + MENTION STYLE)
         api.sendMessage(
 `━━━━━━━━━━━━━━━━━━
-🔔→ নতুন সদস্য যুক্ত হয়েছে
+🔔 নতুন সদস্য যুক্ত হয়েছে
 
-👤→ নাম: ${userName}
-🆔→ আইডি: ${senderID}
-📦→ গ্রুপ: ${group.name}
-
-🤖→ বট দ্বারা অটো যোগ করা হয়েছে
- ━━━━━━━━━━━━━━━━━━`,
+👤 নাম: ${userName}
+🆔 ID: ${senderID}
+📦 গ্রুপ: ${group.name}
+━━━━━━━━━━━━━━━━━━`,
           group.threadID
         );
 
       } catch (err) {
         api.sendMessage(
-          `❌ দুঃখিত, "${group.name}" গ্রুপে যোগ করা যায়নি।`,
+          `❌ "${group.name}" গ্রুপে যোগ করা যায়নি।`,
           threadID,
           messageID
         );
