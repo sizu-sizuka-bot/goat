@@ -13,7 +13,7 @@ role: 0,
 category: "pair",                  
 shortDescription: "🎀 Find your perfect gf/bf!",                  
 longDescription: "Premium soulmate match card",                  
-guide: "{p}{n} @mention"                  
+guide: "{p}{n} @mention or reply someone"                  
 },                  
                   
 onStart: async function ({ api, event, usersData }) {                  
@@ -24,14 +24,26 @@ let senderName = senderData.name || "You";
                   
 const threadData = await api.getThreadInfo(event.threadID);                  
 const users = threadData.userInfo;                  
-                  
-let mentionedIDs = Object.keys(event.mentions);                  
-if (!mentionedIDs.length) {                  
-  return api.sendMessage("⚠️ একজনকে mention করুন!", event.threadID, event.messageID);                  
+
+// ✅ mention + reply support added
+let targetID = null;
+
+// 1️⃣ mention check
+let mentionedIDs = Object.keys(event.mentions || {});
+if (mentionedIDs.length > 0) {
+  targetID = mentionedIDs[0];
+}
+
+// 2️⃣ reply check
+if (!targetID && event.messageReply) {
+  targetID = event.messageReply.senderID;
+}
+
+if (!targetID) {                  
+  return api.sendMessage("⚠️ একজনকে mention করুন বা message reply করুন!", event.threadID, event.messageID);                  
 }                  
                   
-const mentionID = mentionedIDs[0];                  
-const selectedMatch = users.find(u => u.id == mentionID);                  
+const selectedMatch = users.find(u => u.id == targetID);                  
                   
 if (!selectedMatch) {                  
   return api.sendMessage("❌ user পাওয়া যায়নি!", event.threadID, event.messageID);                  
@@ -51,8 +63,8 @@ gradient.addColorStop(0.5, "#1e293b");
 gradient.addColorStop(1, "#020617");                  
 ctx.fillStyle = gradient;                  
 ctx.fillRect(0, 0, width, height);                  
-
-// 🌸 small flowers background (ADDED)
+                  
+// 🌸 flowers                  
 function drawFlower(x, y, r) {
   ctx.save();
   ctx.globalAlpha = 0.25;
@@ -68,7 +80,6 @@ function drawFlower(x, y, r) {
     ctx.fill();
   }
 
-  // center
   ctx.beginPath();
   ctx.arc(x, y, r / 3, 0, Math.PI * 2);
   ctx.fillStyle = "#fff";
@@ -77,22 +88,9 @@ function drawFlower(x, y, r) {
   ctx.restore();
 }
 
-// scatter flowers
 for (let i = 0; i < 18; i++) {
-  drawFlower(
-    Math.random() * width,
-    Math.random() * height,
-    Math.random() * 25 + 15
-  );
+  drawFlower(Math.random() * width, Math.random() * height, Math.random() * 25 + 15);
 }
-                  
-// glow circles                  
-for (let i = 0; i < 6; i++) {                  
-  ctx.beginPath();                  
-  ctx.arc(Math.random()*width, Math.random()*height, 150, 0, Math.PI*2);                  
-  ctx.fillStyle = "rgba(255,215,0,0.05)";                  
-  ctx.fill();                  
-}                  
                   
 // title                  
 ctx.font = "bold 60px Arial";                  
@@ -104,7 +102,7 @@ const senderAvatar = await loadImage(
 );                  
                   
 const partnerAvatar = await loadImage(                  
-  `https://graph.facebook.com/${selectedMatch.id}/picture?width=720&height=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`                  
+  `https://graph.facebook.com/${targetID}/picture?width=720&height=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`                  
 );                  
                   
 function drawLuxuryCircle(img, x, y, size) {                  
@@ -137,7 +135,6 @@ function drawLuxuryCircle(img, x, y, size) {
 drawLuxuryCircle(senderAvatar, 150, 180, 240);                  
 drawLuxuryCircle(partnerAvatar, width - 390, 180, 240);                  
                   
-// 🟦 name box + ✨ sparkling corners (MODIFIED)
 function drawNameBox(name, x, y) {                  
   const boxWidth = 280;                  
   const boxHeight = 60;                  
@@ -150,29 +147,6 @@ function drawNameBox(name, x, y) {
   ctx.strokeStyle = "#ffd700";                  
   ctx.lineWidth = 2;                  
   ctx.stroke();                  
-
-  // ✨ sparkle corners
-  function sparkle(cx, cy) {
-    ctx.save();
-    ctx.fillStyle = "#fff";
-    ctx.shadowColor = "#ffd700";
-    ctx.shadowBlur = 15;
-
-    ctx.beginPath();
-    ctx.moveTo(cx, cy - 6);
-    ctx.lineTo(cx + 3, cy);
-    ctx.lineTo(cx, cy + 6);
-    ctx.lineTo(cx - 3, cy);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.restore();
-  }
-
-  sparkle(x, y);
-  sparkle(x + boxWidth, y);
-  sparkle(x, y + boxHeight);
-  sparkle(x + boxWidth, y + boxHeight);
                   
   ctx.font = "bold 26px Arial";                  
   ctx.fillStyle = "#ffffff";                  
@@ -183,23 +157,15 @@ function drawNameBox(name, x, y) {
 drawNameBox(senderName, 130, 450);                  
 drawNameBox(matchName, width - 410, 450);                  
                   
-// ❤️ heart (UNCHANGED)                  
 ctx.font = "bold 110px Arial";                  
 ctx.fillStyle = "#ff4d6d";                  
-ctx.shadowColor = "#ff4d6d";                  
-ctx.shadowBlur = 30;                  
 ctx.fillText("❤", width/2 - 50, 330);                  
-ctx.shadowBlur = 0;                  
                   
-// 💖 love %                  
 const lovePercent = Math.floor(Math.random() * 31) + 70;                  
                   
 ctx.font = "bold 40px Arial";                  
 ctx.fillStyle = "#ffd700";                  
-ctx.shadowColor = "#ffffff";                  
-ctx.shadowBlur = 15;                  
 ctx.fillText(`♡ ${lovePercent}% MATCH ♡`, width/2 - 180, 580);                  
-ctx.shadowBlur = 0;                  
                   
 const outputPath = path.join(__dirname, "gf_card.png");                  
 const out = fs.createWriteStream(outputPath);                  
