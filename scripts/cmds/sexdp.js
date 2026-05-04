@@ -1,5 +1,5 @@
 module.exports.config = {
-  name: "randompic",
+  name: "sexdp",
   version: "1.0.0",
   permission: 0,
   credits: "MR_FARHAN",
