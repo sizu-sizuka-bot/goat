@@ -1,22 +1,22 @@
-const fs = global.nodemodule["fs-extra"];
-const request = global.nodemodule["request"];
-
-const userState = {}; // store page per user
-
 module.exports.config = {
   name: "sexdp",
-  version: "2.0.0",
+  version: "1.0.0",
   permission: 0,
   credits: "MR_FARHAN",
-  description: "Image viewer with pagination (next/prev)",
+  description: "Send random display picture with caption",
   prefix: true,
   category: "fun",
-  usages: "pic [next/prev]",
-  cooldowns: 3
+  usages: "dp",
+  cooldowns: 5,
+  dependencies: {}
 };
 
-const images = [
-  "https://i.postimg.cc/wTZJ1Yvb/images-1-29.jpg",
+module.exports.run = async ({ api, event }) => {
+  const fs = global.nodemodule["fs-extra"];
+  const request = global.nodemodule["request"];
+
+  const images = [
+    "https://i.postimg.cc/wTZJ1Yvb/images-1-29.jpg",
     
     "https://i.postimg.cc/ZRN79xP1/97420.jpg",
 
@@ -235,41 +235,23 @@ const images = [
 "https://i.postimg.cc/7PMWGhBk/Mehendi-girl-fingering-pussy-on-video-call.jpg",
 
 "https://i.postimg.cc/fR6KgQHC/big-boobs-of-sexy-Pakistani-girl-exposed.jpg"
-];
+    ];
+  let img = images[Math.floor(Math.random() * images.length)];
 
-function sendImage(api, event, url, index) {
-  return request(encodeURI(url))
-    .pipe(fs.createWriteStream(__dirname + "/cache/pic.jpg"))
+  let caption = "উফ দেখ আর হাত মার_😒🥵";
+
+  let path = __dirname + "/cache/dp.jpg";
+
+  request(encodeURI(img))
+    .pipe(fs.createWriteStream(path))
     .on("close", () => {
       api.sendMessage(
         {
-          body: `উফ দেখ আর হাত মার,😒🥵\n📌 Page: ${index + 1}/${images.length}\n\n👉 Use: next / prev`,
-          attachment: fs.createReadStream(__dirname + "/cache/pic.jpg")
+          body: caption,
+          attachment: fs.createReadStream(path)
         },
         event.threadID,
-        () => fs.unlinkSync(__dirname + "/cache/pic.jpg")
+        () => fs.unlinkSync(path)
       );
     });
-}
-
-module.exports.run = async ({ api, event, args }) => {
-  const userID = event.senderID;
-
-  if (!userState[userID]) userState[userID] = 0;
-
-  let cmd = (args[0] || "").toLowerCase();
-
-  if (cmd === "next") {
-    userState[userID]++;
-    if (userState[userID] >= images.length) userState[userID] = 0;
-  } 
-  else if (cmd === "prev") {
-    userState[userID]--;
-    if (userState[userID] < 0) userState[userID] = images.length - 1;
-  }
-
-  let index = userState[userID];
-  let url = images[index];
-
-  return sendImage(api, event, url, index);
 };
