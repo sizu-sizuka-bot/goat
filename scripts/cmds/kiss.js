@@ -23,7 +23,7 @@ module.exports = {
     role: 0,
     longDescription: "Generate anime-style kiss image",
     category: "love",
-    guide: "{pn} @mention"
+    guide: "{pn} @mention or reply to someone"
   },
 
   onStart: async function ({ message, event, api }) {
@@ -37,13 +37,25 @@ module.exports = {
         );
       }
 
-      const mention = Object.keys(event.mentions);
-      if (mention.length === 0) {
-        return message.reply("Please mention someone to kiss 💋");
+      // ✅ Reply support (FIRST priority)
+      let targetID;
+
+      if (event.messageReply && event.messageReply.senderID) {
+        targetID = event.messageReply.senderID;
+      } 
+      // ✅ Mention support (SECOND priority)
+      else {
+        const mention = Object.keys(event.mentions || {});
+        if (mention.length > 0) {
+          targetID = mention[0];
+        }
+      }
+
+      if (!targetID) {
+        return message.reply("Please mention or reply to someone to kiss 💋");
       }
 
       const senderID = event.senderID;
-      const targetID = mention[0];
 
       const base = await mahmud();
       const apiURL = `${base}/api/kiss`;
@@ -58,6 +70,7 @@ module.exports = {
         __dirname,
         `kiss_${senderID}_${targetID}.png`
       );
+
       fs.writeFileSync(imgPath, Buffer.from(response.data, "binary"));
 
       message.reply({
