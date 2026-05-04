@@ -1,172 +1,145 @@
-const ORIGINAL_AUTHOR = "MR_FARHAN";
-
 module.exports = {
   config: {
     name: "join",
-    aliases: ["boxlist", "allbox"],
-    version: "2.2.1",
-    author: ORIGINAL_AUTHOR,
+    aliases: ["addgc"],
+    version: "1.6.1",
     role: 0,
-    shortDescription: "গ্রুপ লিস্ট দেখাবে ও নিজেকে add করবে",
-    category: "system",
-    countDown: 10
+    author: "MR_FARHAN",
+    description: "Manage all groups: List, Leave, or Add yourself to any group.",
+    category: "admin",
+    guide: {
+      en: "{pn}",
+      bn: "{pn}"
+    },
+    countDown: 5
   },
 
-  onStart: async function ({ api, event }) {
-    const { threadID, messageID, senderID } = event;
-    const perPage = 10;
-
-    if (module.exports.config.author !== ORIGINAL_AUTHOR) {
-      return api.sendMessage(
-        "⛔ এই কমান্ড পরিবর্তন করা হয়েছে, তাই এটি বন্ধ করা হয়েছে।",
-        threadID,
-        messageID
-      );
-    }
-
+  onStart: async function ({ api, event, message, commandName }) {
     try {
-      const allThreads = await api.getThreadList(100, null, ["INBOX"]);
+      await api.getThreadList(25, null, ["INBOX"], (err, list) => {
+        if (err)
+          return message.reply("❌ 𝐆𝐫𝐨𝐮𝐩 𝐋𝐢𝐬𝐭 𝐅𝐞𝐭𝐜𝐡 𝐅𝐚𝐢𝐥𝐞𝐝");
 
-      if (!allThreads || !Array.isArray(allThreads)) {
-        return api.sendMessage("❌ গ্রুপ ডাটা লোড করা যায়নি।", threadID);
-      }
+        const groups = list.filter(g => g.isGroup && g.isSubscribed);
 
-      const groups = allThreads.filter(t => t.isGroup === true);
+        if (!groups.length)
+          return message.reply("⚠️ 𝐍𝐨 𝐆𝐫𝐨𝐮𝐩 𝐅𝐨𝐮𝐧𝐝");
 
-      if (groups.length === 0) {
-        return api.sendMessage(
-          "⚠️ বট এখন কোনো গ্রুপে যুক্ত নেই।",
-          threadID,
-          messageID
-        );
-      }
+        const stylishNumber = [
+          "𝟏","𝟐","𝟑","𝟒","𝟓",
+          "𝟔","𝟕","𝟖","𝟗","𝟏𝟎",
+          "𝟏𝟏","𝟏𝟐","𝟏𝟑","𝟏𝟒","𝟏𝟓",
+          "𝟏𝟔","𝟏𝟕","𝟏𝟖","𝟏𝟗","𝟐𝟎",
+          "𝟐𝟏","𝟐𝟐","𝟐𝟑","𝟐𝟒","𝟐𝟓"
+        ];
 
-      const page = 1;
-      const start = 0;
-      const current = groups.slice(start, start + perPage);
+        let msg =
+`╔════════════════════╗
+              🌐 𝐆𝐑𝐎𝐔𝐏 𝐋𝐈𝐒𝐓
+╚════════════════════╝\n\n`;
 
-      let msg =
-`📦 𝐆𝐑𝐎𝐔𝐏 𝐋𝐈𝐒𝐓 (পৃষ্ঠা ${page})
-━━━━━━━━━━━━━━━━━━\n`;
+        let groupIDs = [];
 
-      current.forEach((g, i) => {
-        msg += `_____________________\n🔢 ${i + 1}. ${g.name || "Unnamed Group"}\n`;
-        msg += `🆔: ${g.threadID}\n\n`;
-      });
+        groups.forEach((group, index) => {
+          const name = group.name || "নাম নেই";
+          const members = group.participantIDs
+            ? group.participantIDs.length
+            : 0;
 
-      msg +=
-`━━━━━━━━━━━━━━━━━━
-👉 add 1 | add 2 লিখে নিজেকে যোগ করুন
-👉 page 2 লিখে পরের পেজ দেখুন`;
+          msg +=
+`╭─〔 ${stylishNumber[index] || index + 1} 〕
+│ 📌 𝐍𝐚𝐦𝐞: ${name}
+│ 👥 𝐌𝐞𝐦𝐛𝐞𝐫𝐬: ${members}
+│ 🆔 𝐈𝐃: ${group.threadID}
+╰──────────────\n\n`;
 
-      return api.sendMessage(msg, threadID, (err, info) => {
-        global.GoatBot.onReply.set(info.messageID, {
-          commandName: this.config.name,
-          author: senderID,
-          groups,
-          page,
-          perPage
+          groupIDs.push(group.threadID);
         });
-      }, messageID);
 
+        msg +=
+`╔════════════════════╗
+          🎮 𝐂𝐎𝐍𝐓𝐑𝐎𝐋 𝐏𝐀𝐍𝐄𝐋
+╚════════════════════╝
+
+➤ 🟢 𝐨𝐮𝐭 <number> → 𝐋𝐞𝐚𝐯𝐞 𝐆𝐫𝐨𝐮𝐩
+➤ ➕ 𝐚𝐝𝐝 <number> → 𝐉𝐨𝐢𝐧 𝐆𝐫𝐨𝐮𝐩
+➤ ⛔ 𝐛𝐚𝐧 <number> → 𝐁𝐚𝐧 𝐆𝐫𝐨𝐮𝐩
+
+╚════════════════════╝`;
+
+        return message.reply(msg, (err, info) => {
+          global.GoatBot.onReply.set(info.messageID, {
+            commandName,
+            messageID: info.messageID,
+            author: event.senderID,
+            groupIDs
+          });
+        });
+      });
     } catch (e) {
-      console.log(e);
-      return api.sendMessage(
-        "❌ গ্রুপ লিস্ট লোড করা যাচ্ছে না।",
-        threadID,
-        messageID
-      );
+      return message.reply("❌ 𝐄𝐫𝐫𝐨𝐫 𝐎𝐜𝐜𝐮𝐫𝐫𝐞𝐝");
     }
   },
 
-  onReply: async function ({ api, event, Reply }) {
-    const { threadID, messageID, senderID, body } = event;
+  onReply: async function ({ api, event, Reply, message, threadsData }) {
+    const { author, groupIDs } = Reply;
+    if (event.senderID != author) return;
 
-    if (senderID !== Reply.author) return;
+    const input = event.body.split(" ");
+    const action = input[0].toLowerCase();
+    const index = parseInt(input[1]) - 1;
+    const targetID = groupIDs[index];
 
-    const args = body.trim().toLowerCase().split(/\s+/);
-    const perPage = Reply.perPage || 10;
+    if (!targetID || isNaN(index))
+      return message.reply("⚠️ 𝐈𝐧𝐯𝐚𝐥𝐢𝐝 𝐍𝐮𝐦𝐛𝐞𝐫");
 
-    // 📄 PAGE SYSTEM
-    if (args[0] === "page") {
-      const pageNum = parseInt(args[1]);
-      if (isNaN(pageNum) || pageNum < 1) {
-        return api.sendMessage("❌ ভুল পেজ নাম্বার।", threadID);
+    // OUT
+    if (action === "out") {
+      try {
+        await api.removeUserFromGroup(api.getCurrentUserID(), targetID);
+        return message.reply(`✅ 𝐒𝐮𝐜𝐜𝐞𝐬𝐬𝐟𝐮𝐥𝐥𝐲 𝐋𝐞𝐟𝐭 𝐆𝐫𝐨𝐮𝐩:\n🆔 ${targetID}`);
+      } catch {
+        return message.reply("❌ 𝐂𝐚𝐧𝐧𝐨𝐭 𝐋𝐞𝐚𝐯𝐞 𝐆𝐫𝐨𝐮𝐩");
       }
-
-      const start = (pageNum - 1) * perPage;
-      const current = Reply.groups.slice(start, start + perPage);
-
-      if (!current.length) {
-        return api.sendMessage("⚠️ আর কোনো গ্রুপ নেই।", threadID);
-      }
-
-      let msg =
-`📦 𝐆𝐑𝐎𝐔𝐏 𝐋𝐈𝐒𝐓 (পৃষ্ঠা ${pageNum})
-━━━━━━━━━━━━━━━━━━\n`;
-
-      current.forEach((g, i) => {
-        msg += `_____________________\n🔢 ${start + i + 1}. ${g.name || "Unnamed Group"}\n`;
-        msg += `🆔: ${g.threadID}\n\n`;
-      });
-
-      return api.sendMessage(msg, threadID, (err, info) => {
-        global.GoatBot.onReply.set(info.messageID, {
-          commandName: Reply.commandName,
-          author: Reply.author,
-          groups: Reply.groups,
-          page: pageNum,
-          perPage
-        });
-      });
     }
 
-    // ➕ ADD SYSTEM
-    if (args[0] === "add") {
-      const index = parseInt(args[1]) - 1;
-
-      if (isNaN(index) || index < 0 || !Reply.groups[index]) {
-        return api.sendMessage("❌ ভুল নাম্বার। আবার চেষ্টা করুন।", threadID);
-      }
-
-      const group = Reply.groups[index];
-
-      let userName = "Unknown User";
-
+    // ADD
+    if (action === "add") {
       try {
-        const userInfo = await api.getUserInfo(senderID);
-        userName = userInfo?.[senderID]?.name || "Unknown User";
-      } catch (e) {}
+        const userInfo = await api.getUserInfo(author);
+        const userName = userInfo[author]?.name || "ইউজার";
 
-      try {
-        await api.addUserToGroup(senderID, group.threadID);
+        await api.addUserToGroup(author, targetID);
 
-        api.sendMessage(
-          `✅ আপনাকে "${group.name}" গ্রুপে যোগ করা হয়েছে।`,
-          threadID,
-          messageID
+        await api.sendMessage(
+`🎉 স্বাগতম ${userName}!
+
+📢 আপনাকে এই গ্রুপে সফলভাবে যুক্ত করা হয়েছে।
+👥 এখন আপনি এই গ্রুপের একজন সদস্য।
+💬 সক্রিয় থাকুন ও উপভোগ করুন!`,
+          targetID
         );
 
-        api.sendMessage(
-`━━━━━━━━━━━━━━━━━━
-🔔 নতুন সদস্য যুক্ত হয়েছে
-
-👤 নাম: ${userName}
-🆔 ID: ${senderID}
-📦 গ্রুপ: ${group.name}
-━━━━━━━━━━━━━━━━━━`,
-          group.threadID
-        );
-
-      } catch (err) {
-        api.sendMessage(
-          `❌ "${group.name}" গ্রুপে যোগ করা যায়নি।`,
-          threadID,
-          messageID
-        );
+        return message.reply(`✅ ${userName} কে সফলভাবে গ্রুপে যোগ করা হয়েছে:\n🆔 ${targetID}`);
+      } catch {
+        return message.reply("❌ 𝐆𝐫𝐨𝐮𝐩 𝐀𝐝𝐝 𝐅𝐚𝐢𝐥𝐞𝐝");
       }
+    }
 
-      return global.GoatBot.onReply.delete(Reply.messageID);
+    // BAN
+    if (action === "ban") {
+      try {
+        const data = await threadsData.get(targetID);
+        if (!data.data) data.data = {};
+        data.data.banned = true;
+
+        await threadsData.set(targetID, data.data, "data");
+        await api.removeUserFromGroup(api.getCurrentUserID(), targetID);
+
+        return message.reply(`⛔ 𝐆𝐫𝐨𝐮𝐩 𝐁𝐚𝐧𝐧𝐞𝐝:\n🆔 ${targetID}`);
+      } catch {
+        return message.reply("❌ 𝐁𝐚𝐧 𝐅𝐚𝐢𝐥𝐞𝐝");
+      }
     }
   }
 };
