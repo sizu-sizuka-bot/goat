@@ -9,10 +9,10 @@ function verifyAuthor(configAuthor) {
 
 module.exports = {
   config: {
-    name: "join2",
+    name: "join",
     aliases: ["addgc", "group", "gc"],
     version: "2.2.1",
-    role: 2,
+    role: 0,
     author: OWNER_NAME,
     description: "Group Manager System (List / Out / Add / Ban / Info)",
     category: "admin",
