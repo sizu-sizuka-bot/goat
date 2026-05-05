@@ -4,22 +4,60 @@ const axios = require("axios");
 
 const cache = new Map();
 
+// Global toggle
+let isEnabled = true;
+
+// Thread-wise toggle
+const threadSettings = new Map();
+
 // ensure cache folder
 fs.ensureDirSync(path.join(__dirname, "cache"));
 
 module.exports = {
   config: {
     name: "resend",
-    version: "4.1",
-    author: "MR_FARHAN",
+    version: "5.0",
+    author: "MR_FARHAN + EDIT",
     role: 0,
     category: "events"
   },
 
-  // 🔧 REQUIRED (empty হলেও থাকতে হবে)
-  onStart: async () => {},
+  // Command handler (on/off)
+  onStart: async ({ api, event }) => {
+    const args = event.body.split(" ");
+
+    // Global OFF
+    if (args[1] === "off") {
+      isEnabled = false;
+      return api.sendMessage("❌ Resend system GLOBAL OFF", event.threadID);
+    }
+
+    // Global ON
+    if (args[1] === "on") {
+      isEnabled = true;
+      return api.sendMessage("✅ Resend system GLOBAL ON", event.threadID);
+    }
+
+    // Thread OFF
+    if (args[1] === "offthis") {
+      threadSettings.set(event.threadID, false);
+      return api.sendMessage("❌ This thread resend OFF", event.threadID);
+    }
+
+    // Thread ON
+    if (args[1] === "onthis") {
+      threadSettings.set(event.threadID, true);
+      return api.sendMessage("✅ This thread resend ON", event.threadID);
+    }
+  },
 
   onChat: async ({ api, event, usersData }) => {
+
+    // Check global OFF
+    if (!isEnabled) return;
+
+    // Check thread OFF
+    if (threadSettings.get(event.threadID) === false) return;
 
     // Save message
     if (event.type === "message" || event.type === "message_reply") {
@@ -45,7 +83,6 @@ module.exports = {
 
 আমি থাকতে তোর msg গায়েব হবে না! ${name}
 
-
 📝 ${msg.body || "No text"}`;
 
       // Attachment handle
@@ -54,11 +91,17 @@ module.exports = {
 
         for (let file of msg.attachments) {
           try {
-            const filePath = path.join(__dirname, "cache", file.filename || Date.now());
+            const filePath = path.join(
+              __dirname,
+              "cache",
+              file.filename || Date.now()
+            );
 
-            const res = await axios.get(file.url, { responseType: "arraybuffer" });
+            const res = await axios.get(file.url, {
+              responseType: "arraybuffer"
+            });
+
             fs.writeFileSync(filePath, Buffer.from(res.data));
-
             streams.push(fs.createReadStream(filePath));
           } catch (e) {}
         }
@@ -68,7 +111,9 @@ module.exports = {
           event.threadID,
           () => {
             streams.forEach(s => {
-              try { fs.unlinkSync(s.path); } catch {}
+              try {
+                fs.unlinkSync(s.path);
+              } catch {}
             });
           }
         );
