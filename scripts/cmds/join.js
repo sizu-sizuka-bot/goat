@@ -1,116 +1,143 @@
+OWNER_NAME = "MR_FAEHAÑ";
+
+// 🔒 ANTI-EDIT LOCK SYSTEM
+const ORIGINAL_AUTHOR_HASH = "join_v2_2_1_lock_99431";
+
+function verifyAuthor(configAuthor) {
+  return configAuthor === OWNER_NAME;
+}
+
 module.exports = {
   config: {
-    name: "join",
-    aliases: ["addgc"],
-    version: "1.6.1",
-    role: 0,
-    author: "MR_FARHAN",
-    description: "Manage all groups: List, Leave, or Add yourself to any group.",
+    name: "join2",
+    aliases: ["addgc", "group", "gc"],
+    version: "2.2.1",
+    role: 2,
+    author: OWNER_NAME,
+    description: "Group Manager System (List / Out / Add / Ban / Info)",
     category: "admin",
-    guide: {
-      en: "{pn}",
-      bn: "{pn}"
-    },
-    countDown: 5
+    countDown: 8,
+    _lock: ORIGINAL_AUTHOR_HASH
   },
 
   onStart: async function ({ api, event, message, commandName }) {
+
+    if (!verifyAuthor(module.exports.config.author) ||
+        module.exports.config._lock !== ORIGINAL_AUTHOR_HASH) {
+      return message.reply("⛔ 𝐁𝐎𝐓 𝐒𝐓𝐎𝐏𝐏𝐄𝐃\n⚠️ 𝐀𝐔𝐓𝐇𝐎𝐑 𝐌𝐎𝐃𝐈𝐅𝐈𝐄𝐃");
+    }
+
     try {
-      await api.getThreadList(25, null, ["INBOX"], (err, list) => {
-        if (err)
-          return message.reply("❌ 𝐆𝐫𝐨𝐮𝐩 𝐋𝐢𝐬𝐭 𝐅𝐞𝐭𝐜𝐡 𝐅𝐚𝐢𝐥𝐞𝐝");
+      const list = await api.getThreadList(100, null, ["INBOX"]);
+      const groups = list.filter(g => g.isGroup && g.isSubscribed);
 
-        const groups = list.filter(g => g.isGroup && g.isSubscribed);
+      if (!groups.length)
+        return message.reply("⚠️ 𝐍𝐎 𝐆𝐑𝐎𝐔𝐏 𝐅𝐎𝐔𝐍𝐃");
 
-        if (!groups.length)
-          return message.reply("⚠️ 𝐍𝐨 𝐆𝐫𝐨𝐮𝐩 𝐅𝐨𝐮𝐧𝐝");
+      let msg =
+`╔═════════════════════╗
+               🌐 𝐆𝐑𝐎𝐔𝐏 𝐋𝐈𝐒𝐓
+╚═════════════════════╝\n\n`;
 
-        const stylishNumber = [
-          "𝟏","𝟐","𝟑","𝟒","𝟓",
-          "𝟔","𝟕","𝟖","𝟗","𝟏𝟎",
-          "𝟏𝟏","𝟏𝟐","𝟏𝟑","𝟏𝟒","𝟏𝟓",
-          "𝟏𝟔","𝟏𝟕","𝟏𝟖","𝟏𝟗","𝟐𝟎",
-          "𝟐𝟏","𝟐𝟐","𝟐𝟑","𝟐𝟒","𝟐𝟓"
-        ];
+      let groupIDs = [];
 
-        let msg =
-`╔════════════════════╗
-              🌐 𝐆𝐑𝐎𝐔𝐏 𝐋𝐈𝐒𝐓
-╚════════════════════╝\n\n`;
+      const fancyNum = (n) => {
+        const map = ['𝟬','𝟭','𝟮','𝟯','𝟰','𝟱','𝟲','𝟳','𝟴','𝟵'];
+        return String(n).split('').map(d => map[+d]).join('');
+      };
 
-        let groupIDs = [];
-
-        groups.forEach((group, index) => {
-          const name = group.name || "নাম নেই";
-          const members = group.participantIDs
-            ? group.participantIDs.length
-            : 0;
-
-          msg +=
-`╭─〔 ${stylishNumber[index] || index + 1} 〕
-│ 📌 𝐍𝐚𝐦𝐞: ${name}
-│ 👥 𝐌𝐞𝐦𝐛𝐞𝐫𝐬: ${members}
-│ 🆔 𝐈𝐃: ${group.threadID}
+      groups.forEach((g, i) => {
+        msg +=
+`╭─〔 ${fancyNum(i + 1)} 〕
+│ 📌 𝐍𝐀𝐌𝐄: ${g.name || "𝐍𝐎 𝐍𝐀𝐌𝐄"}
+│ 👥 𝐌𝐄𝐌𝐁𝐄𝐑𝐒: ${g.participantIDs?.length || 0}
+│ 🆔 𝐈𝐃: ${g.threadID}
 ╰──────────────\n\n`;
 
-          groupIDs.push(group.threadID);
-        });
+        groupIDs.push(g.threadID);
+      });
 
-        msg +=
-`╔════════════════════╗
-          🎮 𝐂𝐎𝐍𝐓𝐑𝐎𝐋 𝐏𝐀𝐍𝐄𝐋
-╚════════════════════╝
+      msg +=
+`╔═════════════════════╗
+           🎮 𝐂𝐎𝐍𝐓𝐑𝐎𝐋 𝐏𝐀𝐍𝐄𝐋
+╚═════════════════════╝
+➕ 𝐀𝐃𝐃 <𝐍𝐎> → 𝐉𝐎𝐈𝐍 𝐆𝐑𝐎𝐔𝐏
+📋 𝐈𝐍𝐅𝐎 <𝐍𝐎>→ 𝐆𝐑𝐎𝐔𝐏 𝐃𝐄𝐓𝐀𝐈𝐋𝐒
+╚═════════════════════╝`;
 
-➕ 𝐚𝐝𝐝 <number> → 𝐉𝐨𝐢𝐧 𝐆𝐫𝐨𝐮𝐩
-
-╚════════════════════╝`;
-
-        return message.reply(msg, (err, info) => {
-          global.GoatBot.onReply.set(info.messageID, {
-            commandName,
-            messageID: info.messageID,
-            author: event.senderID,
-            groupIDs
-          });
+      return message.reply(msg, (err, info) => {
+        global.GoatBot.onReply.set(info.messageID, {
+          commandName,
+          author: event.senderID,
+          groupIDs
         });
       });
+
     } catch (e) {
-      return message.reply("❌ 𝐄𝐫𝐫𝐨𝐫 𝐎𝐜𝐜𝐮𝐫𝐫𝐞𝐝");
+      return message.reply("❌ 𝐄𝐑𝐑𝐎𝐑 𝐋𝐎𝐀𝐃𝐈𝐍𝐆 𝐆𝐑𝐎𝐔𝐏𝐒");
     }
   },
 
   onReply: async function ({ api, event, Reply, message, threadsData }) {
     const { author, groupIDs } = Reply;
-    if (event.senderID != author) return;
 
-    const input = event.body.split(" ");
-    const action = input[0].toLowerCase();
-    const index = parseInt(input[1]) - 1;
-    const targetID = groupIDs[index];
+    if (event.senderID !== author) return;
 
-    if (!targetID || isNaN(index))
-      return message.reply("⚠️ 𝐈𝐧𝐯𝐚𝐥𝐢𝐝 𝐍𝐮𝐦𝐛𝐞𝐫");
+    const args = (event.body || "").split(" ");
+    const action = args[0]?.toLowerCase();
+    const index = parseInt(args[1]) - 1;
+
+    if (!groupIDs[index])
+      return message.reply("⚠️ 𝐈𝐍𝐕𝐀𝐋𝐈𝐃 𝐍𝐔𝐌𝐁𝐄𝐑");
+
+    const tid = groupIDs[index];
 
     // ADD
     if (action === "add") {
       try {
-        const userInfo = await api.getUserInfo(author);
-        const userName = userInfo[author]?.name || "ইউজার";
+        await api.addUserToGroup(event.senderID, tid);
 
-        await api.addUserToGroup(author, targetID);
+        const userName = (await api.getUserInfo(event.senderID))[event.senderID].name;
 
         await api.sendMessage(
-`🎉 স্বাগতম ${userName}!
-
-📢 আপনাকে এই গ্রুপে সফলভাবে যুক্ত করা হয়েছে।
-👥 এখন আপনি এই গ্রুপের একজন সদস্য।
-💬 সক্রিয় থাকুন ও উপভোগ করুন!`,
-          targetID
+{
+  body:
+`╔══════ 𝐖𝐄𝐋𝐂𝐎𝐌𝐄 ══════╗
+👤 𝐔𝐒𝐄𝐑: ${userName}
+💬 𝐖𝐄𝐋𝐂𝐎𝐌𝐄 𝐓𝐎 𝐓𝐇𝐄 𝐆𝐑𝐎𝐔𝐏
+🎉 𝐄𝐍𝐉𝐎𝐘 𝐘𝐎𝐔𝐑 𝐒𝐓𝐀𝐘
+╚════════════════════╝`,
+  mentions: [
+    {
+      tag: userName,
+      id: event.senderID
+    }
+  ]
+},
+          tid
         );
 
-        return message.reply(`✅ ${userName} কে সফলভাবে গ্রুপে যোগ করা হয়েছে:\n🆔 ${targetID}`);
+        return message.reply(`✅ 𝐀𝐃𝐃𝐄𝐃 𝐓𝐎 𝐆𝐑𝐎𝐔𝐏\n🆔 ${tid}`);
       } catch {
-        return message.reply("❌ 𝐆𝐫𝐨𝐮𝐩 𝐀𝐝𝐝 𝐅𝐚𝐢𝐥𝐞𝐝");
+        return message.reply("❌ 𝐀𝐃𝐃 𝐅𝐀𝐈𝐋𝐄𝐃 (𝐁𝐎𝐓 𝐀𝐃𝐌𝐈𝐍 𝐍𝐄𝐄𝐃𝐄𝐃)");
+      }
+    }
+
+    // INFO
+    if (action === "info") {
+      try {
+        const info = await api.getThreadInfo(tid);
+
+        return message.reply(
+`╔══════ 𝐆𝐑𝐎𝐔𝐏 𝐈𝐍𝐅𝐎 ══════╗
+📌 𝐍𝐀𝐌𝐄: ${info.threadName}
+👥 𝐌𝐄𝐌𝐁𝐄𝐑𝐒: ${info.participantIDs.length}
+💬 𝐌𝐄𝐒𝐒𝐀𝐆𝐄𝐒: ${info.messageCount || 0}
+🆔 𝐈𝐃: ${tid}
+╚════════════════════╝`
+        );
+      } catch {
+        return message.reply("❌ 𝐈𝐍𝐅𝐎 𝐅𝐀𝐈𝐋𝐄𝐃");
       }
     }
   }
