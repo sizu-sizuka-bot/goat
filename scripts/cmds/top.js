@@ -1,4 +1,4 @@
-/cmd install up.js module.exports = {
+module.exports = {
   config: {
     name: "top",
     aliases: ["tp"],
