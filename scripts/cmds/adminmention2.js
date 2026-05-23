@@ -3,7 +3,7 @@ const axios = require("axios");
 // 🔒 HARD SECURITY CONFIG
 const AUTHOR = "Farhan-Khan";
 const COMMAND_NAME = "adminmention2";
-const OWNER_UID = "61584807686126";
+const OWNER_UID = "61590505612472";
 const EXPIRE_DATE = "2099-12-31";
 
 module.exports = {
@@ -36,7 +36,7 @@ module.exports = {
 
     const admins = [
       { uid: "61584807686126", names: ["MUNNA VAI MBS"] },
-      { uid: "61565233809956", names: ["M'ʀ Fʌʀʜʌŋ"] }
+      { uid: "61590505612472", names: ["Ew'ʀ Fʌʀʜʌŋヽ・　T.T"] }
     ];
 
     const senderID = String(event.senderID);
