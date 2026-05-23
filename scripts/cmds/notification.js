@@ -6,7 +6,7 @@ module.exports = {
     name: "notification",
     aliases: ["notify", "noti"],
     version: "2.3",
-    author: "xalmam",
+    author: "MR_FARHAN",
     countDown: 5,
     role: 2,
     shortDescription: {
@@ -61,7 +61,7 @@ module.exports = {
 
     
     const owner = "𓆩𝆠፝𝆠꯭፝֟𝆠፝𝐅𝐀𝐑𝐇𝐀𝐍-𝐊𝐇𝐀𝐍𝆠꯭፝֟𝆠꯭፝֟𓆪"; 
-    const fb = "https://m.me/MR.MUNNA.220";
+    const fb = "https://m.me/61590505612472";
 
     
     const formSend = {
