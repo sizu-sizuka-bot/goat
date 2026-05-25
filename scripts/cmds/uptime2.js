@@ -1,166 +1,162 @@
-const axios = require("axios");
-const fs = require("fs-extra");
+const fs = require("fs");
 const path = require("path");
-const os = require("os");
-const { createCanvas, loadImage } = require("canvas");
-const moment = require("moment-timezone");
+const Canvas = require("canvas");
 
 module.exports = {
-config: {
-name: "up2",
-aliases: ["uptime2", "Up2"],
-version: "22.0.0",
-author: "Milon",
-countDown: 5,
-role: 0,
-category: "system",
-description: "Admin: No Prefix (61588452928616) | User: With Prefix",
-usePrefix: true
-},
+  config: {
+    name: "up2",
+    aliases: ["uptime2", "upt2"],
+    version: "1.7",
+    author: "MR_FARHAN",
+    countDown: 5,
+    role: 0,
+    shortDescription: "Bot Status",
+    longDescription: "background card with clean premium spacing",
+    category: "system",
+    guide: "{p}uptime"
+  },
 
-onStart: async function ({ api, event, args }) {
-// onStart ekhon shudhu prefix wala command handle korbe (Normal users)
-return this.handleUptime({ api, event });
-},
+  onStart: async function ({ message, api, event }) {
+    const startTime = Date.now();
+    try {
+      api.setMessageReaction("⏳", event.messageID, () => {}, true);
+      
+      const uptime = process.uptime();
+      const h = Math.floor(uptime / 3600);
+      const m = Math.floor((uptime % 3600) / 60);
+      const s = Math.floor(uptime % 60);
+      const uptimeStr = `${h}h ${m}m ${s}s`;
 
-onChat: async function ({ api, event }) {
-const { body, senderID } = event;
-if (!body) return;
+      const ping = Date.now() - startTime;
+      const memUsed = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);
+      const memTotal = (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2);
+      const memPercent = ((memUsed / memTotal) * 100).toFixed(1);
 
-// Hardcoded Admin UID check for No Prefix
-const adminUID = "61588452928616";
-const msg = body.toLowerCase();
+      const cpuUsage = Math.min(
+        ((process.cpuUsage().user + process.cpuUsage().system) / 1000000) % 100,
+        100
+      );
 
-if (senderID == adminUID && (msg == "up" || msg == "uptime")) {
-return this.handleUptime({ api, event });
-}
-},
+      const threads = process._getActiveHandles().length;
+      const nodeVersion = process.version;
+      const platform = process.platform.toUpperCase();
+      
+      const canvas = Canvas.createCanvas(1400, 900);
+      const ctx = canvas.getContext("2d");
 
-handleUptime: async function ({ api, event }) {
-const { threadID, messageID, senderID } = event;
+      const bg = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      bg.addColorStop(0, "#000428");
+      bg.addColorStop(1, "#004e92");
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      const containerX = 30;
+      const containerY = 30;
+      const containerW = canvas.width - 60;
+      const containerH = canvas.height - 60;
 
-// STEP 1: Sending Checking Message
-const sendChecking = await api.sendMessage("🔍 Checking system status, please wait...", threadID);
+      ctx.fillStyle = "rgba(255,255,255,0.07)";
+      ctx.beginPath();
+      ctx.roundRect(containerX, containerY, containerW, containerH, 45);
+      ctx.fill();
+      
+      ctx.fillStyle = "rgba(0,0,0,0.35)";
+      ctx.beginPath();
+      ctx.roundRect(containerX, containerY, containerW, 150, 45);
+      ctx.fill();
 
-const timeStart = Date.now();
-const uptime = process.uptime();
-const hours = Math.floor(uptime / 3600);
-const minutes = Math.floor((uptime % 3600) / 60);
-const timeString = `${hours}h ${minutes}m`;
+      ctx.font = "bold 78px Segoe UI";
+      ctx.fillStyle = "#FFFFFF";
+      ctx.textAlign = "center";
+      ctx.fillText("📉 BOT STATUS DASHBOARD", canvas.width / 2, containerY + 95);
 
-const usedMem = ((os.totalmem() - os.freemem()) / (1024 ** 3)).toFixed(1);
-const totalMem = (os.totalmem() / (1024 ** 3)).toFixed(1);
-const ramPercentage = ((usedMem / totalMem) * 100).toFixed(0);
-const currentDate = moment.tz("Asia/Dhaka").format("DD/MM/YYYY");
+      ctx.font = "italic 30px Segoe UI";
+      ctx.fillStyle = "rgba(255,255,255,0.8)";
+      ctx.fillText("All systems running smoothly", canvas.width / 2, containerY + 130);
+      
+      const stats = [
+        { icon: "⏰", title: "SYSTEM UPTIME", value: uptimeStr, sub: "Running Time", color: "#FFD700", bar: Math.min((uptime / 3600) * 4.1667, 100) },
+        { icon: "📡", title: "NETWORK PING", value: `${ping} ms`, sub: "Latency", color: "#00FFAA", bar: Math.min(ping / 10, 100) },
+        { icon: "💾", title: "MEMORY USAGE", value: `${memUsed} MB`, sub: `${memPercent}% of ${memTotal}MB`, color: "#00FF00", bar: memPercent },
+        { icon: "📊", title: "CPU LOAD", value: `${cpuUsage.toFixed(1)}%`, sub: "Processor", color: "#FFAA00", bar: cpuUsage },
+        { icon: "⚒️", title: "NODE VERSION", value: nodeVersion, sub: "Runtime", color: "#9D4EDD", bar: 100 },
+        { icon: "👑", title: "BOT OWNER", value: "FARHAN", sub: "Administrator", color: "#FFA500", bar: 100 }
+      ];
 
-let userName = "User";
-try {
-const info = await api.getUserInfo(senderID);
-userName = info[senderID].name;
-} catch (e) { userName = "Developer"; }
+      const boxW = (containerW - 120) / 2;
+      const boxH = 190;
+      const startX = containerX + 40;
+      const startY = containerY + 180;
 
-const imgUrl = "https://i.imgur.com/TDkyAdv.jpeg";
-const userImgUrl = `https://graph.facebook.com/${senderID}/picture?width=512&height=512&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
-const cachePath = path.join(__dirname, "cache", `up_milon_final_${Date.now()}.png`);
+      stats.forEach((s, i) => {
+        const row = Math.floor(i / 2);
+        const col = i % 2;
+        const x = startX + col * (boxW + 40);
+        const y = startY + row * (boxH + 30);
 
-try {
-if (!fs.existsSync(path.join(__dirname, "cache"))) fs.ensureDirSync(path.join(__dirname, "cache"));
+        ctx.fillStyle = "rgba(0,0,0,0.35)";
+        ctx.beginPath();
+        ctx.roundRect(x, y, boxW, boxH, 28);
+        ctx.fill();
 
-const image = await loadImage(imgUrl);
-const canvas = createCanvas(image.width, image.height);
-const ctx = canvas.getContext("2d");
-ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = s.color;
+        ctx.lineWidth = 3;
+        ctx.stroke();
 
-const centerX = canvas.width / 2;
-const centerY = canvas.height / 2;
+        ctx.font = "bold 58px Segoe UI";
+        ctx.fillStyle = s.color;
+        ctx.fillText(s.icon, x + 35, y + 75);
 
-// --- USER PROFILE (Box 220x220) ---
-const boxSize = 220;
-const boxX = centerX - (boxSize / 2);
-const boxY = centerY - (boxSize / 2) + 15;
+        ctx.font = "bold 28px Segoe UI";
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillText(s.title, x + 200, y + 55);
 
-try {
-const userImg = await loadImage(userImgUrl);
-ctx.shadowColor = "#00ffff";
-ctx.shadowBlur = 25;
-ctx.strokeStyle = "#ffffff";
-ctx.lineWidth = 5;
-ctx.strokeRect(boxX, boxY, boxSize, boxSize);
-ctx.shadowBlur = 0; 
-ctx.drawImage(userImg, boxX, boxY, boxSize, boxSize);
+        ctx.font = "18px Segoe UI";
+        ctx.fillStyle = "rgba(255,255,255,0.7)";
+        ctx.fillText(s.sub, x + 150, y + 90);
 
-ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
-ctx.fillRect(boxX, boxY + boxSize - 35, boxSize, 35);
-ctx.textAlign = "center";
-ctx.fillStyle = "#ffffff";
-ctx.font = "bold 16px Arial";
-ctx.fillText(userName.toUpperCase(), centerX, boxY + boxSize - 12);
-} catch (err) { console.log("Image load failed"); }
+        ctx.font = "bold 42px Segoe UI";
+        ctx.fillStyle = s.color;
+        ctx.textAlign = "right";
+        ctx.fillText(s.value, x + boxW - 35, y + 145);
+        ctx.textAlign = "left";
 
-// --- Circles ---
-const drawCircle = (x, y, radius, percent, label, value, color) => {
-ctx.beginPath();
-ctx.arc(x, y, radius, 0, Math.PI * 2);
-ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
-ctx.lineWidth = 10; ctx.stroke();
-ctx.beginPath();
-ctx.arc(x, y, radius, -Math.PI / 2, (-Math.PI / 2) + (Math.PI * 2 * (percent / 100)));
-ctx.strokeStyle = color;
-ctx.lineWidth = 10; ctx.lineCap = "round"; ctx.stroke();
-ctx.textAlign = "center"; ctx.fillStyle = "#ffffff";
-ctx.font = "bold 20px Arial"; ctx.fillText(value, x, y + 8);
-ctx.font = "14px Arial"; ctx.fillText(label, x, y + 35);
-};
+        const barY = y + boxH - 30;
+        const barW = boxW - 70;
 
-const uptimeX = boxX - 110;
-const ramX = boxX + boxSize + 110;
-drawCircle(uptimeX, centerY + 30, 60, 75, "UPTIME", timeString, "#00ffcc");
-drawCircle(ramX, centerY - 40, 60, ramPercentage, "RAM", `${ramPercentage}%`, "#ff3366");
-const pingMS = Date.now() - timeStart;
-drawCircle(ramX, centerY + 90, 50, 80, "PING", `${pingMS}ms`, "#ffff00");
+        ctx.fillStyle = "rgba(255,255,255,0.15)";
+        ctx.beginPath();
+        ctx.roundRect(x + 35, barY, barW, 12, 6);
+        ctx.fill();
 
-// Footer
-ctx.textAlign = "center";
-ctx.font = "bold 24px Arial";
-ctx.fillStyle = "#00ff00";
-ctx.fillText("● SYSTEM STATUS: ACTIVE", centerX, canvas.height - 65);
-ctx.font = "italic bold 18px Arial"; 
-ctx.fillStyle = "#FFD700"; 
-ctx.fillText("DEVELOPED BY:-FARHAN-KHAN", centerX, canvas.height - 95);
+        ctx.fillStyle = s.color;
+        ctx.beginPath();
+        ctx.roundRect(x + 35, barY, (barW * s.bar) / 100, 12, 6);
+        ctx.fill();
 
-// Bot Name & Date
-ctx.textAlign = "left";
-ctx.font = "bold 30px Arial";
-ctx.shadowColor = "#0000ff"; ctx.shadowBlur = 15;
-ctx.fillStyle = "#33ccff";
-ctx.fillText("[SIZUKA-BOT]", 199, 128); 
+        ctx.font = "bold 16px Segoe UI";
+        ctx.fillStyle = "#FFFFFF";
+        ctx.textAlign = "center";
+        ctx.fillText(`${Math.min(s.bar, 100).toFixed(1)}%`, x + 35 + barW / 2, barY - 12);
+        ctx.textAlign = "left";
+      });
+      
+      const filePath = path.join(__dirname, `uptime-${Date.now()}.png`);
+      fs.writeFileSync(filePath, canvas.toBuffer("image/png"));
+      
+      api.setMessageReaction("✅", event.messageID, () => {}, true);
+      
+      await message.reply({
+        body: "◢◤━━━━━━━━━━━━━━━━◥◣\n      𝗚𝗢𝗔𝗧 𝗕𝗢𝗧 𝗩𝟭 𝗨𝗣𝗧𝗜𝗠𝗘\n          𝗢𝗪𝗡𝗘𝗥:-𝗙𝗔𝗥𝗛𝗔𝗡\n◥◣━━━━━━━━━━━━━━━━◢◤",
+        attachment: fs.createReadStream(filePath)
+      });
 
-const dateX = centerX + 82;
-const dateY = 120; 
-ctx.shadowBlur = 20; ctx.shadowColor = "#FF00FF";
-ctx.textAlign = "center";
-ctx.font = "bold 22px Arial";
-const gradient = ctx.createLinearGradient(dateX - 70, dateY, dateX + 70, dateY);
-gradient.addColorStop(0, "#FF0000"); gradient.addColorStop(0.5, "#00FF00"); gradient.addColorStop(1, "#0000FF");
-ctx.fillStyle = "#FFFFFF"; 
-ctx.fillText(`| ${currentDate}`, dateX, dateY);
-ctx.shadowBlur = 0;
-ctx.strokeStyle = gradient; ctx.lineWidth = 1.5;
-ctx.strokeText(`| ${currentDate}`, dateX, dateY);
+      setTimeout(() => fs.existsSync(filePath) && fs.unlinkSync(filePath), 5000);
 
-const buffer = canvas.toBuffer("image/png");
-fs.writeFileSync(cachePath, buffer);
-
-// STEP 2: Send & Delete Checking
-return api.sendMessage({ attachment: fs.createReadStream(cachePath) }, threadID, async (err) => {
-if (!err) api.unsendMessage(sendChecking.messageID);
-if (fs.existsSync(cachePath)) fs.unlinkSync(cachePath);
-}, messageID);
-
-} catch (e) {
-console.error(e);
-api.unsendMessage(sendChecking.messageID);
-return api.sendMessage("❌ Error generating status!", threadID, messageID);
-}
-}
+    } catch (err) {
+      console.error("Uptime error:", err);
+      api.setMessageReaction("❌", event.messageID, () => {}, true);
+      message.reply("❌ Dashboard generate problem.");
+    }
+  }
 };
