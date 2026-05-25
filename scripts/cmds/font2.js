@@ -5,7 +5,7 @@ const LOCKED_AUTHOR = "MR_FARHAN";
 
 module.exports = {
   config: {
-    name: "font",
+    name: "font2",
     version: "1.0",
     author: LOCKED_AUTHOR,
     role: 0,
