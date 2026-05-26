@@ -172,10 +172,8 @@ module.exports = {
     if (!selected) {
       return api.sendMessage(
 `╔━━❖ ⚠️ 𝗜𝗡𝗩𝗔𝗟𝗜𝗗 ⚠️ ❖━━╗
-
 ┃ ✘ Invalid font type!
 ┃ ➤ font list
-
 ╚━━━━━━━━━━━━━━━━━━╝`,
         event.threadID
       );
