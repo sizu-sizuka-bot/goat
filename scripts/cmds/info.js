@@ -24,7 +24,7 @@ module.exports = {
     // OWNER INFO
     const ownerName = "FARHAN-KHAN";
     const ownerAge = "20+";
-    const ownerFB = "https://m.me/61590505612472";
+    const ownerFB = "https://m.me/DARK.FARHAN.420";
     const ownerNumber = "01934640061";
     const status = "Active";
 
