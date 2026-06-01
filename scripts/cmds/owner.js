@@ -28,7 +28,7 @@ try {
   const ownerAge = "𝟐𝟎";
   
   // ===== CONTACT =====  
-  const facebook = "fb.com/DARK.FARHAN.420";  
+  const facebook = "fb.com/EWR.FARHAN.220";  
   const whatsapp = "wa.me/+8801934640061";  
   const telegram = "t.me/DEVIL_FARHAN_420";  
   const youtube = "yb.com/@munna-vai-mbs";  
