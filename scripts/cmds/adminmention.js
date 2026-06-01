@@ -20,7 +20,7 @@ module.exports = {
     if (this.config.author !== "Farhan-Khan") return;
 
     const admins = [
-      { uid: "61590157961497", names: ["Ew'ʀ Fʌʀʜʌŋ"] },
+      { uid: "61590157961497", names: ["Êw'ʀ Fʌʀʜʌŋ"] },
       { uid: "61590175633892", names: ["Ew'r Farhan"] }
     ];
 
