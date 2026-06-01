@@ -61,7 +61,7 @@ module.exports = {
 
     
     const owner = "𓆩𝆠፝𝆠꯭፝֟𝆠፝𝐅𝐀𝐑𝐇𝐀𝐍-𝐊𝐇𝐀𝐍𝆠꯭፝֟𝆠꯭፝֟𓆪"; 
-    const fb = "https://m.me/DARK.FARHAN.420";
+    const fb = "https://m.me/EWR.FARHAN.220";
 
     
     const formSend = {
